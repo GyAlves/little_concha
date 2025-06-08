@@ -17,6 +17,7 @@ int	main(int c, char **v, char **envp)
 		cmd.piped = 0;
 		cmd.append = 0;
 		test_cmd(&cmd);
+		exec_cmd(&cmd);
 		free (prompt);
 	}
 
