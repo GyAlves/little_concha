@@ -1,9 +1,9 @@
 # Program
-NAME = philo
+NAME = minishell
 
 # Compiler
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+CFLAGS = #-Wall -Wextra -Werror -Iincludes
 
 # Directories
 SRC_DIR = src/
@@ -15,7 +15,7 @@ SRCS = $(shell find $(SRC_DIR) -type f -name "*.c")
 OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
 
 # Libraries
-LIBS = -lpthread
+LIBS = -lreadline
 
 all: $(NAME)
 
