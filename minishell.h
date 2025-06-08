@@ -20,4 +20,8 @@ typedef struct s_command
 	int		piped;        // |
 }			t_command;
 
+//src
+////commands
+void	test_cmd(t_command *cmd);
+
 #endif
