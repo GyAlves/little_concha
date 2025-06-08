@@ -6,6 +6,7 @@ CC = cc
 CFLAGS = #-Wall -Wextra -Werror -Iincludes
 
 # Directories
+LIBFT = Libft/libft.a
 SRC_DIR = src/
 OBJ_DIR = objs/
 
@@ -19,18 +20,23 @@ LIBS = -lreadline
 
 all: $(NAME)
 
+$(LIBFT):
+	make -C ./Libft
+
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o ./$(NAME) $(OBJS) $(LIBS)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o ./$(NAME) $(OBJS) $(LIBFT) $(LIBS)
 
 clean:
 	$(RM) -r $(OBJ_DIR)
+	make clean -C ./Libft
 
 fclean: clean
 	$(RM) ./$(NAME)
+	make fclean -C ./Libft
 
 re: fclean all
 
