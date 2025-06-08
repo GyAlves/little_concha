@@ -20,5 +20,5 @@ void	test_cmd(t_command *cmd)
 		printf("Output file: NULL\n");
 	printf("Append: %d\n", cmd->append);
 	printf("Piped: %d\n", cmd->piped);
-}
+} //junk
 
