@@ -24,5 +24,10 @@ typedef struct s_command
 ////commands
 void	test_cmd(t_command *cmd);
 void	exec_cmd(t_command *cmd);
+////environment_var
+int		envar_handler(int c, char **v, char **envp);
+//Libft
+////libft
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
