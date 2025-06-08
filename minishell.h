@@ -23,5 +23,6 @@ typedef struct s_command
 //src
 ////commands
 void	test_cmd(t_command *cmd);
+void	exec_cmd(t_command *cmd);
 
 #endif
