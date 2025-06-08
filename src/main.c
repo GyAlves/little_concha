@@ -2,6 +2,7 @@
 
 int	main(int c, char **v, char **envp)
 {
+	int			i;
 	char		*prompt;
 	t_command	cmd;
 
@@ -10,6 +11,11 @@ int	main(int c, char **v, char **envp)
 		prompt = readline("type> ");
 		if (!prompt) //signal ctrl+d
 			break ;
+		if (ft_strncmp(prompt, "envtest", 7) == 0)
+		{
+			envar_handler(c, v, envp);
+			return (0);
+		}
 		char	*args[] = {"echo", "hello, world!", NULL};
 		cmd.args = args;
 		cmd.input_file = NULL;
