@@ -10,4 +10,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct s_command
+{
+	char	**args; //{"echo", "hello, world", NULL}
+	char	*input_file;  // <
+	char	*output_file; // >
+	int		delimiter;    // <<
+	int		append;       // >>
+	int		piped;        // |
+}			t_command;
+
 #endif
