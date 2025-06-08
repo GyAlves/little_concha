@@ -20,5 +20,26 @@ void	test_cmd(t_command *cmd)
 		printf("Output file: NULL\n");
 	printf("Append: %d\n", cmd->append);
 	printf("Piped: %d\n", cmd->piped);
-} //junk
+}
 
+void	exec_cmd(t_command *cmd)
+{
+	pid_t	id;
+
+	if (cmd == NULL || cmd->args == NULL)
+	{
+		perror("invalid cmd!");
+		exit(EXIT_FAILURE);
+	}
+	id = fork();
+	if (id == -1)
+		perror("fork failed!");
+	else if (id == 0)
+	{
+		execvp(cmd->args[0], cmd->args);
+		perror("execvp error!");
+		exit(EXIT_FAILURE);
+	}
+	else if (id > 0)
+		waitpid(id, NULL, 0);
+}
