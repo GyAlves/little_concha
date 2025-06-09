@@ -39,10 +39,10 @@ void	exec_cmd(t_command *cmd)
 	}
 	else if (id == 0)
 	{
-		/*execvp(cmd->args[0], cmd->args);
-		perror("execvp error!");
-		exit(EXIT_FAILURE);*/
 		find_path(cmd->args[0]);
+		execvp(cmd->args[0], cmd->args);
+		perror("execvp error!");
+		exit(EXIT_FAILURE);
 	}
 	else if (id > 0)
 		waitpid(id, NULL, 0);
