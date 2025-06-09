@@ -4,7 +4,7 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -I
 INCLUDE = ../minishell.h
 OBJ_DIR = obj/
-LIBFT = libft/ft_strncmp.c
+LIBFT = libft/ft_strncmp.c libft/ft_strlen.c libft/ft_calloc.c libft/ft_substr.c libft/ft_split.c 
 
 SRC = $(LIBFT)
 OBJ = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
