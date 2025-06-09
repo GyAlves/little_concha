@@ -1,12 +1,20 @@
 #include "../minishell.h"
 
-void	find_path(int c, char **v, t_command cmd)
+char	*find_path(char *cmd)
 {
-	if (ft_strchr(cmd.args[0], '/'))
+	char	**path;
+	if (ft_strchr(cmd[0], '/'))
 	{
-		if (access(cmd.args[0], X_OK) == 0)
-			execvp(cmd.args[0], cmd.args);
+		if (access(cmd[0], X_OK) == 0)
+			return (execvp(cmd[0], cmd));
+		else if (access(cmd[0], X_OK) == -1)
+		{
+			//perror("minishell: cmd not found");
+			return (NULL);
+		}
 	}
 	else
-		perror("cmd not found");
+		get_path();
+	path = envar_handler(cmd);
+	return (path);
 }
