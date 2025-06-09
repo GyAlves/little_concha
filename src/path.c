@@ -3,18 +3,16 @@
 char	*find_path(char *cmd)
 {
 	char	**path;
-	if (ft_strchr(cmd[0], '/'))
+
+	path = get_path();
+	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd[0], X_OK) == 0)
-			return (execvp(cmd[0], cmd));
+		if (access(cmd, X_OK) == 0)
+			return (cmd);
 		else if (access(cmd[0], X_OK) == -1)
-		{
-			perror("minishell: cmd not found");
 			return (NULL);
-		}
 	}
 	else
 		get_path();
-	path = envar_handler(cmd);
-	return (path);
+	return (cmd);
 }
