@@ -25,9 +25,9 @@ typedef struct s_command
 void	test_cmd(t_command *cmd);
 void	exec_cmd(t_command *cmd);
 ////environment_var
-int		envar_handler(int c, char **v, t_command cmd);//char **envp);
+char	**get_path(void);
 ////path
-void	find_path(int c, char **v, t_command cmd);
+char	*find_path(char *cmd);
 //Libft
 ////libft
 size_t	ft_strlen(const char *s);
