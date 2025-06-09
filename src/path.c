@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void	find_path(t_command cmd)
+void	find_path(int c, char **v, t_command cmd)
 {
 	if (ft_strchr(cmd.args[0], '/'))
 	{
@@ -9,4 +9,5 @@ void	find_path(t_command cmd)
 	}
 	else
 		perror("cmd not found");
+	envar_handler(c, v, &cmd);
 }
