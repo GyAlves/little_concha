@@ -9,7 +9,7 @@ char	*find_path(char *cmd)
 			return (execvp(cmd[0], cmd));
 		else if (access(cmd[0], X_OK) == -1)
 		{
-			//perror("minishell: cmd not found");
+			perror("minishell: cmd not found");
 			return (NULL);
 		}
 	}
