@@ -1,12 +1,17 @@
 #include "../minishell.h"
 
-char	**get_path(void)//, char **envp)
+char	**get_path(void)
 {
-	char 	**envar_path;
-	
-	envar_path = getenv("PATH");
-	if (envar_path == NULL)
-		return ("/bin:/usr/bin");
-	ft_split(envar_path, ':');
+	char 	*path;
+	char	**envar_path;
+
+	path = getenv("PATH");
+	if (path == NULL)
+	{
+		path = "/bin:/usr/bin";
+		ft_calloc(1, sizeof(char *)); //não entendi
+	}
+	else
+		envar_path = ft_split(path, ':');
 	return (envar_path);
 }
