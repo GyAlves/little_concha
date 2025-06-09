@@ -11,7 +11,7 @@ int	main(int c, char **v, char **envp)
 		prompt = readline("type> ");
 		if (!prompt) //signal ctrl+d
 			break ;
-		if (ft_strncmp(prompt, "envp", 7) == 0)
+		if (ft_strncmp(prompt, "envp", 4) == 0)
 		{
 			envar_handler(c, v, envp);
 			return (0);
