@@ -15,7 +15,7 @@ typedef struct s_command
 	char	**args; //{"echo", "hello, world", NULL}
 	char	*input_file;  // <
 	char	*output_file; // >
-	int		delimiter;    // <<
+	char	*delimiter;    // <<
 	int		append;       // >>
 	int		piped;        // |
 }			t_command;
