@@ -1,9 +1,9 @@
 #include "../minishell.h"
 
-int	envar_handler(int c, char **v, t_command cmd)//, char **envp)
+char	**get_path(void)//, char **envp)
 {
 	//int		i;
-	//char 	*envar;
+	char 	*envar_path;
 
 	//i = 0;
 	/*envar = envp[i];
@@ -20,9 +20,11 @@ int	envar_handler(int c, char **v, t_command cmd)//, char **envp)
 		return (1);
 	}
 	printf("env variables: %s\n", envar);*/
-	(char **)cmd = getenv("PATH");
-	if (&cmd == NULL)
-		(char **)cmd = "/bin:/usr/bin";
-	ft_split(&cmd, ':');
-	return (0);
+	envar_path = getenv("PATH");
+	if (envar_path == NULL)
+		return ("/bin:/usr/bin");
+	ft_split(envar_path, ':');
+	if (!envar_path)
+		free(envar_path);
+	return (envar_path);
 }
