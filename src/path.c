@@ -35,34 +35,45 @@ char	**get_path(void)
 	return (envar_path);
 }
 
-char	*find_path(char *cmd)
+char	*check_dir(char *cmd, char **path)
 {
 	int		i;
-	char	**path;
 	char	*dir;
 	char	*full_path;
 
-	if (ft_strchr(cmd, '/')) //could be absolute or relative
+	i = 0;
+	dir = ft_strjoin(path[i], "/");
+	if (!dir)
 	{
-		if (access(cmd, X_OK) == 0)
-			return (cmd); //is executable
-		return (NULL); //exists but is not executable
+		free_matrix(path);
+		return (NULL);
 	}
-	
+	full_path = ft_strjoin(dir, cmd);
+	free(dir);
+	if (!full_path)
+		return (NULL);
+	if (access(full_path, X_OK) == 0)
+	{
+		free_matrix(path);
+		return (full_path); //cmd found and is executable
+	}
+	free(full_path);
+	return (NULL);
+}
+
+char	*dir_path(char *cmd)
+{
+	int		i;
+	char	**path;
+	char	*full_path;
+
 	path = get_path(); //simple cmd without '/', to find the folder in PATH
 	if (!path)
 		return (NULL);
 	i = 0;
 	while (path[i])
 	{
-		dir = ft_strjoin(path[i], "/");
-		if (!dir)
-		{
-			free_matrix(path);
-			return (NULL);
-		}
-		full_path = ft_strjoin(dir, cmd);
-		free(dir);
+		full_path = check_dir(cmd, path[i]);
 		if (!full_path)
 		{
 			free_matrix(path);
@@ -78,4 +89,15 @@ char	*find_path(char *cmd)
 	}
 	free_matrix(path);
 	return (NULL); //no path found
+}
+
+char	*find_path(char *cmd)
+{
+	if (ft_strchr(cmd, '/')) //could be absolute or relative
+	{
+		if (access(cmd, X_OK) == 0)
+			return (cmd); //is executable
+		return (NULL); //exists but is not executable
+	}
+		return (dir_path(cmd));
 }
