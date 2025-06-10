@@ -35,33 +35,25 @@ char	**get_path(void)
 	return (envar_path);
 }
 
-char	*check_dir(char *cmd, char **path)
+static char	*check_dir(char *cmd, char *path)
 {
-	int		i;
 	char	*dir;
 	char	*full_path;
 
-	i = 0;
-	dir = ft_strjoin(path[i], "/");
+	dir = ft_strjoin(path, "/");
 	if (!dir)
-	{
-		free_matrix(path);
 		return (NULL);
-	}
 	full_path = ft_strjoin(dir, cmd);
 	free(dir);
 	if (!full_path)
 		return (NULL);
 	if (access(full_path, X_OK) == 0)
-	{
-		free_matrix(path);
 		return (full_path); //cmd found and is executable
-	}
 	free(full_path);
 	return (NULL);
 }
 
-char	*dir_path(char *cmd)
+static char	*dir_path(char *cmd)
 {
 	int		i;
 	char	*full_path;
