@@ -8,7 +8,6 @@ char	*find_path(char *cmd)
 	char	*full_path;
 
 	path = get_path();
-	cmd = NULL;
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
@@ -19,7 +18,6 @@ char	*find_path(char *cmd)
 	else
 	{
 		i = 0;
-		path = get_path();
 		while (path[i])
 		{
 			dir = ft_strjoin(path[i], "/");
