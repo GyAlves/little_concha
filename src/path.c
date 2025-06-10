@@ -64,8 +64,8 @@ char	*check_dir(char *cmd, char **path)
 char	*dir_path(char *cmd)
 {
 	int		i;
-	char	**path;
 	char	*full_path;
+	char	**path;
 
 	path = get_path(); //simple cmd without '/', to find the folder in PATH
 	if (!path)
@@ -74,17 +74,11 @@ char	*dir_path(char *cmd)
 	while (path[i])
 	{
 		full_path = check_dir(cmd, path[i]);
-		if (!full_path)
+		if (full_path)
 		{
 			free_matrix(path);
-			return (NULL);
-		}
-		if (access(full_path, X_OK) == 0)
-		{
-			free_matrix(path);
-			return (full_path); //cmd found and is executable
-		}
-		free(full_path);
+			return (full_path);
+		};
 		i++;
 	}
 	free_matrix(path);
