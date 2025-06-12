@@ -2,28 +2,30 @@
 
 int	main(int c, char **v, char **envp)
 {
-	int			i;
-	char		*prompt;
+	t_minishell	ms;
 	t_command	cmd;
-
+	char		*prompt;
+	char		**args;
+	c = 0;
+	v = NULL;
+	ms.envp = envp;
+	ms.exit_status = 0;
 	while (6)
 	{
 		prompt = readline("type> ");
 		if (!prompt) //signal ctrl+d
 			break ;
-		if (ft_strncmp(prompt, "envp", 4) == 0)
-		{
-			envar_handler(c, v, envp);
-			return (0);
-		}
-		char	*args[] = {"echo", "hello, world!", NULL};
+		add_history(prompt);
+		args = ft_split(prompt, ' ');
+		if (!args)
+			continue ;
 		cmd.args = args;
 		cmd.input_file = NULL;
 		cmd.output_file = NULL;
 		cmd.piped = 0;
 		cmd.append = 0;
-		test_cmd(&cmd);
-		exec_cmd(&cmd);
+		exec_cmd(&ms, &cmd);
+		free_matrix(args);
 		free (prompt);
 	}
 	return (0);
