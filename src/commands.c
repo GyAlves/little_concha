@@ -22,9 +22,18 @@ void	test_cmd(t_command *cmd)
 	printf("Piped: %d\n", cmd->piped);
 }
 
-void	exec_cmd(t_command *cmd)
+static void	print_cmd_err(char *cmd)
+{
+	write(2, "minishell: ", 11);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": command not found!\n", 21);
+}
+
+void	exec_cmd(t_minishell *ms, t_command *cmd)
 {
 	pid_t	id;
+	int		status;
+	char	*path;
 
 	if (cmd == NULL || cmd->args == NULL)
 	{
@@ -39,11 +48,23 @@ void	exec_cmd(t_command *cmd)
 	}
 	else if (id == 0)
 	{
-		find_path(cmd->args[0]);
-		execvp(cmd->args[0], cmd->args);
-		perror("execvp error!");
-		exit(EXIT_FAILURE);
+		path = set_path(cmd->args[0]);
+		if (!path)
+		{
+			print_cmd_err(cmd->args[0]);
+			exit(127);
+		}
+		cmd->args[0] = path;
+		execve(path, cmd->args, ms->envp);
+		perror("minishell");
+		if (path != cmd->args[0])
+			free(path);
+		exit(127);
 	}
 	else if (id > 0)
-		waitpid(id, NULL, 0);
+	{
+		waitpid(id, &status, 0);
+		if (WIFEXITED(status))
+			ms->exit_status = WEXITSTATUS(status);
+	}
 }
