@@ -45,7 +45,6 @@ static void	exec_child(t_minishell *ms, t_command *cmd)
 	if (path != cmd->args[0])
 		free(path);
 	exit(127);
-
 }
 
 void	exec_cmd(t_minishell *ms, t_command *cmd)

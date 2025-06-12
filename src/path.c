@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static char	**def_path(void)
+static char	**default_path(void)
 {
 	char	**path;
 
@@ -31,10 +31,10 @@ char	**get_envar_path(void)
 
 	path = getenv("PATH");
 	if (path == NULL)
-		return (def_path());
+		return (default_path());
 	envar_path = ft_split(path, ':');
-		if (!envar_path)
-			return (NULL);
+	if (!envar_path)
+		return (NULL);
 	return (envar_path);
 }
 

@@ -26,6 +26,5 @@ int	main(int c, char **v, char **envp)
 		exec_cmd(&cmd);
 		free (prompt);
 	}
-
 	return (0);
 }
