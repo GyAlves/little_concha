@@ -22,7 +22,7 @@ void	test_cmd(t_command *cmd)
 	printf("Piped: %d\n", cmd->piped);
 }
 
-static void	print_cmd_err(char *cmd)
+static void	print_cmd_not_found_err(char *cmd)
 {
 	write(2, "minishell: ", 11);
 	write(2, cmd, ft_strlen(cmd));
@@ -51,7 +51,7 @@ void	exec_cmd(t_minishell *ms, t_command *cmd)
 	{
 		path = set_path(cmd->args[0]);
 		if (!path)
-			print_cmd_err(cmd->args[0]);
+			print_cmd_not_found_err(cmd->args[0]);
 		cmd->args[0] = path;
 		execve(path, cmd->args, ms->envp);
 		perror("minishell");
