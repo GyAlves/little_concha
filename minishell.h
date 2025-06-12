@@ -20,10 +20,18 @@ typedef struct s_command
 	int		piped;        // |
 }			t_command;
 
+typedef struct s_minishell
+{
+	char	**envp;
+	int		exit_status;
+
+}			t_minishell;
+
+
 //src
 ////commands
 void	test_cmd(t_command *cmd);
-void	exec_cmd(t_command *cmd);
+void	exec_cmd(t_minishell *ms, t_command *cmd);
 ////environment_var
 char	**get_envar_path(void);
 ////path
