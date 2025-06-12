@@ -26,7 +26,16 @@ int	main(int c, char **v, char **envp)
 		cmd.piped = 0;
 		cmd.append = 0;
 		if (is_builtin(&cmd))
-			builtin_env(&ms, &cmd);
+		{
+			if (ft_strncmp(cmd.args[0], "env", 4) == 0)
+				builtin_env(&ms, &cmd);
+			else if (ft_strncmp(cmd.args[0], "echo", 5) == 0)
+				bi_echo(&ms, &cmd);
+			else if (ft_strncmp(cmd.args[0], "exit", 5) == 0)
+				bi_exit(&ms, &cmd);
+			else if (ft_strncmp(cmd.args[0], "pwd", 4) == 0)
+				bi_pwd(&ms);
+		}
 		else
 			exec_cmd(&ms, &cmd);
 		free_matrix(args);
