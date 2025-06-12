@@ -22,11 +22,11 @@ void	test_cmd(t_command *cmd)
 	printf("Piped: %d\n", cmd->piped);
 }
 
-static void	print_cmd_err(char *cmd)
+void	print_cmd_err(char *cmd)
 {
-	write(2, "minishell: ", 11);
+	//write(2, "minishell: <", 12);
 	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found!\n", 21);
+	write(2, ": command not found!\n", 22);
 }
 
 static void	exec_child(t_minishell *ms, t_command *cmd)
