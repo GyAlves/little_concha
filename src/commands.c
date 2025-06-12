@@ -34,13 +34,13 @@ static void	exec_child(t_minishell *ms, t_command *cmd)
 	char	*path;
 
 	path = set_path(cmd->args[0]);
-	if (!path)
+	if (!path) //if no path is found
 	{
 		print_cmd_err(cmd->args[0]);
 		exit(127);
 	}
 	cmd->args[0] = path;
-	execve(path, cmd->args, ms->envp);
+	execve(path, cmd->args, ms->envp); //if path is found
 	perror("minishell");
 	if (path != cmd->args[0])
 		free(path);
