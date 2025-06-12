@@ -24,20 +24,20 @@ typedef struct s_minishell
 {
 	char	**envp;
 	int		exit_status;
-
 }			t_minishell;
 
 
-//src
-////commands
-void	test_cmd(t_command *cmd);
+// src/built_in
+int 	is_builtin(t_command *cmd);
+void	builtin_env(t_minishell *ms, t_command *cmd);
+// src/commands
+void	print_cmd_err(char *cmd);
 void	exec_cmd(t_minishell *ms, t_command *cmd);
-////environment_var
+// src/environment_var
 char	**get_envar_path(void);
-////path
+// src/path
 char	*set_path(char *cmd);
-//Libft
-////libft
+// Libft/libft
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
