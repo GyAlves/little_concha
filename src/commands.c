@@ -22,19 +22,36 @@ void	test_cmd(t_command *cmd)
 	printf("Piped: %d\n", cmd->piped);
 }
 
-static void	print_cmd_not_found_err(char *cmd)
+static void	print_cmd_err(char *cmd)
 {
 	write(2, "minishell: ", 11);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found!\n", 21);
+}
+
+static void	exec_child(t_minishell *ms, t_command *cmd)
+{
+	char	*path;
+
+	path = set_path(cmd->args[0]);
+	if (!path)
+	{
+		print_cmd_err(cmd->args[0]);
+		exit(127);
+	}
+	cmd->args[0] = path;
+	execve(path, cmd->args, ms->envp);
+	perror("minishell");
+	if (path != cmd->args[0])
+		free(path);
 	exit(127);
+
 }
 
 void	exec_cmd(t_minishell *ms, t_command *cmd)
 {
 	pid_t	id;
 	int		status;
-	char	*path;
 
 	if (cmd == NULL || cmd->args == NULL)
 	{
@@ -48,17 +65,7 @@ void	exec_cmd(t_minishell *ms, t_command *cmd)
 		exit(EXIT_FAILURE);
 	}
 	else if (id == 0)
-	{
-		path = set_path(cmd->args[0]);
-		if (!path)
-			print_cmd_not_found_err(cmd->args[0]);
-		cmd->args[0] = path;
-		execve(path, cmd->args, ms->envp);
-		perror("minishell");
-		if (path != cmd->args[0])
-			free(path);
-		exit(127);
-	}
+		exec_child(ms, cmd);
 	else if (id > 0)
 	{
 		waitpid(id, &status, 0);
