@@ -4,7 +4,7 @@ void	bi_exit(t_minishell *ms, t_command *cmd)
 {
 	int	recieved_err;
 
-	write(2, "exit\n", 5);
+	write(2, "exit\n", 6);
 	if (cmd->args[1] && cmd->args[2])
 	{
 		perror("exit: too many arguments!\n");
