@@ -14,7 +14,7 @@ int	main(int c, char **v, char **envp)
 	while (6)
 	{
 		prompt = readline("type> ");
-		if (!prompt) //signal ctrl+d
+		if (!prompt)
 			break ;
 		add_history(prompt);
 		args = ft_split(prompt, ' ');
