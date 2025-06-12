@@ -6,8 +6,9 @@ int	main(int c, char **v, char **envp)
 	t_command	cmd;
 	char		*prompt;
 	char		**args;
-	c = 0;
-	v = NULL;
+
+	(void)c;
+	(void)v;
 	ms.envp = envp;
 	ms.exit_status = 0;
 	while (6)
@@ -24,7 +25,10 @@ int	main(int c, char **v, char **envp)
 		cmd.output_file = NULL;
 		cmd.piped = 0;
 		cmd.append = 0;
-		exec_cmd(&ms, &cmd);
+		if (is_builtin(&cmd))
+			builtin_env(&ms, &cmd);
+		else
+			exec_cmd(&ms, &cmd);
 		free_matrix(args);
 		free (prompt);
 	}
