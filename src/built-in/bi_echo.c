@@ -7,7 +7,7 @@ void	bi_echo(t_minishell *ms, t_command *cmd)
 
 	index = 1;
 	n_flag = 0;
-	if (ft_strncmp(cmd->args[1], "-n", 3) == 0)
+	if (cmd->args[1] && ft_strncmp(cmd->args[1], "-n", 3) == 0)
 	{
 		n_flag = 1;
 		index++;
@@ -16,7 +16,7 @@ void	bi_echo(t_minishell *ms, t_command *cmd)
 	{
 		write(1, cmd->args[index], ft_strlen(cmd->args[index]));
 		if (cmd->args[index + 1])
-			write(2, " ", 1);
+			write(1, " ", 1);
 		index++;
 	}
 	if (n_flag == 0)
