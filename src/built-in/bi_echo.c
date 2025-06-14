@@ -14,12 +14,12 @@ void	bi_echo(t_minishell *ms, t_command *cmd)
 	}
 	while (cmd->args[index])
 	{
-		write(2, cmd->args[index], sizeof(cmd->args[index]));
+		write(1, cmd->args[index], ft_strlen(cmd->args[index]));
 		if (cmd->args[index + 1])
 			write(2, " ", 1);
 		index++;
 	}
 	if (n_flag == 0)
-		write(1, "\n", 2);
+		write(1, "\n", 1);
 	ms->exit_status = 0;
 }
