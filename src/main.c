@@ -6,11 +6,13 @@ int	main(int c, char **v, char **envp)
 	t_command	cmd;
 	char		*prompt;
 	char		**args;
+	int			status;
 
 	(void)c;
 	(void)v;
 	ms.envp = envp;
 	ms.exit_status = 0;
+	status = init_n_exc_cmd(&ms, &cmd, args, prompt);
 	while (6)
 	{
 		prompt = readline("type> ");
@@ -20,26 +22,11 @@ int	main(int c, char **v, char **envp)
 		args = ft_split(prompt, ' ');
 		if (!args)
 			continue ;
-		cmd.args = args;
-		cmd.input_file = NULL;
-		cmd.output_file = NULL;
-		cmd.piped = 0;
-		cmd.append = 0;
-		if (is_builtin(&cmd))
-		{
-			if (ft_strncmp(cmd.args[0], "env", 4) == 0)
-				builtin_env(&ms, &cmd);
-			else if (ft_strncmp(cmd.args[0], "echo", 5) == 0)
-				bi_echo(&ms, &cmd);
-			else if (ft_strncmp(cmd.args[0], "exit", 5) == 0)
-				bi_exit(&ms, &cmd);
-			else if (ft_strncmp(cmd.args[0], "pwd", 4) == 0)
-				bi_pwd(&ms);
-		}
-		else
-			exec_cmd(&ms, &cmd);
+		init_n_exc_cmd(&ms, &cmd, args, prompt);
 		free_matrix(args);
 		free (prompt);
+		if (status == -1)
+			return (ms.exit_status);
 	}
-	return (0);
+	return (ms.exit_status);
 }
