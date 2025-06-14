@@ -29,12 +29,16 @@ typedef struct s_minishell
 // src/built-in/bi_echo
 void	bi_echo(t_minishell *ms, t_command *cmd);
 // src/built-in/bi_exit
-void	bi_exit(t_minishell *ms, t_command *cmd);
+void	bi_exit(t_minishell *ms, t_command *cmd, char *prompt);
 // src/built-in/bi_pwd
 void	bi_pwd(t_minishell *ms);
 // src/built-in/built_in
-int 	is_builtin(t_command *cmd);
+int		is_builtin(t_command *cmd);
 void	builtin_env(t_minishell *ms, t_command *cmd);
+// src/utils/cleanup_n_exit
+void	cleanup_n_exit(t_minishell *ms, t_command *cmd, char *prompt);
+// src/utils/main_utils
+int		init_n_exc_cmd(t_minishell *ms, t_command *cmd, char **args, char *prompt);
 // src/commands
 void	print_cmd_err(char *cmd);
 void	exec_cmd(t_minishell *ms, t_command *cmd);
