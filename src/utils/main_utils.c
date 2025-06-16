@@ -5,7 +5,7 @@ char	**read_input(char **prompt)
 	char	**args;
 
 	*prompt = readline("type> ");
-	if (!prompt)
+	if (!*prompt)
 		return (NULL);
 	add_history(*prompt);
 	args = ft_split(*prompt, ' ');
