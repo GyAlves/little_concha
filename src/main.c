@@ -12,17 +12,12 @@ int	main(int c, char **v, char **envp)
 	(void)v;
 	ms.envp = envp;
 	ms.exit_status = 0;
-	status = init_n_exc_cmd(&ms, &cmd, args, prompt);
 	while (6)
 	{
-		prompt = readline("type> ");
-		if (!prompt)
-			break ;
-		add_history(prompt);
-		args = ft_split(prompt, ' ');
+		args = read_input(&prompt);
 		if (!args)
-			continue ;
-		init_n_exc_cmd(&ms, &cmd, args, prompt);
+			break ;
+		status = init_n_exc_cmd(&ms, &cmd, args, prompt);
 		free_matrix(args);
 		free (prompt);
 		if (status == -1)
