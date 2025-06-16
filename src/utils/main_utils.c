@@ -1,6 +1,18 @@
 #include "../../minishell.h"
 
-static int		dispatch_builtin(t_minishell *ms, t_command *cmd, char *prompt)
+char	**read_input(char **prompt)
+{
+	char	**args;
+
+	*prompt = readline("type> ");
+	if (!prompt)
+		return (NULL);
+	add_history(*prompt);
+	args = ft_split(*prompt, ' ');
+	return (args);
+}
+
+static int	dispatch_builtin(t_minishell *ms, t_command *cmd, char *prompt)
 {
 	if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 	{
@@ -39,7 +51,7 @@ int	init_n_exc_cmd(t_minishell *ms, t_command *cmd, char **args, char *prompt)
 	else
 	{
 		exec_cmd(ms, cmd);
-		status = 0;
+		status = ms->exit_status;
 	}
 	return (status);
 }
