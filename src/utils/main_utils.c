@@ -12,32 +12,37 @@ char	**read_input(char **prompt)
 	return (args);
 }
 
-static int	dispatch_builtin(t_minishell *ms, t_command *cmd, char *prompt)
+static int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 	{
-		builtin_env(ms, cmd);
+		bi_env(sh, cmd);
 		return (0);
 	}	
 	else if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 	{
-		bi_echo(ms, cmd);
+		bi_echo(sh, cmd);
 		return (0);
 	}
 	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 	{
-		bi_exit(ms, cmd, prompt);
+		bi_exit(sh, cmd, prompt);
 		return (-1);
 	}
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 	{
-		bi_pwd(ms);
+		bi_pwd(sh);
+		return (0);
+	}
+	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
+	{
+		bi_cd(sh, cmd);
 		return (0);
 	}
 	return (0);
 }
 
-int	init_n_exc_cmd(t_minishell *ms, t_command *cmd, char **args, char *prompt)
+int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 {
 	int	status;
 
@@ -47,11 +52,11 @@ int	init_n_exc_cmd(t_minishell *ms, t_command *cmd, char **args, char *prompt)
 	cmd->piped = 0;
 	cmd->append = 0;
 	if (is_builtin(cmd))
-		status = dispatch_builtin(ms, cmd, prompt);
+		status = dispatch_builtin(sh, cmd, prompt);
 	else
 	{
-		exec_cmd(ms, cmd);
-		status = ms->exit_status;
+		exec_cmd(sh, cmd);
+		status = sh->exit_status;
 	}
 	return (status);
 }

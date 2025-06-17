@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void	bi_echo(t_minishell *ms, t_command *cmd)
+void	bi_echo(t_minishell *sh, t_command *cmd)
 {
 	int	index;
 	int	n_flag;
@@ -21,5 +21,5 @@ void	bi_echo(t_minishell *ms, t_command *cmd)
 	}
 	if (n_flag == 0)
 		write(1, "\n", 1);
-	ms->exit_status = 0;
+	sh->exit_status = 0;
 }

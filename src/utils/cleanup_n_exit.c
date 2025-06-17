@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void	cleanup_n_exit(t_minishell *ms, t_command *cmd, char *prompt)
+void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	if (cmd)
 	{
@@ -9,8 +9,8 @@ void	cleanup_n_exit(t_minishell *ms, t_command *cmd, char *prompt)
 	}
 	if (prompt)
 		free(prompt);
-	if (ms)
-		exit(ms->exit_status);
+	if (sh)
+		exit(sh->exit_status);
 	else
 		exit (1);
 }

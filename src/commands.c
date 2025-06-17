@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
-void	print_cmd_err(char *cmd)
+static void	print_cmd_err(char *cmd)
 {
 	//write(2, "minishell: <", 12);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found!\n", 22);
 }
 
-static void	exec_child(t_minishell *ms, t_command *cmd)
+static void	exec_child(t_minishell *sh, t_command *cmd)
 {
 	char	*path;
 
@@ -18,14 +18,14 @@ static void	exec_child(t_minishell *ms, t_command *cmd)
 		exit(127);
 	}
 	cmd->args[0] = path;
-	execve(path, cmd->args, ms->envp); //if path is found
+	execve(path, cmd->args, sh->envp); //if path is found
 	perror("minishell");
 	if (path != cmd->args[0])
 		free(path);
 	exit(127);
 }
 
-void	exec_cmd(t_minishell *ms, t_command *cmd)
+void	exec_cmd(t_minishell *sh, t_command *cmd)
 {
 	pid_t	id;
 	int		status;
@@ -42,11 +42,11 @@ void	exec_cmd(t_minishell *ms, t_command *cmd)
 		exit(EXIT_FAILURE);
 	}
 	else if (id == 0)
-		exec_child(ms, cmd);
+		exec_child(sh, cmd);
 	else if (id > 0)
 	{
 		waitpid(id, &status, 0);
 		if (WIFEXITED(status))
-			ms->exit_status = WEXITSTATUS(status);
+			sh->exit_status = WEXITSTATUS(status);
 	}
 }
