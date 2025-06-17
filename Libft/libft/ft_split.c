@@ -30,7 +30,7 @@ void	free_matrix(char **matrix)
 	int	i;
 
 	if (!matrix)
-		return;
+		return ;
 	i = 0;
 	while (matrix[i])
 		free(matrix[i++]);
