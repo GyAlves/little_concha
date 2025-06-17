@@ -6,7 +6,7 @@ INCLUDE = ../minishell.h
 OBJ_DIR = obj/
 LIBFT = libft/ft_strncmp.c libft/ft_strlen.c libft/ft_calloc.c libft/ft_substr.c \
 		libft/ft_split.c libft/ft_strchr.c libft/ft_memcpy.c libft/ft_strjoin.c  \
-		libft/ft_strdup.c libft/ft_strlcpy.c libft/ft_atoi.c
+		libft/ft_strdup.c libft/ft_strlcpy.c libft/ft_atoi.c libft/ft_putstr_fd.c
 
 SRC = $(LIBFT)
 OBJ = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
