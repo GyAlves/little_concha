@@ -27,8 +27,6 @@ typedef struct s_minishell
 }			t_minishell;
 
 // src/built-in/bi_cd
-char	*find_env_var(char **envp, char *key);
-void	update_env_var(t_minishell *sh, char* key, char *val);
 void	bi_cd(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_echo
 void	bi_echo(t_minishell *sh, t_command *cmd);
@@ -40,6 +38,9 @@ void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt);
 void	bi_pwd(t_minishell *sh);
 // src/built-in/built_in
 int		is_builtin(t_command *cmd);
+// src/environment_variables/envar
+char	*find_envar(char **envp, char *key);
+void	update_envar(t_minishell *sh, char* key, char *val);
 // src/utils/cleanup_n_exit
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
 // src/utils/main_utils
