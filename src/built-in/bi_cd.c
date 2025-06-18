@@ -32,22 +32,19 @@ void	update_env_var(t_minishell *sh, char* key, char *val)
 	char	*env_entry;
 	char	**new_envp;
 
-	temp = ft_strjoin(key, "=");
+	env_entry = ft_strjoin(key, "=");
+	if (!env_entry)
+		return ;
+	temp = ft_strjoin(env_entry, val);
+	free(env_entry);
 	if (!temp)
 		return ;
-	env_entry = ft_strjoin(temp, val);
-	if (!env_entry)
-	{
-		free(temp);
-		return ;
-	}
-	free(temp);
+	env_entry = temp;
 	i = 0;
 	while (sh->envp[i])
 	{
 		if (ft_strncmp(sh->envp[i], key, ft_strlen(key)) == 0 && sh->envp[i][ft_strlen(key)] == '=')
 		{
-			free(sh->envp[i]);
 			sh->envp[i] = env_entry;
 			return ;
 		}
@@ -63,11 +60,20 @@ void	update_env_var(t_minishell *sh, char* key, char *val)
 	i = 0;
 	while ( i < count)
 	{
-		new_envp[i] = sh->envp[i];
+		new_envp[i] = ft_strdup(sh->envp[i]);
+		if (!new_envp[i])
+		{
+			while (i > 0)
+				free(new_envp[--i]);
+			free(new_envp);
+			free(env_entry);
+			return ;
+		}
 		i++;
 	}
 	new_envp[count] = env_entry;
-	free(sh->envp);
+	new_envp[count + 1] = NULL;
+	free_matrix(sh->envp);
 	sh->envp = new_envp;
 }
 
@@ -94,6 +100,13 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 			return ;
 		}
 		target += 5;
+		if (!target[0])
+		{
+			ft_putstr_fd("cd: HOME is empty\n", 2);
+			free(oldpwd);
+			sh->exit_status = 1;
+			return ;
+		}
 	}
 	else if (ft_strncmp(cmd->args[1], "-",  2) == 0) //cd -
 	{
@@ -106,10 +119,16 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 			return ;
 		}
 		target += 7;
+		if (!target[0])
+		{
+			ft_putstr_fd("cd: OLDPWD not set\n", 2);
+			free(oldpwd);
+			sh->exit_status = 1;
+			return ;
+		}
 	}
 	else
 	{
-		target = cmd->args[1]; //uses provided arg
 		if (!cmd->args[1])
 		{
 			print_cd_no_file_nor_dir(NULL);
@@ -117,6 +136,7 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 			sh->exit_status = 1;
 			return ;
 		}
+		target = cmd->args[1]; //uses provided arg
 	}
 	if (chdir(target) == -1) //tryes to change dir
 	{
@@ -126,6 +146,12 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 		return  ;
 	}
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		free(oldpwd);
+		sh->exit_status = 1;
+		return ;
+	}
 	if (oldpwd)
 		update_env_var(sh, "OLDPWD", oldpwd); //update OLDPWD
 	if (cwd)
