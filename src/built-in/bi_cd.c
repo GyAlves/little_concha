@@ -22,7 +22,7 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 	}
 	if (!cmd->args[1]) //just cd
 	{
-		target = find_env_var(sh->envp, "HOME"); //uses HOME
+		target = find_envar(sh->envp, "HOME"); //uses HOME
 		if (!target)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
@@ -41,7 +41,7 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 	}
 	else if (ft_strncmp(cmd->args[1], "-",  2) == 0) //cd -
 	{
-		target = find_env_var(sh->envp, "OLDPWD"); //uses OLDPWD
+		target = find_envar(sh->envp, "OLDPWD"); //uses OLDPWD
 		if (!target)
 		{
 			ft_putstr_fd("cd: OLDPWD not set\n", 2);
@@ -84,9 +84,9 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 		return ;
 	}
 	if (oldpwd)
-		update_env_var(sh, "OLDPWD", oldpwd); //update OLDPWD
+		update_envar(sh, "OLDPWD", oldpwd); //update OLDPWD
 	if (cwd)
-		update_env_var(sh, "PWD", cwd); //update PWD
+		update_envar(sh, "PWD", cwd); //update PWD
 	free(oldpwd);
 	free(cwd);
 	sh->exit_status = 0;
