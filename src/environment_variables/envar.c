@@ -16,7 +16,7 @@ char	*find_envar(char **envp, char *key)
 	return (NULL);
 }
 
-static char	*create_envar_entry(char *key, char *val)
+static char	*create_envar_entry(char *key, char *val) //can be used in export built-in
 {
 	char	*temp;
 	char	*envar_entry;
@@ -38,6 +38,27 @@ static char	**alloc_envar_arr(int count)
 	if (!new_envp)
 		return (NULL);
 	return (new_envp);
+}
+static int	cp_envar_entries(char **new_envp, char **old_envp, int count)
+{
+	int		i;
+	char	*temp;
+
+	i = 0;
+	while (i < count)
+	{
+		temp = ft_strdup(old_envp[i]);
+		if (!temp)
+		{
+			while (i > 0)
+				free(new_envp[--i]);
+			free(new_envp);
+			return (0);
+		}
+		new_envp[i] = temp;
+		i++;
+	}
+	return (1);
 }
 
 static char	**append_envar(t_minishell *sh, char *envar_entry, int count)
