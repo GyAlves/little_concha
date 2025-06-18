@@ -9,7 +9,8 @@ char	*find_envar(char **envp, char *key)
 	len = ft_strlen(key);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0 && envp[i][len] == '=')
+		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0 \
+		&& envp[i][len] == '=')
 			return (envp[i]);
 		i++;
 	}
@@ -30,6 +31,7 @@ static char	*create_envar_entry(char *key, char *val) //can be used in export bu
 		return (NULL);
 	return (envar_entry);
 }
+
 static char	**alloc_envar_arr(int count)
 {
 	char	**new_envp;
@@ -39,6 +41,7 @@ static char	**alloc_envar_arr(int count)
 		return (NULL);
 	return (new_envp);
 }
+
 static int	cp_envar_entries(char **new_envp, char **old_envp, int count)
 {
 	int		i;
@@ -68,12 +71,19 @@ static char	**append_envar(t_minishell *sh, char *envar_entry, int count)
 	new_envp = alloc_envar_arr(count);
 	if (!new_envp)
 		return (NULL);
+	if (!cp_envar_entries(new_envp, sh->envp, count))
+	{
+		free(new_envp);
+		return (NULL);
+	}
+	new_envp[count] = envar_entry;
+	new_envp[count + 1] = NULL;
+	return (new_envp);
 }
 
-void	update_envar(t_minishell *sh, char* key, char *val)
+void	update_envar(t_minishell *sh, char *key, char *val)
 {
 	int		i;
-	int		count;
 	char	*envar_entry;
 	char	**new_envp;
 
@@ -83,36 +93,20 @@ void	update_envar(t_minishell *sh, char* key, char *val)
 	i = 0;
 	while (sh->envp[i])
 	{
-		if (ft_strncmp(sh->envp[i], key, ft_strlen(key)) == 0 && sh->envp[i][ft_strlen(key)] == '=')
+		if (ft_strncmp(sh->envp[i], key, ft_strlen(key)) == 0 \
+		&& sh->envp[i][ft_strlen(key)] == '=')
 		{
 			sh->envp[i] = envar_entry;
 			return ;
 		}
 		i++;
 	}
-	count = i;
-	new_envp = ft_calloc(count + 2, sizeof(char *));
+	new_envp = append_envar(sh, envar_entry, i);
 	if (!new_envp)
 	{
-		free (envar_entry);
+		free(envar_entry);
 		return ;
 	}
-	i = 0;
-	while ( i < count)
-	{
-		new_envp[i] = ft_strdup(sh->envp[i]);
-		if (!new_envp[i])
-		{
-			while (i > 0)
-				free(new_envp[--i]);
-			free(new_envp);
-			free(envar_entry);
-			return ;
-		}
-		i++;
-	}
-	new_envp[count] = envar_entry;
-	new_envp[count + 1] = NULL;
 	free_matrix(sh->envp);
 	sh->envp = new_envp;
 }
