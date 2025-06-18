@@ -30,6 +30,24 @@ static char	*create_envar_entry(char *key, char *val)
 		return (NULL);
 	return (envar_entry);
 }
+static char	**alloc_envar_arr(int count)
+{
+	char	**new_envp;
+
+	new_envp = ft_calloc(count + 2, sizeof(char *));
+	if (!new_envp)
+		return (NULL);
+	return (new_envp);
+}
+
+static char	**append_envar(t_minishell *sh, char *envar_entry, int count)
+{
+	char	**new_envp;
+
+	new_envp = alloc_envar_arr(count);
+	if (!new_envp)
+		return (NULL);
+}
 
 void	update_envar(t_minishell *sh, char* key, char *val)
 {
@@ -39,6 +57,8 @@ void	update_envar(t_minishell *sh, char* key, char *val)
 	char	**new_envp;
 
 	envar_entry = create_envar_entry(key, val);
+	if (!envar_entry)
+		return ;
 	i = 0;
 	while (sh->envp[i])
 	{
