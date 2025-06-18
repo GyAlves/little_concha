@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-char	*find_env_var(char **envp, char *key)
+char	*find_envar(char **envp, char *key)
 {
 	int		i;
 	size_t	len;
@@ -16,28 +16,35 @@ char	*find_env_var(char **envp, char *key)
 	return (NULL);
 }
 
-void	update_env_var(t_minishell *sh, char* key, char *val)
+static char	*create_envar_entry(char *key, char *val)
+{
+	char	*temp;
+	char	*envar_entry;
+
+	temp = ft_strjoin(key, "=");
+	if (!temp)
+		return (NULL);
+	envar_entry = ft_strjoin(temp, val);
+	free(temp);
+	if (!envar_entry)
+		return (NULL);
+	return (envar_entry);
+}
+
+void	update_envar(t_minishell *sh, char* key, char *val)
 {
 	int		i;
 	int		count;
-	char	*temp;
-	char	*env_entry;
+	char	*envar_entry;
 	char	**new_envp;
 
-	env_entry = ft_strjoin(key, "=");
-	if (!env_entry)
-		return ;
-	temp = ft_strjoin(env_entry, val);
-	free(env_entry);
-	if (!temp)
-		return ;
-	env_entry = temp;
+	envar_entry = create_envar_entry(key, val);
 	i = 0;
 	while (sh->envp[i])
 	{
 		if (ft_strncmp(sh->envp[i], key, ft_strlen(key)) == 0 && sh->envp[i][ft_strlen(key)] == '=')
 		{
-			sh->envp[i] = env_entry;
+			sh->envp[i] = envar_entry;
 			return ;
 		}
 		i++;
@@ -46,7 +53,7 @@ void	update_env_var(t_minishell *sh, char* key, char *val)
 	new_envp = ft_calloc(count + 2, sizeof(char *));
 	if (!new_envp)
 	{
-		free (env_entry);
+		free (envar_entry);
 		return ;
 	}
 	i = 0;
@@ -58,12 +65,12 @@ void	update_env_var(t_minishell *sh, char* key, char *val)
 			while (i > 0)
 				free(new_envp[--i]);
 			free(new_envp);
-			free(env_entry);
+			free(envar_entry);
 			return ;
 		}
 		i++;
 	}
-	new_envp[count] = env_entry;
+	new_envp[count] = envar_entry;
 	new_envp[count + 1] = NULL;
 	free_matrix(sh->envp);
 	sh->envp = new_envp;
