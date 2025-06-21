@@ -10,7 +10,7 @@ static void	print_cd_no_file_nor_dir(char *path)
 
 static char	*cd_envar_home(t_minishell *sh)
 {
-	char *target;
+	char	*target;
 
 	target = find_envar(sh->envp, "HOME"); //uses HOME
 	if (!target)
@@ -27,9 +27,25 @@ static char	*cd_envar_home(t_minishell *sh)
 	return (target);
 }
 
-void	bi_cd(t_minishell *sh, t_command *cmd)
+static int	change_curr_dir(t_minishell *sh, char *target)
 {
 	char	*cwd; //stores the curr dir
+
+	if (chdir(target) == -1) //tryes to change to target dir
+	{
+		print_cd_no_file_nor_dir(target);
+		return (0);
+	}
+	cwd = getcwd(NULL, 0); //get the absolute path
+	if (!cwd)
+		return (0);
+	update_envar(sh, "PWD", cwd); //update PWD
+	free(cwd);
+	return (1);
+}
+
+void	bi_cd(t_minishell *sh, t_command *cmd)
+{
 	char	*target; //target dir
 
 	if (!cmd->args[1]) //just cd to go to HOME
@@ -43,20 +59,11 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 	}
 	else
 		target = cmd->args[1]; //dir to go
-	if (chdir(target) == -1) //tryes to change to target dir
-	{
-		print_cd_no_file_nor_dir(target);
-		sh->exit_status = 1;
-		return  ;
-	}
-	cwd = getcwd(NULL, 0); //get the absolute path
-	if (!cwd)
+	if (!change_curr_dir(sh, target))
 	{
 		sh->exit_status = 1;
 		return ;
 	}
-	update_envar(sh, "PWD", cwd); //update PWD
-	free(cwd);
 	sh->exit_status = 0;
 }
 
