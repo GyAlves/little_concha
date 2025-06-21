@@ -1,37 +1,5 @@
 #include "../../minishell.h"
 
-char	*find_envar(char **envp, char *key)
-{
-	int		i;
-	size_t	len;
-
-	i = 0;
-	len = ft_strlen(key);
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0 \
-		&& envp[i][len] == '=')
-			return (envp[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-static char	*create_envar_entry(char *key, char *val) //can be used in export built-in
-{
-	char	*temp;
-	char	*envar_entry;
-
-	temp = ft_strjoin(key, "=");
-	if (!temp)
-		return (NULL);
-	envar_entry = ft_strjoin(temp, val);
-	free(temp);
-	if (!envar_entry)
-		return (NULL);
-	return (envar_entry);
-}
-
 static char	**alloc_envar_arr(int count)
 {
 	char	**new_envp;
@@ -81,15 +49,10 @@ static char	**append_envar(t_minishell *sh, char *envar_entry, int count)
 	return (new_envp);
 }
 
-void	update_envar(t_minishell *sh, char *key, char *val)
+static int	update_curr_envar(t_minishell *sh, char *envar_entry, char *key)
 {
-	int		i;
-	char	*envar_entry;
-	char	**new_envp;
+	int	i;
 
-	envar_entry = create_envar_entry(key, val);
-	if (!envar_entry)
-		return ;
 	i = 0;
 	while (sh->envp[i])
 	{
@@ -97,11 +60,26 @@ void	update_envar(t_minishell *sh, char *key, char *val)
 		&& sh->envp[i][ft_strlen(key)] == '=')
 		{
 			sh->envp[i] = envar_entry;
-			return ;
+			return (1);
 		}
 		i++;
 	}
-	new_envp = append_envar(sh, envar_entry, i);
+	return (0);
+}
+
+void	update_envar(t_minishell *sh, char *key, char *val)
+{
+	int		count;
+	char	*envar_entry;
+	char	**new_envp;
+
+	envar_entry = create_envar_entry(key, val);
+	if (!envar_entry)
+		return ;
+	if (update_curr_envar(sh, envar_entry, key))
+		return ;
+	count = ft_arrlen(sh->envp);
+	new_envp = append_envar(sh, envar_entry, count);
 	if (!new_envp)
 	{
 		free(envar_entry);
