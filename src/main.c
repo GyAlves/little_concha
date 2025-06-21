@@ -1,28 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/21 16:53:21 by gyasminalve       #+#    #+#             */
+/*   Updated: 2025/06/21 19:29:29 by gyasminalve      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int c, char **v, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_minishell	sh;
+	t_minishell	shell;
 	t_command	cmd;
 	char		*prompt;
 	char		**args;
 	int			status;
 
-	(void)c;
-	(void)v;
-	sh.envp = envp;
-	sh.exit_status = 0;
+	(void)argc;
+	(void)argv;
+	shell.envp = envp;
+	shell.exit_status = 0;
 	while (6)
 	{
 		args = read_input(&prompt);
 		if (!args)
 			break ;
-		status = init_n_exc_cmd(&sh, &cmd, args, prompt);
+		status = cmd_setup(&shell, &cmd, args, prompt);
 		free_matrix(args);
-		free (prompt);
+		free(prompt);
 		if (status == -1)
-			return (sh.exit_status);
+			return (shell.exit_status);
 	}
-	return (sh.exit_status);
+	return (shell.exit_status);
 }

@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 char	*find_envar(char **envp, char *key)
 {

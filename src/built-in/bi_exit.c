@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {

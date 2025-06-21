@@ -1,25 +1,29 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commands.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/21 18:45:16 by gyasminalve       #+#    #+#             */
+/*   Updated: 2025/06/21 19:29:21 by gyasminalve      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	print_cmd_err(char *cmd)
-{
-	//write(2, "minishell: <", 12);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found!\n", 22);
-}
+#include "minishell.h"
 
 static void	exec_child(t_minishell *sh, t_command *cmd)
 {
 	char	*path;
 
 	path = set_path(cmd->args[0]);
-	if (!path) //if no path is found
+	if (!path)
 	{
 		print_cmd_err(cmd->args[0]);
 		exit(127);
 	}
 	cmd->args[0] = path;
-	execve(path, cmd->args, sh->envp); //if path is found
-	perror("minishell");
+	execve(path, cmd->args, sh->envp);
 	if (path != cmd->args[0])
 		free(path);
 	exit(127);
@@ -49,4 +53,23 @@ void	exec_cmd(t_minishell *sh, t_command *cmd)
 		if (WIFEXITED(status))
 			sh->exit_status = WEXITSTATUS(status);
 	}
+}
+
+int	cmd_setup(t_minishell *sh, t_command *cmd, char **args, char *prompt)
+{
+	int	status;
+
+	cmd->args = args;
+	cmd->input_file = NULL;
+	cmd->output_file = NULL;
+	cmd->piped = 0;
+	cmd->append = 0;
+	if (is_builtin(cmd))
+		status = dispatch_builtin(sh, cmd, prompt);
+	else
+	{
+		exec_cmd(sh, cmd);
+		status = sh->exit_status;
+	}
+	return (status);
 }

@@ -1,5 +1,3 @@
-#include "../../minishell.h"
-
 int	ft_atoi(const char *nptr)
 {
 	int	n;

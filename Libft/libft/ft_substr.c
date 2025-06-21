@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "../libft.h"
 
 static char	*allocate_memory(size_t len)
 {
