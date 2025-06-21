@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {

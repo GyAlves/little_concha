@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 static char	**default_path(void)
 {
