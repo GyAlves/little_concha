@@ -26,6 +26,7 @@ typedef struct s_minishell
 	int		exit_status;
 }			t_minishell;
 
+// src/built-in
 // src/built-in/bi_cd
 void	bi_cd(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_echo
@@ -38,9 +39,14 @@ void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt);
 void	bi_pwd(t_minishell *sh);
 // src/built-in/built_in
 int		is_builtin(t_command *cmd);
+// src/environment_variables
 // src/environment_variables/envar
 char	*find_envar(char **envp, char *key);
 void	update_envar(t_minishell *sh, char* key, char *val);
+// src/environment_variables/envar_utils
+char	*find_envar(char **envp, char *key);
+char	*create_envar_entry(char *key, char *val);
+// src/utils
 // src/utils/cleanup_n_exit
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
 // src/utils/main_utils
@@ -56,6 +62,7 @@ char	**get_envar_path(void);
 char	*set_path(char *cmd);
 // Libft/libft
 size_t	ft_strlen(const char *s);
+size_t	ft_arrlen(char **arr);
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
