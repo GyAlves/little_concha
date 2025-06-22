@@ -5,7 +5,7 @@ void	bi_pwd(t_minishell *sh)
 	char	*cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		perror("pwd");
+		perror("minishell: pwd");
 		sh->exit_status = 1;
 		return ;
 	}
