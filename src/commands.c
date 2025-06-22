@@ -2,9 +2,9 @@
 
 static void	print_cmd_err(char *cmd)
 {
-	//write(2, "minishell: <", 12);
+	ft_putstr_fd("minishell: <", 2);
 	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found!\n", 22);
+	ft_putstr_fd(": command not found!\n", 2);
 }
 
 static void	exec_child(t_minishell *sh, t_command *cmd)
