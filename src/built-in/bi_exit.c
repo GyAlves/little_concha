@@ -1,5 +1,12 @@
 #include "../../minishell.h"
 
+static void	print_num_arg_required(t_command *cmd)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(cmd->args[1], 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+}
+
 void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	write(1, "exit\n", 5);
@@ -10,6 +17,14 @@ void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
 		return ;
 	}
 	if (cmd->args[1])
+	{
+		if (!check_args(cmd->args[1]))
+		{
+			print_num_arg_required(cmd);
+			sh->exit_status = 2;
+			cleanup_n_exit(sh, cmd, prompt);
+		}
 		sh->exit_status = ft_atoi(cmd->args[1]);
+	}
 	cleanup_n_exit(sh, cmd, prompt);
 }
