@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-char	*strndup(const char *s, size_t n)
+char	*ft_strndup(const char *s, size_t n)
 {
 	char	*scopy;
 	size_t	len;
