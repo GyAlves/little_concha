@@ -1,5 +1,6 @@
 #include "../../minishell.h"
 
+//se eu criar uma envar com export e ela estiver vazia, não pode aparecer em env
 void	bi_env(t_minishell *sh, t_command *cmd)
 {
 	int	i;
