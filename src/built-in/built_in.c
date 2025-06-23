@@ -14,5 +14,7 @@ int is_builtin(t_command *cmd)
 		return (1);
 	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		return (1);
+	if (ft_strncmp(cmd->args[0], "export", 7) == 0)
+		return (1);
 	return (0);
 }

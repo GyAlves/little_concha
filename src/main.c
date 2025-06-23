@@ -10,7 +10,10 @@ int	main(int c, char **v, char **envp)
 
 	(void)c;
 	(void)v;
-	sh.envp = envp;
+	
+	sh.envp = alloc_first_envar_arr(count_first_envar(envp));
+	if (!cp_first_envar_entries(sh.envp, envp, count_first_envar(envp)))
+		return (1);
 	sh.exit_status = 0;
 	while (6)
 	{

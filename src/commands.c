@@ -4,7 +4,7 @@ static void	print_cmd_err(char *cmd)
 {
 	ft_putstr_fd("minishell: <", 2);
 	write(2, cmd, ft_strlen(cmd));
-	ft_putstr_fd(": command not found!\n", 2);
+	ft_putstr_fd(">: command not found!\n", 2);
 }
 
 static void	exec_child(t_minishell *sh, t_command *cmd)

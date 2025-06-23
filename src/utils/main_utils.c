@@ -39,6 +39,11 @@ static int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
 		bi_cd(sh, cmd);
 		return (0);
 	}
+	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
+	{
+		bi_export(sh, cmd);
+		return (0);
+	}
 	return (0);
 }
 
