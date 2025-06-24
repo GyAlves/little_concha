@@ -37,9 +37,12 @@ void	bi_env(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_exit
 void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt);
 // src/built-in/bi_export
+int		is_valid_id(char *envar);
 void	bi_export(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_pwd
 void	bi_pwd(t_minishell *sh);
+// src/built-in/bi_unset
+void	bi_unset(t_minishell *sh);
 // src/built-in/built_in
 int		is_builtin(t_command *cmd);
 // src/environment_variables
