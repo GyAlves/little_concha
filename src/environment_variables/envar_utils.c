@@ -59,6 +59,7 @@ static void	sort_envp(char **envp, int count)
 
 void	print_sorted_envar(t_minishell *sh)
 {
+	int 	i;
 	int		count;
 	char	**copy;
 
@@ -67,10 +68,12 @@ void	print_sorted_envar(t_minishell *sh)
 	if (!copy)
 		return ;
 	if (!cp_first_envar_entries(copy, sh->envp, count))
+	{
+		free_matrix(copy);
 		return ;
+	}
 	sort_envp(copy, count);
-	
-	int i = 0;
+	i = 0;
 	while (copy[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
