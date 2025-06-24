@@ -75,14 +75,7 @@ void	bi_export(t_minishell *sh, t_command *cmd)
 	i = 1;
 	if (!cmd->args[1])
 	{
-		i = 0;
-		while (sh->envp[i])
-		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(sh->envp[i], 1);
-			ft_putstr_fd("\n", 1);
-			i++;
-		}
+		print_sorted_envar(sh);
 		sh->exit_status = 0;
 		return ;
 	}
