@@ -32,21 +32,51 @@ char	*create_envar_entry(char *key, char *val) //can be used in export built-in
 	return (envar_entry);
 }
 
-void	print_sorted_envar(t_minishell *sh)
+static void	sort_envp(char **envp, int count)
 {
 	int		i;
-	size_t	len;
-	char	**to_sort_envar;
-	char	*sorted;
+	int		swapped;
+	char	*tmp;
 
-	len = ft_arrlen(sh->envp);
-	to_sort_envar = ft_calloc(len + 1, sizeof(char *));
-	if (!to_sort_envar)
-		return ;
-		i = 0;
-	while (i < len)
+	swapped = 1;
+	while (swapped)
 	{
-		sorted = ft_strdup(to_sort_envar[i]);
+		i = 0;
+		swapped = 0;
+		while (i < count - 1)
+		{
+			if (ft_strcmp(envp[i], envp[i + 1]) > 0)
+			{
+				tmp = envp[i];
+				envp[i] = envp[i + 1];
+				envp[i + 1] = tmp;
+				swapped = 1;
+			}
+			i++;
+		}
+	}
+}
+
+void	print_sorted_envar(t_minishell *sh)
+{
+	int		count;
+	char	**copy;
+
+	count = ft_arrlen(sh->envp);
+	copy = alloc_first_envar_arr(count);
+	if (!copy)
+		return ;
+	if (!cp_first_envar_entries(copy, sh->envp, count))
+		return ;
+	sort_envp(copy, count);
+	
+	int i = 0;
+	while (copy[i])
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(copy[i], 1);
+		ft_putstr_fd("\n", 1);
 		i++;
 	}
+	free_matrix(copy);
 }
