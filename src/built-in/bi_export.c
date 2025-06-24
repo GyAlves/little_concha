@@ -16,7 +16,7 @@ static int	is_valid_key(const char *key)
 	return (1);
 }
 
-static int	is_valid_id(char *envar)
+int	is_valid_id(char *envar)
 {
 	int		valid;
 	char	*equal;
