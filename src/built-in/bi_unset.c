@@ -1,27 +1,26 @@
 #include "../../minishell.h"
 
-static void	delete_envar(t_minishell *sh, t_command *cmd)
+static void	delete_envar(t_minishell *sh, char *key)
 {
 	int		i;
 	int		len;
 	char	*equal;
-	char	*key;
 	int		count;
 	char	**new_envp;
 
 	i = 1;
-	while (cmd->args[i])
+	while (key[i])
 	{
-		equal = ft_strchr(cmd->args[i], '=');
-		if (!is_valid_id(cmd->args[i]))
+		equal = ft_strchr(key[i], '=');
+		if (!is_valid_id(key[i]))
 		{
 			sh->exit_status = 0;
 			return ;
 		}
 		if (equal)
-			key = ft_strndup(cmd->args[i], equal - cmd->args[i]);
+			key = ft_strndup(key[i], equal - key[i]);
 		else
-			key = ft_strdup(cmd->args[i]);
+			key = ft_strdup(key[i]);
 			i++;
 	}
 	i = 0;
