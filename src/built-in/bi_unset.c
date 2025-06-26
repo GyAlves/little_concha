@@ -6,10 +6,12 @@ static void	delete_envar(t_minishell *sh, t_command *cmd)
 	char	*equal;
 	char	*key;
 	char	*arg;
-	char	*new_envp;
+	int		count;
+	char	**new_envp;
 
 	i = 1;
-	arg = cmd->args;
+	while (cmd->args[i])
+		arg[i] = cmd->args[i++];
 	while (arg[i])
 	{
 		equal = ft_strchr(arg, '=');
@@ -22,15 +24,21 @@ static void	delete_envar(t_minishell *sh, t_command *cmd)
 			key = ft_strndup(arg, equal - arg);
 		else
 			key = ft_strdup(arg);
-		i++;
+		if (!find_envar(sh->envp, key))
+			return ;
+			i++;
 	}
 	i = 0;
-	new_envp = sh->envp;
-	while (new_envp[i] != key)
+	count = ft_arrlen(sh->envp);
+	new_envp = ft_calloc(count - 1, sizeof(char *));
+	while (sh->envp[i] != arg[i])
 	{
-		
+		new_envp[i] = sh->envp[i];
+		if (sh->envp[i] == arg[i])
+			free_matrix(sh->envp[i]);
 		i++;
 	}
+	sh->envp = new_envp;
 }
 
 static void	print_unset_err(char *arg)
