@@ -6,23 +6,31 @@ static void	delete_envar(t_minishell *sh, t_command *cmd)
 	char	*equal;
 	char	*key;
 	char	*arg;
+	char	*new_envp;
 
+	i = 1;
+	arg = cmd->args;
+	while (arg[i])
+	{
+		equal = ft_strchr(arg, '=');
+		if (!is_valid_id(arg))
+		{
+			sh->exit_status = 0;
+			return ;
+		}
+		if (equal)
+			key = ft_strndup(arg, equal - arg);
+		else
+			key = ft_strdup(arg);
+		i++;
+	}
 	i = 0;
-	arg = cmd->args[i];
-	equal = ft_strchr(arg, '=');
-	if (!is_valid_id(arg))
+	new_envp = sh->envp;
+	while (new_envp[i] != key)
 	{
-		sh->exit_status = 0;
-		return ;
+		
+		i++;
 	}
-	if (equal)
-	{
-		key = ft_strndup(arg, key - arg);
-		while (key)
-			free_matrix(arg[i]);
-	}
-	else
-		free_matrix(arg);
 }
 
 static void	print_unset_err(char *arg)
