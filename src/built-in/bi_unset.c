@@ -3,40 +3,42 @@
 static void	delete_envar(t_minishell *sh, t_command *cmd)
 {
 	int		i;
+	int		len;
 	char	*equal;
 	char	*key;
-	char	*arg;
 	int		count;
 	char	**new_envp;
 
 	i = 1;
 	while (cmd->args[i])
-		arg[i] = cmd->args[i++];
-	while (arg[i])
 	{
-		equal = ft_strchr(arg, '=');
-		if (!is_valid_id(arg))
+		equal = ft_strchr(cmd->args[i], '=');
+		if (!is_valid_id(cmd->args[i]))
 		{
 			sh->exit_status = 0;
 			return ;
 		}
 		if (equal)
-			key = ft_strndup(arg, equal - arg);
+			key = ft_strndup(cmd->args[i], equal - cmd->args[i]);
 		else
-			key = ft_strdup(arg);
-		if (!find_envar(sh->envp, key))
-			return ;
+			key = ft_strdup(cmd->args[i]);
 			i++;
 	}
 	i = 0;
-	count = ft_arrlen(sh->envp);
-	new_envp = ft_calloc(count - 1, sizeof(char *));
-	while (sh->envp[i] != arg[i])
+	if (!find_envar(sh->envp, key))
+		return ; //não faz nada
+	else
 	{
-		new_envp[i] = sh->envp[i];
-		if (sh->envp[i] == arg[i])
-			free_matrix(sh->envp[i]);
+		count = ft_arrlen(sh->envp);
+		new_envp = ft_calloc(count - 1, sizeof(char *)); //cria um novo array
+	}
+	while (ft_strncmp(sh->envp[i], key, ft_strlen(key)) && sh->envp[i][len] == '=')
+	{
+		len = 0;
+		
+		new_envp[i] = ft_strdup(sh->envp[i]);
 		i++;
+		len++;
 	}
 	sh->envp = new_envp;
 }
