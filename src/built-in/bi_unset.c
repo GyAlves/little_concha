@@ -55,11 +55,7 @@ void	bi_unset(t_minishell *sh, t_command *cmd)
 
 	i = 1;
 	if (!cmd->args[1])
-	{
-		sh->exit_status = 1;
-		print_unset_err(cmd->args);
 		return ;
-	}
 	while (cmd->args[i])
 	{
 		if (!is_valid_id(cmd->args[i]))
