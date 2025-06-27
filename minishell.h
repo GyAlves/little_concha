@@ -37,35 +37,37 @@ void	bi_env(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_exit
 void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt);
 // src/built-in/bi_export
-int		is_valid_id(char *envar);
 void	bi_export(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_pwd
 void	bi_pwd(t_minishell *sh);
 // src/built-in/bi_unset
-void	bi_unset(t_minishell *sh);
-// src/built-in/built_in
+void	bi_unset(t_minishell *sh, t_command *cmd);
+// src/built-in/dispatch_builtin
 int		is_builtin(t_command *cmd);
+int		dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt);
 // src/environment_variables
-// src/environment_variables/envar
+// src/environment_variables/cpy_n_sort_envar
+char	**cpy_and_sort_envar(t_minishell *sh);
+void	print_envar(char **envp);
+// src/environment_variables/envar_management
 char	*find_envar(char **envp, char *key);
 void	update_envar(t_minishell *sh, char *key, char *val);
 // src/environment_variables/envar_utils
+int		is_valid_id(char *envar);
 char	*find_envar(char **envp, char *key);
+int		cpy_envar_entries(char **new_envp, char **old_envp, int count);
 char	*create_envar_entry(char *key, char *val);
-void	print_sorted_envar(t_minishell *sh);
+// src/environment_variables/first_cpy_env_utils
+int		count_init_envar(char **envp);
+char	**alloc_init_envar_arr(int count);
 // src/utils
 // src/utils/cleanup_n_exit
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
-// src/utils/main_env_utils
-int		count_first_envar(char **envp);
-char	**alloc_first_envar_arr(int count);
-int		cp_first_envar_entries(char **new_envp, char **old_envp, int count);
-// src/utils/main_utils
+// src/utils/shell_utils
 char	**read_input(char **prompt);
 int		init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
 		char **args, char *prompt);
 // src/commands
-//void	print_cmd_err(char *cmd);
 void	exec_cmd(t_minishell *sh, t_command *cmd);
 // src/environment_var
 char	**get_envar_path(void);
