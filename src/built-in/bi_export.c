@@ -1,41 +1,5 @@
 #include "../../minishell.h"
 
-static int	is_valid_key(const char *key)
-{
-	int	i;
-
-	if (!key || !(ft_isalpha(key[0]) || key[0] == '_'))
-		return (0);
-	i = 1;
-	while (key[i])
-	{
-		if (!(ft_isalnum(key[i]) || key[i] == '_'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	is_valid_id(char *envar)
-{
-	int		valid;
-	char	*equal;
-	char	*key;
-
-	if (!envar)
-		return (0);
-	equal = ft_strchr(envar, '=');
-	if (equal)
-		key = ft_strndup(envar, equal - envar);
-	else
-		key = ft_strdup(envar);
-	if (!key)
-		return (0);
-	valid = is_valid_key(key);
-	free(key);
-	return (valid);
-}
-
 static void	print_export_err(char *arg)
 {
 	ft_putstr_fd("minishell: export: '", 2);
@@ -43,7 +7,18 @@ static void	print_export_err(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-static void	export_var(t_minishell *sh, char *arg)
+static void	print_sorted_envar(t_minishell *sh)
+{
+	char	**copy;
+
+	copy = cpy_and_sort_envar(sh);
+	if (!copy)
+		return ;
+	print_envar(copy);
+	free_matrix(copy);
+}
+
+static void	set_envar(t_minishell *sh, char *arg)
 {
 	char	*key;
 	char	*equal;
@@ -81,7 +56,7 @@ void	bi_export(t_minishell *sh, t_command *cmd)
 	}
 	while (cmd->args[i])
 	{
-		export_var(sh, cmd->args[i]);
+		set_envar(sh, cmd->args[i]);
 		i++;
 	}
 	if (!sh->exit_status)
