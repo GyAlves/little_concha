@@ -1,6 +1,13 @@
 #include "../../minishell.h"
 
-static char	**envar_unset_new_list(t_minishell *sh, char *key)
+static void	print_unset_err(char *arg)
+{
+	ft_putstr_fd("minishell: unset: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+static char	**alloc_envar_without_key(t_minishell *sh, char *key)
 {
 	int		count;
 	char	**new_envp;
@@ -12,43 +19,45 @@ static char	**envar_unset_new_list(t_minishell *sh, char *key)
 	return (new_envp);
 }
 
-static void	delete_envar(t_minishell *sh, char *key)
+static int	copy_envar_excluding_key(char **dst, char **src, char *key)
 {
-	int		i;
-	int		j;
-	char	**new_envp;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	new_envp = envar_unset_new_list(sh, key);
-	if (!new_envp)
-		return ;
-	while (sh->envp[i])
+	while (src[i])
 	{
-		if (ft_strncmp(sh->envp[i], key, ft_strlen(key)) \
-			|| sh->envp[i][ft_strlen(key)] != '=')
+		if (ft_strncmp(src[i], key, ft_strlen(key)) \
+			|| !(src[i][ft_strlen(key)] == '='))
 		{
-			new_envp[j] = ft_strdup(sh->envp[i]);
-			if (!new_envp[j])
+			dst[j] = ft_strdup(src[i]);
+			if (!dst[j])
 			{
-				while (j > 0)
-					free(new_envp[--j]);
-				free(new_envp);
-				return ;
+				free_matrix(dst);
+				return (0);
 			}
 			j++;
 		}
 		i++;
 	}
-	free_matrix(sh->envp);
-	sh->envp = new_envp;
+	return (1);
 }
 
-static void	print_unset_err(char *arg)
+static void	delete_envar(t_minishell *sh, char *key)
 {
-	ft_putstr_fd("minishell: unset: '", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
+	char	**new_envp;
+
+	new_envp = alloc_envar_without_key(sh, key);
+	if (!new_envp)
+		return ;
+	if (!copy_envar_excluding_key(new_envp, sh->envp, key))
+	{
+		free_matrix(new_envp);
+		return ;
+	}
+	free_matrix(sh->envp);
+	sh->envp = new_envp;
 }
 
 void	bi_unset(t_minishell *sh, t_command *cmd)
