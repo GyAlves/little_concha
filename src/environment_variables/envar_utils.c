@@ -56,20 +56,20 @@ char	*find_envar(char **envp, char *key)
 int	cpy_envar_entries(char **new_envp, char **old_envp, int count)
 {
 	int		i;
-	char	*temp;
+	char	*tmp;
 
 	i = 0;
 	while (i < count)
 	{
-		temp = ft_strdup(old_envp[i]);
-		if (!temp)
+		tmp = ft_strdup(old_envp[i]);
+		if (!tmp)
 		{
 			while (i > 0)
 				free(new_envp[--i]);
 			free(new_envp);
 			return (0);
 		}
-		new_envp[i] = temp;
+		new_envp[i] = tmp;
 		i++;
 	}
 	return (1);
@@ -77,14 +77,18 @@ int	cpy_envar_entries(char **new_envp, char **old_envp, int count)
 
 char	*create_envar_entry(char *key, char *val)
 {
-	char	*temp;
+	char	*tmp;
 	char	*envar_entry;
 
-	temp = ft_strjoin(key, "=");
-	if (!temp)
+	if (!key)
 		return (NULL);
-	envar_entry = ft_strjoin(temp, val);
-	free(temp);
+	if (!val)
+		return (ft_strdup(key));
+	tmp = ft_strjoin(key, "=");
+	if (!tmp)
+		return (NULL);
+	envar_entry = ft_strjoin(tmp, val);
+	free(tmp);
 	if (!envar_entry)
 		return (NULL);
 	return (envar_entry);
