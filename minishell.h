@@ -45,6 +45,7 @@ void	bi_unset(t_minishell *sh, t_command *cmd);
 // src/built-in/dispatch_builtin
 int		is_builtin(t_command *cmd);
 int		dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt);
+
 // src/environment_variables
 // src/environment_variables/cpy_n_sort_envar
 char	**cpy_and_sort_envar(t_minishell *sh);
@@ -60,6 +61,7 @@ char	*create_envar_entry(char *key, char *val);
 // src/environment_variables/first_cpy_env_utils
 int		count_init_envar(char **envp);
 char	**alloc_init_envar_arr(int count);
+
 // src/utils
 // src/utils/cleanup_n_exit
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
@@ -67,12 +69,17 @@ void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
 char	**read_input(char **prompt);
 int		init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
 		char **args, char *prompt);
+// src/utils/var_expansion
+char	*expand_varriable(t_minishell *sh, char *str);
+char	*replace_variables(t_minishell *sh, char *input);
+
 // src/commands
 void	exec_cmd(t_minishell *sh, t_command *cmd);
 // src/environment_var
 char	**get_envar_path(void);
 // src/path
 char	*set_path(char *cmd);
+
 // Libft/libft
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
