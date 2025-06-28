@@ -40,7 +40,7 @@ static void	set_envar(t_minishell *sh, char *arg)
 		free(key);
 	}
 	else
-		update_envar(sh, arg, "");
+		update_envar(sh, arg, NULL);
 }
 
 void	bi_export(t_minishell *sh, t_command *cmd)
