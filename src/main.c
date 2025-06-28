@@ -10,9 +10,8 @@ int	main(int c, char **v, char **envp)
 
 	(void)c;
 	(void)v;
-	
-	sh.envp = alloc_first_envar_arr(count_first_envar(envp));
-	if (!cp_first_envar_entries(sh.envp, envp, count_first_envar(envp)))
+	sh.envp = alloc_init_envar_arr(count_init_envar(envp));
+	if (!cpy_envar_entries(sh.envp, envp, count_init_envar(envp)))
 		return (1);
 	sh.exit_status = 0;
 	while (6)
