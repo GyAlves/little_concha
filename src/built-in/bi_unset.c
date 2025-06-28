@@ -7,11 +7,11 @@ static void	print_unset_err(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-static char	**create_envar_entry(t_minishell *sh)
+static char	**alloc_envar_arr(t_minishell *sh)
 {
 	int		count;
 	char	**new_envp;
-	
+
 	if (!sh->envp)
 		return (NULL); //não faz nada
 	count = ft_arrlen(sh->envp);
@@ -21,7 +21,7 @@ static char	**create_envar_entry(t_minishell *sh)
 	return (new_envp);
 }
 
-static int	copy_envar_excluding_key(char **dst, char **src, char *key)
+static int	cpy_envar_excluding_key(char **dst, char **src, char *key)
 {
 	int	i;
 	int	j;
@@ -50,10 +50,10 @@ static void	remove_envar(t_minishell *sh, char *key)
 {
 	char	**new_envp;
 
-	new_envp = create_envar_entry(sh);
+	new_envp = alloc_envar_arr(sh);
 	if (!new_envp)
 		return ;
-	if (!copy_envar_excluding_key(new_envp, sh->envp, key))
+	if (!cpy_envar_excluding_key(new_envp, sh->envp, key))
 	{
 		free_matrix(new_envp);
 		return ;
@@ -85,4 +85,3 @@ void	bi_unset(t_minishell *sh, t_command *cmd)
 		i++;
 	}
 }
-
