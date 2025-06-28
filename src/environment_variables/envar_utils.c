@@ -1,5 +1,41 @@
 #include "../../minishell.h"
 
+static int	is_valid_key(const char *key)
+{
+	int	i;
+
+	if (!key || !(ft_isalpha(key[0]) || key[0] == '_'))
+		return (0);
+	i = 1;
+	while (key[i])
+	{
+		if (!(ft_isalnum(key[i]) || key[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_valid_id(char *envar)
+{
+	int		valid;
+	char	*equal;
+	char	*key;
+
+	if (!envar)
+		return (0);
+	equal = ft_strchr(envar, '=');
+	if (equal)
+		key = ft_strndup(envar, equal - envar);
+	else
+		key = ft_strdup(envar);
+	if (!key)
+		return (0);
+	valid = is_valid_key(key);
+	free(key);
+	return (valid);
+}
+
 char	*find_envar(char **envp, char *key)
 {
 	int		i;
@@ -17,7 +53,29 @@ char	*find_envar(char **envp, char *key)
 	return (NULL);
 }
 
-char	*create_envar_entry(char *key, char *val) //can be used in export built-in
+int	cpy_envar_entries(char **new_envp, char **old_envp, int count)
+{
+	int		i;
+	char	*temp;
+
+	i = 0;
+	while (i < count)
+	{
+		temp = ft_strdup(old_envp[i]);
+		if (!temp)
+		{
+			while (i > 0)
+				free(new_envp[--i]);
+			free(new_envp);
+			return (0);
+		}
+		new_envp[i] = temp;
+		i++;
+	}
+	return (1);
+}
+
+char	*create_envar_entry(char *key, char *val)
 {
 	char	*temp;
 	char	*envar_entry;
@@ -30,56 +88,4 @@ char	*create_envar_entry(char *key, char *val) //can be used in export built-in
 	if (!envar_entry)
 		return (NULL);
 	return (envar_entry);
-}
-
-static void	sort_envp(char **envp, int count)
-{
-	int		i;
-	int		swapped;
-	char	*tmp;
-
-	swapped = 1;
-	while (swapped)
-	{
-		i = 0;
-		swapped = 0;
-		while (i < count - 1)
-		{
-			if (ft_strcmp(envp[i], envp[i + 1]) > 0)
-			{
-				tmp = envp[i];
-				envp[i] = envp[i + 1];
-				envp[i + 1] = tmp;
-				swapped = 1;
-			}
-			i++;
-		}
-	}
-}
-
-void	print_sorted_envar(t_minishell *sh)
-{
-	int 	i;
-	int		count;
-	char	**copy;
-
-	count = ft_arrlen(sh->envp);
-	copy = alloc_first_envar_arr(count);
-	if (!copy)
-		return ;
-	if (!cp_first_envar_entries(copy, sh->envp, count))
-	{
-		free_matrix(copy);
-		return ;
-	}
-	sort_envp(copy, count);
-	i = 0;
-	while (copy[i])
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(copy[i], 1);
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-	free_matrix(copy);
 }
