@@ -19,7 +19,7 @@ char	*expand_varriable(t_minishell *sh, char *str)
 		res = ft_strdup("");
 	if (!res)
 		return (NULL);
-		return (res);
+	return (res);
 }
 
 char	*replace_variables(t_minishell *sh, char *input)
