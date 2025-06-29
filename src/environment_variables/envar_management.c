@@ -83,3 +83,19 @@ void	update_envar(t_minishell *sh, char *key, char *val)
 	free_matrix(sh->envp);
 	sh->envp = new_envp;
 }
+
+void	free_minishell(t_minishell *sh)
+{
+	int	i;
+	if (!sh->envp)
+		return ;
+	i = 0;
+	while (sh->envp[i])
+	{
+		free(sh->envp[i]);
+		i++;
+	}
+	free(sh->envp);
+	sh->envp = NULL;
+	clear_history();
+}
