@@ -13,6 +13,24 @@ static int	handle_n_flag(char **args, int *index)
 	return (n_flag);
 }
 
+static void	print_echo_args(t_minishell *sh, char **args, int index)
+{
+	char	*expanded;
+
+	while (args[index])
+	{
+		expanded = replace_variables(sh, args[index]);
+		if (expanded)
+		{
+			ft_putstr_fd(expanded, 1);
+			free(expanded);
+		}
+		if (args[index + 1])
+			ft_putstr_fd(" ", 1);
+		index++;
+	}
+}
+
 void	bi_echo(t_minishell *sh, t_command *cmd)
 {
 	int	index;
@@ -20,13 +38,7 @@ void	bi_echo(t_minishell *sh, t_command *cmd)
 
 	index = 1;
 	n_flag = handle_n_flag(cmd->args, &index);
-	while (cmd->args[index])
-	{
-		write(1, cmd->args[index], ft_strlen(cmd->args[index]));
-		if (cmd->args[index + 1])
-			write(1, " ", 1);
-		index++;
-	}
+	print_echo_args(sh, cmd->args, index);
 	if (!n_flag)
 		write(1, "\n", 1);
 	sh->exit_status = 0;
