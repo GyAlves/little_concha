@@ -4,7 +4,7 @@ static void	print_cd_no_file_nor_dir(char *path)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	if (path)
-		write(2, path, ft_strlen(path));
+		ft_putstr_fd(path, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
