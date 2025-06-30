@@ -6,7 +6,7 @@ void	bi_env(t_minishell *sh, t_command *cmd)
 
 	if (cmd->args[1])
 	{
-		ft_putstr_fd("minihsell: env: too many arguments\n", 2);
+		ft_putstr_fd("minishell: env: too many arguments\n", 2);
 		sh->exit_status = 1;
 		return ;
 	}
