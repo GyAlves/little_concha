@@ -53,6 +53,7 @@ void	print_envar(char **envp);
 // src/environment_variables/envar_management
 char	*find_envar(char **envp, char *key);
 void	update_envar(t_minishell *sh, char *key, char *val);
+void	free_minishell(t_minishell *sh);
 // src/environment_variables/envar_utils
 int		is_valid_id(char *envar);
 char	*find_envar(char **envp, char *key);
