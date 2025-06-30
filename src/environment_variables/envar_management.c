@@ -87,6 +87,7 @@ void	update_envar(t_minishell *sh, char *key, char *val)
 void	free_minishell(t_minishell *sh)
 {
 	int	i;
+
 	if (!sh->envp)
 		return ;
 	i = 0;

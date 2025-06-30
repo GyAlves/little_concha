@@ -28,6 +28,7 @@ char	*expand_varriable(t_minishell *sh, char *str)
 char	*replace_variables(t_minishell *sh, char *input)
 {
 	char	*res;
+
 	res = expand_varriable(sh, input);
 	return (res);
 }

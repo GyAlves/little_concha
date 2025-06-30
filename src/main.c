@@ -27,7 +27,7 @@ int	main(int c, char **v, char **envp)
 		free (prompt);
 		if (status == -1)
 		{
-			free_minishell(&sh);	
+			free_minishell(&sh);
 			return (sh.exit_status);
 		}
 	}
