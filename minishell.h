@@ -63,6 +63,11 @@ char	*create_envar_entry(char *key, char *val);
 int		count_init_envar(char **envp);
 char	**alloc_init_envar_arr(int count);
 
+// src/parser_n_lexer
+// src/parser_n_lexer/parser_n_lexer
+char	**lexer(char *input);
+int		parse_cmd(t_minishell *sh, t_command *cmd, char **args);
+
 // src/utils
 // src/utils/cleanup_n_exit
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
@@ -74,6 +79,7 @@ int		init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
 char	*expand_varriable(t_minishell *sh, char *str);
 char	*replace_variables(t_minishell *sh, char *input);
 
+// src/
 // src/commands
 void	exec_cmd(t_minishell *sh, t_command *cmd);
 // src/environment_var
