@@ -14,7 +14,10 @@ char	*expand_varriable(t_minishell *sh, char *str)
 	key = str + 1;
 	val = find_envar(sh->envp, key);
 	if (val)
+	{
+		val = ft_strchr(val, '=') + 1;
 		res = ft_strdup(val);
+	}
 	else
 		res = ft_strdup("");
 	if (!res)
