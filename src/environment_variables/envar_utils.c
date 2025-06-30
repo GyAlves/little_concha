@@ -39,14 +39,12 @@ int	is_valid_id(char *envar)
 char	*find_envar(char **envp, char *key)
 {
 	int		i;
-	size_t	len;
 
 	i = 0;
-	len = ft_strlen(key);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0 \
-		&& envp[i][len] == '=')
+		&& envp[i][ft_strlen(key)] == '=')
 			return (envp[i]);
 		i++;
 	}
