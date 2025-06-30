@@ -18,12 +18,19 @@ int	main(int c, char **v, char **envp)
 	{
 		args = read_input(&prompt);
 		if (!args)
+		{
+			free_minishell(&sh);
 			break ;
+		}
 		status = init_n_exc_cmd(&sh, &cmd, args, prompt);
 		free_matrix(args);
 		free (prompt);
 		if (status == -1)
+		{
+			free_minishell(&sh);	
 			return (sh.exit_status);
+		}
 	}
+	free_minishell(&sh);
 	return (sh.exit_status);
 }
