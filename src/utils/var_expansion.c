@@ -12,6 +12,11 @@ char	*expand_varriable(t_minishell *sh, char *str)
 		return (res);
 	}
 	key = str + 1;
+	if (ft_strcmp(key, "?") == 0)
+	{
+		res = ft_itoa(sh->exit_status);
+		return (res);
+	}
 	val = find_envar(sh->envp, key);
 	if (val)
 	{
