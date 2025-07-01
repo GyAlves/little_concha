@@ -11,6 +11,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct s_redirect
+{
+	char	*type; // ">", "<", ">>", "<<"
+	char	*filename;
+}			t_redirect;
+
 typedef struct s_command
 {
 	char	**args; //{"echo", "hello, world", NULL}
