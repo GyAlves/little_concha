@@ -19,12 +19,13 @@ typedef struct s_redirect
 
 typedef struct s_command
 {
-	char	**args; //{"echo", "hello, world", NULL}
-	char	*input_file;  // <
-	char	*output_file; // >
-	char	*delimiter;    // <<
-	int		append;       // >>
-	int		piped;        // |
+	char		**args; //{"echo", "hello, world", NULL}
+	char		*input_file;  // <
+	char		*output_file; // >
+	t_redirect	*redirects;
+	char		*delimiter;    // <<
+	int			append;       // >>
+	int			piped;        // |
 }			t_command;
 
 typedef struct s_minishell
