@@ -1,39 +1,42 @@
 #include "../../minishell.h"
 
-char	*expand_varriable(t_minishell *sh, char *str)
+static char	*expand_status_exit(t_minishell *sh)
 {
-	char	*key;
-	char	*val;
-	char	*res;
+	return (ft_itoa(sh->exit_status));
+}
 
-	if (str[0] != '$')
-	{
-		res = ft_strdup(str);
-		return (res);
-	}
-	key = str + 1;
-	if (ft_strcmp(key, "?") == 0)
-	{
-		res = ft_itoa(sh->exit_status);
-		return (res);
-	}
-	val = find_envar(sh->envp, key);
-	if (val)
-	{
-		val = ft_strchr(val, '=') + 1;
-		res = ft_strdup(val);
-	}
-	else
-		res = ft_strdup("");
-	if (!res)
+static char	*expand_envar(t_minishell *sh, char *key)
+{
+	char	*envar_entry;
+	char	*val;
+
+	envar_entry = find_envar(sh->envp, key);
+	if (!envar_entry)
+		return (ft_strdup(""));
+	val = ft_strchr(envar_entry, '=');
+	if (!val || *(val + 1) == '\0')
+		return (ft_strdup(""));
+	return (ft_strdup(val + 1));
+}
+
+char	*expand_variable(t_minishell *sh, char *str)
+{
+	if (!str)
 		return (NULL);
-	return (res);
+	if (str[0] != '$')
+		return (ft_strdup(str));
+	str++;
+	if (!str[0])
+		return (ft_strdup(""));
+	if (ft_strcmp(str, "?") == 0)
+		return (expand_status_exit(sh));
+	return (expand_envar(sh, str));
 }
 
 char	*replace_variables(t_minishell *sh, char *input)
 {
 	char	*res;
 
-	res = expand_varriable(sh, input);
+	res = expand_variable(sh, input);
 	return (res);
 }
