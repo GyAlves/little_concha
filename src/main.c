@@ -2,31 +2,43 @@
 
 int	main(int c, char **v, char **envp)
 {
-	t_minishell	ms;
+	t_minishell	sh;
 	t_command	cmd;
 	char		*prompt;
 	char		**args;
-	c = 0;
-	v = NULL;
-	ms.envp = envp;
-	ms.exit_status = 0;
+	int			status;
+
+	(void)c;
+	(void)v;
+	sh.envp = alloc_init_envar_arr(count_init_envar(envp));
+	if (!cpy_envar_entries(sh.envp, envp, count_init_envar(envp)))
+		return (1);
+	sh.exit_status = 0;
 	while (6)
 	{
+<<<<<<< HEAD
 		prompt = readline("type> ");
 		if (!prompt)
 			break ;
 		add_history(prompt);
 		args = ft_split(prompt, ' ');
+=======
+		args = read_input(&prompt);
+>>>>>>> built_in
 		if (!args)
-			continue ;
-		cmd.args = args;
-		cmd.input_file = NULL;
-		cmd.output_file = NULL;
-		cmd.piped = 0;
-		cmd.append = 0;
-		exec_cmd(&ms, &cmd);
+		{
+			free_minishell(&sh);
+			break ;
+		}
+		status = init_n_exc_cmd(&sh, &cmd, args, prompt);
 		free_matrix(args);
 		free (prompt);
+		if (status == -1)
+		{
+			free_minishell(&sh);
+			return (sh.exit_status);
+		}
 	}
-	return (0);
+	free_minishell(&sh);
+	return (sh.exit_status);
 }
