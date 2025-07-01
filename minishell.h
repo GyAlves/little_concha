@@ -76,7 +76,7 @@ char	**read_input(char **prompt);
 int		init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
 		char **args, char *prompt);
 // src/utils/var_expansion
-char	*expand_varriable(t_minishell *sh, char *str);
+char	*expand_variable(t_minishell *sh, char *str);
 char	*replace_variables(t_minishell *sh, char *input);
 
 // src/
@@ -93,6 +93,7 @@ int		ft_isalnum(int c);
 bool	check_args(char *arg);
 size_t	ft_strlen(const char *s);
 size_t	ft_arrlen(char **arr);
+char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
