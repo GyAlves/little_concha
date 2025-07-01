@@ -16,15 +16,7 @@ int	main(int c, char **v, char **envp)
 	sh.exit_status = 0;
 	while (6)
 	{
-<<<<<<< HEAD
-		prompt = readline("type> ");
-		if (!prompt)
-			break ;
-		add_history(prompt);
-		args = ft_split(prompt, ' ');
-=======
 		args = read_input(&prompt);
->>>>>>> built_in
 		if (!args)
 		{
 			free_minishell(&sh);
