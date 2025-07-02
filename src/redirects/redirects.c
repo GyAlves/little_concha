@@ -10,7 +10,7 @@ static char	**remove_redir(char **args, int *n_count)
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0)
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
 			i += 2;
 		else
 		{
@@ -25,7 +25,7 @@ static char	**remove_redir(char **args, int *n_count)
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0)
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
 			i += 2;
 		else
 		{
@@ -51,7 +51,7 @@ int	parse_redir(t_command *cmd, char **args)
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0)
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
 			count++;
 		i++;
 	}
@@ -64,11 +64,11 @@ int	parse_redir(t_command *cmd, char **args)
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0)
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
 		{
 			if (!args[i + 1])
 				return (0); //without files
-			redir[count].type = ft_strdup(">");
+			redir[count].type = ft_strdup(args[i]);
 			redir[count].filename = ft_strdup(args[i + 1]);
 			if (!redir[count].type || !redir[count].filename)
 				return (0); // alloc err
@@ -90,12 +90,17 @@ int	apply_redir(t_redirect *redir)
 	int	fd;
 
 	if (ft_strcmp(redir->type, ">") == 0)
-		fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (ft_strcmp(redir->type, "<") == 0)
+		fd = open(redir->filename, O_RDONLY);
 	else
 		return (0);
 	if (fd < 0)
 		return (0);
-	dup2(fd, STDOUT_FILENO);
+	if (ft_strcmp(redir->type, "<") == 0)
+		dup2(fd, STDIN_FILENO);
+	else
+		dup2(fd, STDOUT_FILENO);
 	close (fd);
 	return (1);
 }
