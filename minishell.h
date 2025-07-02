@@ -62,7 +62,6 @@ void	print_envar(char **envp);
 // src/environment_variables/envar_management.c
 char	*find_envar(char **envp, char *key);
 void	update_envar(t_minishell *sh, char *key, char *val);
-void	free_minishell(t_minishell *sh);
 // src/environment_variables/envar_utils.c
 int		is_valid_id(char *envar);
 char	*find_envar(char **envp, char *key);
@@ -83,8 +82,11 @@ int		parse_redir(t_command *cmd, char **args);
 int		apply_redir(t_redirect *redir);
 
 // src/utils
-// src/utils/cleanup_n_exit.c
+// src/utils/free_utils.c
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
+void	free_matrix(char **matrix);
+void	free_minishell(t_minishell *sh);
+void	free_cmd_struct(t_command *cmd);
 // src/utils/shell_utils.c
 char	**read_input(char **prompt);
 int		init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
@@ -121,6 +123,5 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *str, char separator);
-void	free_matrix(char **matrix);
 
 #endif
