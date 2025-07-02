@@ -1,9 +1,50 @@
 #include "../../minishell.h"
 
+static char	**remove_redir(char **args, int *n_count)
+{
+	char	**n_args;
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], ">") == 0)
+			i += 2;
+		else
+		{
+			count++;
+			i++;
+		}
+	}
+	n_args = ft_calloc(count + 1, sizeof(char *));
+	if (!n_args)
+		return (NULL);
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], ">") == 0)
+			i += 2;
+		else
+		{
+			n_args[count] = ft_strdup(args[i]);
+			if (!n_args[count])
+				return (NULL);
+			count++;
+			i++;
+		}
+	}
+	*n_count = count;
+	return(n_args);
+}
+
 int	parse_redir(t_command *cmd, char **args)
 {
 	int			i;
 	int			count;
+	char		**n_args;
 	t_redirect	*redir;
 
 	i = 0;
@@ -37,6 +78,10 @@ int	parse_redir(t_command *cmd, char **args)
 		else
 			i++;
 	}
+	n_args = remove_redir(args, &i);
+	if (!n_args)
+		return (0);
+	cmd->args = n_args;
 	return (1);
 }
 
@@ -45,7 +90,7 @@ int	apply_redir(t_redirect *redir)
 	int	fd;
 
 	if (ft_strcmp(redir->type, ">") == 0)
-		fd = open(redir->filename, O_WRONLY | O_CREAT);
+		fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC);
 	else
 		return (0);
 	if (fd < 0)
