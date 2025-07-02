@@ -23,5 +23,11 @@ int	parse_cmd(t_minishell *sh, t_command *cmd, char **args)
 	cmd->delimiter = NULL;
 	cmd->piped = 0;
 	cmd->append = 0;
+	cmd->redirects = NULL;
+	cmd->redir_count = 0;
+	if (!args || ! args[0])
+		return (0);
+	if (!parse_redir(cmd, args))
+		return (0);
 	return (1);
 }
