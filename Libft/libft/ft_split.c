@@ -25,23 +25,6 @@ static int	count_words(const char *str, char separator)
 	return (count);
 }
 
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	if (!matrix)
-		return ;
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i++;
-	}
-	free(matrix);
-	matrix = NULL;
-}
-
 static int	free_memory(char ***str_list, int allocated)
 {
 	int	index;
