@@ -12,9 +12,20 @@ char	**read_input(char **prompt)
 int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 {
 	int	status;
+	int	i;
 
 	if (!parse_cmd(sh, cmd, args))
 		return (1);
+	i = 0;
+	while (i < cmd->redir_count)
+	{
+		if (!apply_redir(&cmd->redirects[i]))
+		{
+			sh->exit_status = 1;
+			return (1);
+		}
+		i++;
+	}
 	if (is_builtin(cmd))
 		status = dispatch_builtin(sh, cmd, prompt);
 	else
