@@ -100,3 +100,30 @@ void	free_minishell(t_minishell *sh)
 	sh->envp = NULL;
 	clear_history();
 }
+
+void	free_cmd_struct(t_command *cmd)
+{
+	int	i;
+
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			i++;
+		}
+		free(cmd->args);
+	}
+	if (cmd->redirects)
+	{
+		i = 0;
+		while (i < cmd->redir_count)
+		{
+			free(cmd->redirects[i].type);
+			free(cmd->redirects[i].filename);
+			i++;
+		}
+		free(cmd->redirects);
+	}
+}
