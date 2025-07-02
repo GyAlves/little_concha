@@ -8,6 +8,7 @@
 # include <stddef.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -23,6 +24,7 @@ typedef struct s_command
 	char		*input_file;  // <
 	char		*output_file; // >
 	t_redirect	*redirects;
+	int			redir_count;
 	char		*delimiter;    // <<
 	int			append;       // >>
 	int			piped;        // |
@@ -35,66 +37,71 @@ typedef struct s_minishell
 }			t_minishell;
 
 // src/built-in
-// src/built-in/bi_cd
+// src/built-in/bi_cd.c
 void	bi_cd(t_minishell *sh, t_command *cmd);
-// src/built-in/bi_echo
+// src/built-in/bi_echo.c
 void	bi_echo(t_minishell *sh, t_command *cmd);
-// src/built-in/bi_env
+// src/built-in/bi_env.c
 void	bi_env(t_minishell *sh, t_command *cmd);
-// src/built-in/bi_exit
+// src/built-in/bi_exit.c
 void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt);
-// src/built-in/bi_export
+// src/built-in/bi_export.c
 void	bi_export(t_minishell *sh, t_command *cmd);
-// src/built-in/bi_pwd
+// src/built-in/bi_pwd.c
 void	bi_pwd(t_minishell *sh);
-// src/built-in/bi_unset
+// src/built-in/bi_unset.c
 void	bi_unset(t_minishell *sh, t_command *cmd);
-// src/built-in/dispatch_builtin
+// src/built-in/dispatch_builtin.c
 int		is_builtin(t_command *cmd);
 int		dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt);
 
 // src/environment_variables
-// src/environment_variables/cpy_n_sort_envar
+// src/environment_variables/cpy_n_sort_envar.c
 char	**cpy_and_sort_envar(t_minishell *sh);
 void	print_envar(char **envp);
-// src/environment_variables/envar_management
+// src/environment_variables/envar_management.c
 char	*find_envar(char **envp, char *key);
 void	update_envar(t_minishell *sh, char *key, char *val);
 void	free_minishell(t_minishell *sh);
-// src/environment_variables/envar_utils
+// src/environment_variables/envar_utils.c
 int		is_valid_id(char *envar);
 char	*find_envar(char **envp, char *key);
 int		cpy_envar_entries(char **new_envp, char **old_envp, int count);
 char	*create_envar_entry(char *key, char *val);
-// src/environment_variables/first_cpy_env_utils
+// src/environment_variables/first_cpy_env_utils.c
 int		count_init_envar(char **envp);
 char	**alloc_init_envar_arr(int count);
 
 // src/parser_n_lexer
-// src/parser_n_lexer/parser_n_lexer
+// src/parser_n_lexer/parser_n_lexer.c
 char	**lexer(char *input);
 int		parse_cmd(t_minishell *sh, t_command *cmd, char **args);
 
+// src/redirects
+// src/redirects/redirects.c
+int		parse_redir(t_command *cmd, char **args);
+int		apply_redir(t_redirect *redir);
+
 // src/utils
-// src/utils/cleanup_n_exit
+// src/utils/cleanup_n_exit.c
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
-// src/utils/shell_utils
+// src/utils/shell_utils.c
 char	**read_input(char **prompt);
 int		init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
 		char **args, char *prompt);
-// src/utils/var_expansion
+// src/utils/var_expansion.c
 char	*expand_variable(t_minishell *sh, char *str);
 char	*replace_variables(t_minishell *sh, char *input);
 
 // src/
-// src/commands
+// src/commands.c
 void	exec_cmd(t_minishell *sh, t_command *cmd);
-// src/environment_var
+// src/environment_var.c
 char	**get_envar_path(void);
-// src/path
+// src/path.c
 char	*set_path(char *cmd);
 
-// Libft/libft
+// Libft/libft.c
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 bool	check_args(char *arg);
