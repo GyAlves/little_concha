@@ -79,7 +79,7 @@ int		parse_cmd(t_minishell *sh, t_command *cmd, char **args);
 // src/redirects
 // src/redirects/redirects.c
 int		parse_redir(t_command *cmd, char **args);
-int		apply_redir(t_redirect *redir);
+int 	apply_redir(t_redirect *redir);
 
 // src/utils
 // src/utils/free_utils.c
