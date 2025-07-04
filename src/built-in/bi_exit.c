@@ -27,4 +27,5 @@ void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
 		}
 		sh->exit_status = ft_atoi(cmd->args[1]);
 	}
+	cleanup_n_exit(sh, cmd, prompt);
 }
