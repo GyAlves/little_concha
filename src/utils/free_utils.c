@@ -2,17 +2,11 @@
 
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {
-	if (cmd)
-	{
-		if (cmd->args)
-			free_matrix(cmd->args);
-	}
+	free_cmd_struct(cmd);
 	if (prompt)
 		free(prompt);
-	if (sh)
-		exit(sh->exit_status);
-	else
-		exit (1);
+	free_minishell(sh);
+	exit(sh->exit_status);
 }
 
 void	free_matrix(char **matrix)
