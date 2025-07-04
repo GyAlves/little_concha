@@ -40,7 +40,7 @@ static char	**remove_redir(char **args, int *n_count)
 		}
 	}
 	*n_count = count;
-	return(n_args);
+	return (n_args);
 }
 
 int	parse_redir(t_command *cmd, char **args)
@@ -92,31 +92,19 @@ int	parse_redir(t_command *cmd, char **args)
 int	apply_redir(t_redirect *redir)
 {
 	int	fd;
-	int	std_save;
 
 	if (ft_strcmp(redir->type, ">") == 0)
-	{
 		fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		std_save = dup(STDOUT_FILENO);
-	}
 	else if (ft_strcmp(redir->type, "<") == 0)
-	{
 		fd = open(redir->filename, O_RDONLY);
-		std_save = dup(STDIN_FILENO);
-	}
 	else
 		return (0);
-	if (fd < 0 || std_save < 0)
+	if (fd < 0)
 		return (0);
 	if (ft_strcmp(redir->type, "<") == 0)
 		dup2(fd, STDIN_FILENO);
 	else
 		dup2(fd, STDOUT_FILENO);
 	close(fd);
-	if (ft_strcmp(redir->type, "<") == 0)
-		dup2(std_save, STDIN_FILENO);
-	else
-		dup2(std_save, STDOUT_FILENO);
-	close(std_save);
 	return (1);
 }
