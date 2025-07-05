@@ -78,20 +78,11 @@ static int	count_redirs(char **args)
 	return (count);
 }
 
-
-
-int	parse_redir(t_command *cmd, char **args)
+static int	fill_redirs(t_command *cmd, char **args)
 {
-	int				i;
-	int				count;
-	char			**n_args;
-	t_redirect		*redir;
+	int			i;
+	int			count;
 
-	cmd->redir_count = count_redirs(args);
-	redir = ft_calloc(cmd->redir_count + 1, sizeof(t_redirect));
-	if (!redir)
-		return (0);
-	cmd->redirects = redir;
 	i = 0;
 	count = 0;
 	while (args[i])
@@ -100,11 +91,11 @@ int	parse_redir(t_command *cmd, char **args)
 		{
 			if (!args[i + 1])
 				return (0);
-			redir[count].type = get_redir_type(args[i]);
-			if (redir[count].type == INVALID)
+			cmd->redirects[count].type = get_redir_type(args[i]);
+			if (cmd->redirects[count].type == INVALID)
 				return (0);
-			redir[count].filename = ft_strdup(args[i + 1]);
-			if (!redir[count].filename)
+			cmd->redirects[count].filename = ft_strdup(args[i + 1]);
+			if (!cmd->redirects[count].filename)
 				return (0);
 			count++;
 			i += 2;
@@ -112,9 +103,29 @@ int	parse_redir(t_command *cmd, char **args)
 		else
 			i++;
 	}
-	n_args = filter_n_rm_redir(args, &i);
-	if (!n_args)
+	return (1);
+}
+
+int	parse_redir(t_command *cmd, char **args)
+{
+	int				n_count;
+	char			**n_args;
+
+	cmd->redir_count = count_redirs(args);
+	cmd->redirects = ft_calloc(cmd->redir_count + 1, sizeof(t_redirect));
+	if (!cmd->redirects)
 		return (0);
+	if (!fill_redirs(cmd, args))
+	{
+		free(cmd->redirects);
+		return (0);
+	}
+	n_args = filter_n_rm_redir(args, &n_count);
+	if (!n_args)
+	{
+		free(cmd->redirects);
+		return (0);
+	}
 	free_matrix(args);
 	cmd->args = n_args;
 	return (1);
