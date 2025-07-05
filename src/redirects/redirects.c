@@ -78,6 +78,8 @@ static int	count_redirs(char **args)
 	return (count);
 }
 
+
+
 int	parse_redir(t_command *cmd, char **args)
 {
 	int				i;
