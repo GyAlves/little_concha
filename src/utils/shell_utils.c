@@ -9,42 +9,24 @@ char	**read_input(char **prompt)
 	return (lexer(*prompt));
 }
 
-static void	restore_std(int in, int out)
-{
-	if (in != -1)
-	{
-		dup2(in, STDIN_FILENO);
-		close(in);
-	}
-	if (out != -1)
-	{
-		dup2(out, STDOUT_FILENO);
-		close(out);
-	}
-}
-
 int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 {
-	int	i;
-	int	status;
-	int	std_in_save;
-	int	std_out_save;
+	int			i;
+	int			status;
+	t_std_redir	backup;
 
-	std_in_save = -1;
-	std_out_save = -1;
+	backup.in = -1;
+	backup.out = -1;
 	if (!parse_n_init_cmd(sh, cmd, args))
 		return (1);
 	i = 0;
 	while (i < cmd->redir_count)
 	{
-		if (ft_strcmp(cmd->redirects[i].type, "<") == 0 && std_in_save == -1)
-			std_in_save = dup(STDIN_FILENO);
-		else if (ft_strcmp(cmd->redirects[i].type, ">") == 0 && \
-			std_out_save == -1)
-			std_out_save = dup(STDOUT_FILENO);
+		save_std_backup(&backup, &cmd->redirects[i]);
 		if (!apply_redir(&cmd->redirects[i]))
 		{
 			sh->exit_status = 1;
+			restore_std_backup(&backup);
 			return (1);
 		}
 		i++;
@@ -56,6 +38,6 @@ int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 		exec_cmd(sh, cmd);
 		status = sh->exit_status;
 	}
-	restore_std(std_in_save, std_out_save);
+	restore_std_backup(&backup);
 	return (status);
 }
