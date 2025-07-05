@@ -44,8 +44,8 @@ void	free_cmd_struct(t_command *cmd)
 		i = 0;
 		while (i < cmd->redir_count)
 		{
-			free(cmd->redirects[i].type);
-			free(cmd->redirects[i].filename);
+			if (cmd->redirects[i].filename)
+				free(cmd->redirects[i].filename);
 			i++;
 		}
 		free(cmd->redirects);
