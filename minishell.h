@@ -12,10 +12,18 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef enum e_redir_type
+{
+	R_IN,
+	R_OUT,
+	HEREDOCK,
+	APPEND
+}			t_redir_type;
+
 typedef struct s_redirect
 {
-	char	*type; // ">", "<", ">>", "<<"
-	char	*filename;
+	t_redir_type	type;
+	char			*filename;
 }			t_redirect;
 
 typedef struct s_command
