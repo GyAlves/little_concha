@@ -32,7 +32,7 @@ int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 
 	std_in_save = -1;
 	std_out_save = -1;
-	if (!parse_cmd(sh, cmd, args))
+	if (!parse_n_init_cmd(sh, cmd, args))
 		return (1);
 	i = 0;
 	while (i < cmd->redir_count)
