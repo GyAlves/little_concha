@@ -14,11 +14,18 @@
 
 typedef enum e_redir_type
 {
+	INVALID,
 	R_IN,
 	R_OUT,
-	HEREDOCK,
+	HEREDOC,
 	APPEND
 }			t_redir_type;
+
+typedef struct s_std_redir
+{
+	int	in;
+	int	out;
+}			t_std_redir;
 
 typedef struct s_redirect
 {
@@ -29,12 +36,8 @@ typedef struct s_redirect
 typedef struct s_command
 {
 	char		**args;
-	char		*input_file;
-	char		*output_file;
 	t_redirect	*redirects;
 	int			redir_count;
-	char		*delimiter;
-	int			append;
 	int			piped;
 }			t_command;
 
@@ -82,7 +85,7 @@ char	**alloc_init_envar_arr(int count);
 // src/parser_n_lexer
 // src/parser_n_lexer/parser_n_lexer.c
 char	**lexer(char *input);
-int		parse_cmd(t_minishell *sh, t_command *cmd, char **args);
+int		parse_n_init_cmd(t_minishell *sh, t_command *cmd, char **args);
 
 // src/redirects
 // src/redirects/redirects.c
