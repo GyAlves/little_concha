@@ -13,11 +13,11 @@ static char	**alloc_envar_arr(t_minishell *sh)
 	char	**new_envp;
 
 	if (!sh->envp)
-		return (NULL); //não faz nada
+		return (NULL);
 	count = ft_arrlen(sh->envp);
 	if (count <= 0)
 		return (NULL);
-	new_envp = ft_calloc(count, sizeof(char *)); //cria um novo array
+	new_envp = ft_calloc(count, sizeof(char *));
 	return (new_envp);
 }
 

@@ -12,13 +12,13 @@ static void	exec_child(t_minishell *sh, t_command *cmd)
 	char	*path;
 
 	path = set_path(cmd->args[0]);
-	if (!path) //if no path is found
+	if (!path)
 	{
 		print_cmd_err(cmd->args[0]);
 		exit(127);
 	}
 	cmd->args[0] = path;
-	execve(path, cmd->args, sh->envp); //if path is found
+	execve(path, cmd->args, sh->envp);
 	perror("minishell");
 	if (path != cmd->args[0])
 		free(path);

@@ -51,7 +51,7 @@ static char	*build_and_check_path(char *cmd, char *path_dir)
 	if (!full_path)
 		return (NULL);
 	if (access(full_path, X_OK) == 0)
-		return (full_path); //cmd found and is executable
+		return (full_path);
 	free(full_path);
 	return (NULL);
 }
@@ -62,7 +62,7 @@ static char	*search_in_paths(char *cmd)
 	char	*full_path;
 	char	**path;
 
-	path = get_envar_path(); //simple cmd without '/', to find the folder in PATH
+	path = get_envar_path();
 	if (!path)
 		return (NULL);
 	i = 0;
@@ -77,16 +77,16 @@ static char	*search_in_paths(char *cmd)
 		i++;
 	}
 	free_matrix(path);
-	return (NULL); //no path found
+	return (NULL);
 }
 
 char	*set_path(char *cmd)
 {
-	if (ft_strchr(cmd, '/')) //could be absolute or relative
+	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
-			return (cmd); //is executable
-		return (NULL); //exists but is not executable
+			return (cmd);
+		return (NULL);
 	}
 	return (search_in_paths(cmd));
 }
