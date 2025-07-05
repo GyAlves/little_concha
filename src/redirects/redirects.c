@@ -45,16 +45,16 @@ static char	**remove_redir(char **args, int *n_count)
 
 int	parse_redir(t_command *cmd, char **args)
 {
-	int			i;
-	int			count;
-	char		**n_args;
-	t_redirect	*redir;
+	int				i;
+	int				count;
+	char			**n_args;
+	t_redirect		*redir;
 
 	i = 0;
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
+		if (args[i][0] == '>' || args[i][0] == '<')
 			count++;
 		i++;
 	}
@@ -67,13 +67,15 @@ int	parse_redir(t_command *cmd, char **args)
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
+		if (args[i][0] == '>' || args[i][0] == '<')
 		{
 			if (!args[i + 1])
 				return (0);
-			redir[count].type = ft_strdup(args[i]);
+			redir[count].type = get_redir_type(args[i]);
+			if (redir[count].type == INVALID)
+				return (0);
 			redir[count].filename = ft_strdup(args[i + 1]);
-			if (!redir[count].type || !redir[count].filename)
+			if (!redir[count].filename)
 				return (0);
 			count++;
 			i += 2;
