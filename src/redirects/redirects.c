@@ -1,8 +1,7 @@
 #include "../../minishell.h"
 
-static char	**remove_redir(char **args, int *n_count)
+static int	count_cmd_args(char **args)
 {
-	char	**n_args;
 	int		i;
 	int		count;
 
@@ -10,7 +9,7 @@ static char	**remove_redir(char **args, int *n_count)
 	count = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
+		if (get_redir_type(args[i]) != INVALID)
 			i += 2;
 		else
 		{
@@ -18,29 +17,65 @@ static char	**remove_redir(char **args, int *n_count)
 			i++;
 		}
 	}
-	n_args = ft_calloc(count + 1, sizeof(char *));
-	if (!n_args)
-		return (NULL);
+	return (count);
+}
+
+static char	**cpy_cmd_args(char **args, char **n_args)
+{
+	int		i;
+	int		j;
+
 	i = 0;
-	count = 0;
+	j = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
+		if (get_redir_type(args[i]) != INVALID)
 			i += 2;
 		else
 		{
-			n_args[count] = ft_strdup(args[i]);
-			if (!n_args[count])
+			n_args[j] = ft_strdup(args[i]);
+			if (!n_args[j])
 			{
 				free_matrix(n_args);
 				return (NULL);
 			}
-			count++;
 			i++;
+			j++;
 		}
 	}
-	*n_count = count;
 	return (n_args);
+}
+
+static char	**filter_n_rm_redir(char **args, int *n_count)
+{
+	char	**n_args;
+
+	*n_count = count_cmd_args(args);
+	n_args = ft_calloc(*n_count + 1, sizeof(char *));
+	if (!n_args)
+		return (NULL);
+	n_args = cpy_cmd_args(args, n_args);
+	return (n_args);
+}
+
+static int	count_redirs(char **args)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		if (get_redir_type(args[i]) != INVALID)
+		{
+			count++;
+			i += 2;
+		}
+		else
+			i++;
+	}
+	return (count);
 }
 
 int	parse_redir(t_command *cmd, char **args)
@@ -50,24 +85,16 @@ int	parse_redir(t_command *cmd, char **args)
 	char			**n_args;
 	t_redirect		*redir;
 
-	i = 0;
-	count = 0;
-	while (args[i])
-	{
-		if (args[i][0] == '>' || args[i][0] == '<')
-			count++;
-		i++;
-	}
-	redir = ft_calloc(count + 1, sizeof(t_redirect));
+	cmd->redir_count = count_redirs(args);
+	redir = ft_calloc(cmd->redir_count + 1, sizeof(t_redirect));
 	if (!redir)
 		return (0);
 	cmd->redirects = redir;
-	cmd->redir_count = count;
 	i = 0;
 	count = 0;
 	while (args[i])
 	{
-		if (args[i][0] == '>' || args[i][0] == '<')
+		if (get_redir_type(args[i]) != INVALID)
 		{
 			if (!args[i + 1])
 				return (0);
@@ -83,7 +110,7 @@ int	parse_redir(t_command *cmd, char **args)
 		else
 			i++;
 	}
-	n_args = remove_redir(args, &i);
+	n_args = filter_n_rm_redir(args, &i);
 	if (!n_args)
 		return (0);
 	free_matrix(args);
