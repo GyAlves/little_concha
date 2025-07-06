@@ -102,6 +102,10 @@ void			cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
 void			free_matrix(char **matrix);
 void			free_minishell(t_minishell *sh);
 void			free_cmd_struct(t_command *cmd);
+// src/utils/redir_utils.c
+char			**filter_n_rm_redir(char **args, int *n_count);
+int				count_redirs(char **args);
+int				fill_redirs(t_command *cmd, char **args);
 // src/utils/shell_utils.c
 char			**read_input(char **prompt);
 int				init_n_exc_cmd(t_minishell *sh, t_command *cmd, \
