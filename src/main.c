@@ -12,30 +12,38 @@
 
 #include "../minishell.h"
 
+static int	init_minishell(t_minishell *sh, char **envp)
+{
+	sh->envp = alloc_init_envar_arr(count_init_envar(envp));
+	if (!sh->envp)
+		return (0);
+	cpy_envar_entries(sh->envp, envp, count_init_envar(envp));
+	sh->exit_status = 0;
+	return (1);
+}
+
 int	main(int c, char **v, char **envp)
 {
 	t_minishell	sh;
 	t_command	cmd;
 	char		*prompt;
 	char		**args;
-	int			status;
 
 	(void)c;
 	(void)v;
-	sh.envp = alloc_init_envar_arr(count_init_envar(envp));
-	if (!sh.envp)
+	if (!init_minishell(&sh, envp))
 		return (1);
-	cpy_envar_entries(sh.envp, envp, count_init_envar(envp));
-	sh.exit_status = 0;
 	while (6)
 	{
 		args = read_input(&prompt);
 		if (!args)
-			break ;
-		status = init_n_exc_cmd(&sh, &cmd, args, prompt);
+			continue ;
+		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt);
 		free_cmd_struct(&cmd);
 		free (prompt);
+		if (sh.exit_status == 111)
+			break ;
 	}
 	free_minishell(&sh);
-	return (status);
+	return (sh.exit_status);
 }
