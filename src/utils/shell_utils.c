@@ -9,16 +9,11 @@ char	**read_input(char **prompt)
 	return (lexer(*prompt));
 }
 
-int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
+static int	handle_redir_in_exc(t_minishell \
+	*sh, t_command *cmd, t_std_redir *backup)
 {
-	int			i;
-	int			status;
-	t_std_redir	backup;
+	int	i;
 
-	backup.in = -1;
-	backup.out = -1;
-	if (!parse_n_init_cmd(sh, cmd, args))
-		return (1);
 	i = 0;
 	while (i < cmd->redir_count)
 	{
@@ -27,10 +22,24 @@ int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 		{
 			sh->exit_status = 1;
 			restore_std_backup(&backup);
-			return (1);
+			return (0);
 		}
 		i++;
 	}
+	return (1);
+}
+
+int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
+{
+	int			status;
+	t_std_redir	backup;
+
+	backup.in = -1;
+	backup.out = -1;
+	if (!parse_n_init_cmd(sh, cmd, args))
+		return (1);
+	if (!handle_redir_in_exc(sh, cmd, &backup))
+		return (1);
 	if (is_builtin(cmd))
 		status = dispatch_builtin(sh, cmd, prompt);
 	else
