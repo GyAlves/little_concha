@@ -98,6 +98,8 @@ char			**alloc_init_envar_arr(int count);
 // src/parser_n_lexer/parser_n_lexer.c
 char			**lexer(char *input);
 int				parse_n_init_cmd(t_minishell *sh, t_command *cmd, char **args);
+// src/parser_n_lexer/redir_filter_parse.c
+char			**filter_n_rm_redir(char **args, int *n_count);
 
 // src/redirects
 // src/redirects/redirects.c
@@ -115,7 +117,6 @@ void			free_matrix(char **matrix);
 void			free_minishell(t_minishell *sh);
 void			free_cmd_struct(t_command *cmd);
 // src/utils/redir_utils.c
-char			**filter_n_rm_redir(char **args, int *n_count);
 int				count_redirs(char **args);
 int				fill_redirs(t_command *cmd, char **args);
 // src/utils/shell_utils.c
