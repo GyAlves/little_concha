@@ -29,8 +29,8 @@ typedef enum e_redir_type
 	INVALID,
 	R_IN,
 	R_OUT,
-	HEREDOC,
-	APPEND
+	APPEND,
+	HEREDOC
 }			t_redir_type;
 
 typedef struct s_std_redir
