@@ -30,5 +30,7 @@ t_redir_type	get_redir_type(char *str)
 		return (R_OUT);
 	else if (ft_strcmp(str, "<") == 0)
 		return (R_IN);
+	else if (ft_strcmp(str, ">>") == 0)
+		return (APPEND);
 	return (INVALID);
 }
