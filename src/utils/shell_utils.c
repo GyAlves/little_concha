@@ -3,8 +3,12 @@
 char	**read_input(char **prompt)
 {
 	*prompt = readline("type> ");
-	if (!*prompt)
+	if (!*prompt || **prompt == '\0')
+	{
+		if (*prompt)
+			free(*prompt);
 		return (NULL);
+	}
 	add_history(*prompt);
 	return (lexer(*prompt));
 }
