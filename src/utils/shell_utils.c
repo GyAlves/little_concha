@@ -17,11 +17,11 @@ static int	handle_redir_in_exc(t_minishell \
 	i = 0;
 	while (i < cmd->redir_count)
 	{
-		save_std_backup(&backup, &cmd->redirects[i]);
+		save_std_backup(backup, &cmd->redirects[i]);
 		if (!apply_redir(&cmd->redirects[i]))
 		{
 			sh->exit_status = 1;
-			restore_std_backup(&backup);
+			restore_std_backup(backup);
 			return (0);
 		}
 		i++;
