@@ -1,21 +1,34 @@
 #include "../../minishell.h"
 
-int	apply_redir(t_redirect *redir)
+static int	input_redir(t_redirect *redir)
 {
 	int	fd;
 
-	if (redir->type == R_OUT)
-		fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (redir->type == R_IN)
-		fd = open(redir->filename, O_RDONLY);
-	else
-		return (0);
+	fd = open(redir->filename, O_RDONLY);
 	if (fd < 0)
 		return (0);
-	if (redir->type == R_IN)
-		dup2(fd, STDIN_FILENO);
-	else
-		dup2(fd, STDOUT_FILENO);
+	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (1);
+}
+
+static int	output_redir(t_redirect *redir)
+{
+	int	fd;
+
+	fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (0);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (1);
+}
+
+int	apply_redir(t_redirect *redir)
+{
+	if (redir->type == R_IN)
+		return (input_redir(redir));
+	else if (redir->type == R_OUT)
+		return (output_redir(redir));
+	return (0);
 }
