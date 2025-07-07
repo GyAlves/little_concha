@@ -100,6 +100,7 @@ char			**lexer(char *input);
 int				parse_n_init_cmd(t_minishell *sh, t_command *cmd, char **args);
 // src/parser_n_lexer/redir_filter_parse.c
 char			**filter_n_rm_redir(char **args, int *n_count);
+t_redir_type	get_redir_type(char *str);
 
 // src/redirects
 // src/redirects/redirects.c
@@ -110,7 +111,6 @@ int				apply_redir(t_redirect *redir);
 // src/utils/fd_utils.c
 void			save_std_backup(t_std_redir *backup, t_redirect *redir);
 void			restore_std_backup(t_std_redir *backup);
-t_redir_type	get_redir_type(char *str);
 // src/utils/free_utils.c
 void			cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
 void			free_matrix(char **matrix);

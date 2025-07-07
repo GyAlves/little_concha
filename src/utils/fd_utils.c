@@ -23,18 +23,3 @@ void	restore_std_backup(t_std_redir *backup)
 		backup->out = -1;
 	}
 }
-
-t_redir_type	get_redir_type(char *str)
-{
-	if (!str)
-		return (INVALID);
-	if (!ft_strcmp(str, ">"))
-		return (R_OUT);
-	if (!ft_strcmp(str, ">>"))
-		return (APPEND);
-	if (!ft_strcmp(str, "<"))
-		return (R_IN);
-	if (!ft_strcmp(str, "<<"))
-		return (HEREDOC);
-	return (INVALID);
-}

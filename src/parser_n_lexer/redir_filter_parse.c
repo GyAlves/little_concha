@@ -57,3 +57,18 @@ char	**filter_n_rm_redir(char **args, int *n_count)
 	n_args = cpy_cmd_args(args, n_args);
 	return (n_args);
 }
+
+t_redir_type	get_redir_type(char *str)
+{
+	if (!str)
+		return (INVALID);
+	if (!ft_strcmp(str, ">"))
+		return (R_OUT);
+	if (!ft_strcmp(str, ">>"))
+		return (APPEND);
+	if (!ft_strcmp(str, "<"))
+		return (R_IN);
+	if (!ft_strcmp(str, "<<"))
+		return (HEREDOC);
+	return (INVALID);
+}
