@@ -1,14 +1,5 @@
 #include "../../minishell.h"
 
-//heredoc permite passar a STDIN diretamente no terminal até uma palavra delimitadora ex: cat << FNSH
-//criar um input temporario, a partir de STDIN
-//vamos:
-// detectar '<<' \/
-//detectar o delimitador FNSH \/
-//escrever até o delimitador ser encontrado \/
-//criar um arquivo temporario \/
-//salvar as linhas em um arquivo temporario \/
-
 static char	*generate_file(void)
 {
 	int		i;
@@ -21,7 +12,7 @@ static char	*generate_file(void)
 		nbr_file = ft_itoa(i);
 		if (!nbr_file)
 			return (NULL);
-		temp_file = ft_strjoin("tmp/minishell_heredoc_", nbr_file);
+		temp_file = ft_strjoin("/tmp/minishell_heredoc_", nbr_file);
 		free(nbr_file);
 		if (!temp_file)
 			return (NULL);
@@ -40,13 +31,17 @@ static int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 	while (6)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line)
 		{
-			if (line)
-				free(line);
+			ft_putstr_fd("minishell: warninig: heredoc delimited by EOF\n", 2);
+			return (0);
+		}
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
 			return (1);
 		}
-		expanded = replace_variables(NULL, line);
+		expanded = replace_variables(sh, line);
 		free(line);
 		if (!expanded)
 			return (0);
