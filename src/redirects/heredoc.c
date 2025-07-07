@@ -33,7 +33,7 @@ static int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 		line = readline("> ");
 		if (!line)
 		{
-			ft_putstr_fd("minishell: warninig: heredoc delimited by EOF\n", 2);
+			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2);
 			return (0);
 		}
 		if (ft_strcmp(line, delimiter) == 0)
