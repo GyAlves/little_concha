@@ -57,7 +57,11 @@ void	free_cmd_struct(t_command *cmd)
 		while (i < cmd->redir_count)
 		{
 			if (cmd->redirects[i].filename)
+			{
+				if (cmd->redirects[i].type == HEREDOC)
+					unlink(cmd->redirects[i].filename);
 				free(cmd->redirects[i].filename);
+			}
 			i++;
 		}
 		free(cmd->redirects);
