@@ -2,7 +2,7 @@
 
 void	save_std_backup(t_std_redir *backup, t_redirect *redir)
 {
-	if (redir->type == R_IN)
+	if (redir->type == R_IN || redir->type == HEREDOC)
 		backup->in = dup(STDIN_FILENO);
 	else if (redir->type == R_OUT || redir->type == APPEND)
 		backup->out = dup(STDOUT_FILENO);
