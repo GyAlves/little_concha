@@ -7,7 +7,7 @@
 //detectar o delimitador FNSH \/
 //escrever até o delimitador ser encontrado \/
 //criar um arquivo temporario \/
-//salvar as linhas em um arquivo temporario
+//salvar as linhas em um arquivo temporario \/
 
 static char	*generate_file(void)
 {
@@ -15,6 +15,7 @@ static char	*generate_file(void)
 	char	*temp_file;
 	char	*nbr_file;
 
+	i = 0;
 	while (6)
 	{
 		nbr_file = ft_itoa(i);
@@ -26,12 +27,12 @@ static char	*generate_file(void)
 			return (NULL);
 		if (access(temp_file, F_OK) != 0)
 			return (temp_file);
-		free (temp_file);
+		free(temp_file);
 		i++;
 	}
 }
 
-static int	write_till_delimiter(int fd, char *delimiter, char **envp)
+static int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 {
 	char	*line;
 	char	*expanded;
@@ -41,7 +42,7 @@ static int	write_till_delimiter(int fd, char *delimiter, char **envp)
 		line = readline("> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
-			if (!line)
+			if (line)
 				free(line);
 			return (1);
 		}
@@ -56,4 +57,29 @@ static int	write_till_delimiter(int fd, char *delimiter, char **envp)
 	return (0);
 }
 
+int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+{
+	int		fd;
+	char	*temp_file;
 
+	temp_file = generate_file();
+	if (!temp_file)
+		return (0);
+	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		free(temp_file);
+		return (0);
+	}
+	if (!write_till_delimiter(fd, redir->filename, sh))
+	{
+		close(fd);
+		unlink(temp_file);
+		free(temp_file);
+		return (0);
+	}
+	close(fd);
+	free(redir->filename);
+	redir->filename = temp_file;
+	return (1);
+}
