@@ -97,14 +97,16 @@ char			**alloc_init_envar_arr(int count);
 // src/parser_n_lexer
 // src/parser_n_lexer/parser_n_lexer.c
 char			**lexer(char *input);
+int				parse_redir(t_command *cmd, char **args);
 int				parse_n_init_cmd(t_minishell *sh, t_command *cmd, char **args);
 // src/parser_n_lexer/redir_filter_parse.c
 char			**filter_n_rm_redir(char **args, int *n_count);
 t_redir_type	get_redir_type(char *str);
 
 // src/redirects
+// src/redirects/heredoc.c
+int				handle_heredoc(t_redirect *redir, t_minishell *sh);
 // src/redirects/redirects.c
-int				parse_redir(t_command *cmd, char **args);
 int				apply_redir(t_redirect *redir);
 
 // src/utils
