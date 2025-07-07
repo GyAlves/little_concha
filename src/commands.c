@@ -21,8 +21,19 @@ static void	print_cmd_err(char *cmd)
 
 static void	exec_child(t_minishell *sh, t_command *cmd)
 {
+	int		i;
 	char	*path;
 
+	i = 0;
+	while (i < cmd->redir_count)
+	{
+		if (!apply_redir(&cmd->redirects[i]))
+		{
+			sh->exit_status = 1;
+			exit(1);
+		}
+		i++;
+	}
 	path = set_path(cmd->args[0]);
 	if (!path)
 	{
