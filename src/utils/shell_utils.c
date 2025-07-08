@@ -13,6 +13,17 @@ char	**read_input(char **prompt)
 	return (lexer(*prompt));
 }
 
+static int	process_single_redir(t_redirect *redir, t_minishell \
+	*sh, t_std_redir *backup)
+{
+	if (redir->type == HEREDOC)
+		return (handle_heredoc(redir, sh));
+	save_std_backup(backup, redir);
+	if (!apply_redir(redir))
+		return (0);
+	return (1);
+}
+
 static int	handle_redir_in_exc(t_minishell \
 	*sh, t_command *cmd, t_std_redir *backup)
 {
@@ -21,16 +32,7 @@ static int	handle_redir_in_exc(t_minishell \
 	i = 0;
 	while (i < cmd->redir_count)
 	{
-		if (cmd->redirects[i].type == HEREDOC)
-		{
-			if (!handle_heredoc(&cmd->redirects[i], sh))
-			{
-				sh->exit_status = 1;
-				return (0);
-			}
-		}
-		save_std_backup(backup, &cmd->redirects[i]);
-		if (!apply_redir(&cmd->redirects[i]))
+		if (!process_single_redir(&cmd->redirects[i], sh, backup))
 		{
 			sh->exit_status = 1;
 			restore_std_backup(backup);
