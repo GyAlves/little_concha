@@ -59,10 +59,23 @@ int *in_fd, int *out_fd)
 	exec_child(sh, cmd);
 }
 
-static void	fork_pipe_child(t_minishell *sh, t_command *cmd, \
+static void	fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 t_pipe_data *data, int i)
 {
 	pid_t	pid;
 
 	pid = fork();
+	if (pid == -1)
+		exit (1);
+	if (pid == 0)
+	{
+		if (i == 0)
+			exc_pipe_child(sh, cmd, NULL, data->pipes[i]);
+		else if ( i == data->cmd_count - 1)
+			exc_pipe_child(sh, cmd, &data->pipes[i - 1][0], NULL);
+		else
+			exc_pipe_child(sh, cmd, &data->pipes[i - 1][0], &data->pipes[i][1]);
+	}
+	data->pids[i] = pid;
 }
+
