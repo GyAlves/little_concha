@@ -54,3 +54,20 @@ int *in_fd, int *out_fd)
 		exit(1);
 	exec_child(sh, cmd);
 }
+
+static void	wait_pipes(pid_t *pids, int count, t_minishell *sh)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < count)
+	{
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status))
+			sh->exit_status = WEXITSTATUS(status);
+		i++;
+	}
+}
+
+
