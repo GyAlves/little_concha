@@ -19,21 +19,32 @@ static void	print_cmd_err(char *cmd)
 	ft_putstr_fd(">: command not found!\n", 2);
 }
 
-static void	exec_child(t_minishell *sh, t_command *cmd)
+static int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
 {
-	int		i;
-	char	*path;
+	int	i;
 
 	i = 0;
 	while (i < cmd->redir_count)
 	{
-		if (!apply_redir(&cmd->redirects[i]))
+		if (cmd->redirects[i].type == HEREDOC)
 		{
-			sh->exit_status = 1;
-			exit(1);
+			if (!apply_redir(&cmd->redirects[i]))
+			{
+				sh->exit_status = 1;
+				return (0);
+			}
 		}
 		i++;
 	}
+	return (1);
+}
+
+static void	exec_child(t_minishell *sh, t_command *cmd)
+{
+	char	*path;
+
+	if (!apply_heredoc_redir(sh, cmd))
+		exit (1);
 	path = set_path(cmd->args[0]);
 	if (!path)
 	{
