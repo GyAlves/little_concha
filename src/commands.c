@@ -44,7 +44,12 @@ static void	exec_child(t_minishell *sh, t_command *cmd)
 	char	*path;
 
 	if (!apply_heredoc_redir(sh, cmd))
-		exit (1);
+		exit(1);
+	if (!cmd->args[0])
+	{
+		print_cmd_err(cmd->args[0]);
+		exit(127);
+	}
 	path = set_path(cmd->args[0]);
 	if (!path)
 	{
