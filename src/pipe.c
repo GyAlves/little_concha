@@ -1,24 +1,24 @@
 #include "../minishell.h"
 
-static int	setup_pipes(int **pipes, pid_t **pids, int cmd_count)
+static int	setup_pipes(t_pipe_data *data, int cmd_count)
 {
 	int	i;
 
-	*pipes = malloc((cmd_count -1) * sizeof(int *));
-	*pids = malloc(cmd_count *sizeof(pid_t));
-	if (!*pipes || !*pids)
+	data->pipes = malloc((cmd_count -1) * sizeof(int *));
+	data->pids = malloc(cmd_count *sizeof(pid_t));
+	if (!data->pipes || !data->pids)
 		return (0);
 	i = 0;
 	while (i < cmd_count - 1)
 	{
-		(*pipes)[i] = malloc(2 * sizeof(int));
-		if (!(*pipes)[i] || pipe((*pipes)[i]) == -1)
+		data->pipes[i] = malloc(2 * sizeof(int));
+		if (!data->pipes[i] || pipe(data->pipes[i]) == -1)
 		{
 			while (i-- > 0)
 			{
-				close(pipes[i][0]);
-				close(pipes[i][1]);
-				free(pipes[i]);
+				close(data->pipes[i][0]);
+				close(data->pipes[i][1]);
+				free(data->pipes[i]);
 			}
 			return (0);
 		}
@@ -27,16 +27,16 @@ static int	setup_pipes(int **pipes, pid_t **pids, int cmd_count)
 	return (1);
 }
 
-static int	close_pipes(int **pipes, int count)
+static int	close_pipes(t_pipe_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i-- > 0)
+	while (i-- > data->cmd_count - 1)
 	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-		free(pipes[i]);
+		close(data->pipes[i][0]);
+		close(data->pipes[i][1]);
+		free(data->pipes[i]);
 		i++;
 	}
 }
@@ -59,18 +59,10 @@ int *in_fd, int *out_fd)
 	exec_child(sh, cmd);
 }
 
-static void	wait_pipes(pid_t *pids, int count, t_minishell *sh)
+static void	fork_pipe_child(t_minishell *sh, t_command *cmd, \
+t_pipe_data *data, int i)
 {
-	int	i;
-	int	status;
+	pid_t	pid;
 
-	i = 0;
-	while (i < count)
-	{
-		waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status))
-			sh->exit_status = WEXITSTATUS(status);
-		i++;
-	}
+	pid = fork();
 }
-
