@@ -37,3 +37,20 @@ static int	close_pipes(int **pipes, int count)
 	}
 }
 
+static void	exc_pipe_child(t_minishell *sh, t_command *cmd, \
+int *in_fd, int *out_fd)
+{
+	if (in_fd)
+	{
+		dup2(*in_fd, STDIN_FILENO);
+		close(*in_fd);
+	}
+	if (out_fd)
+	{
+		dup2(*out_fd, STDOUT_FILENO);
+		close(*out_fd);
+	}
+	if (!apply_heredoc_redir(sh, cmd))
+		exit(1);
+	exec_child(sh, cmd);
+}
