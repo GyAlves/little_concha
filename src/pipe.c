@@ -79,3 +79,20 @@ t_pipe_data *data, int i)
 	data->pids[i] = pid;
 }
 
+static void	wait_pipe_child(t_pipe_data *data, t_minishell *sh)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < data->cmd_count)
+	{
+		waitpid(data->pids[i], &status, 0);
+		if (WIFEXITED(status))
+			sh->exit_status = WEXITSTATUS(status);
+		i++;
+	}
+	free(data->pids);
+}
+
+
