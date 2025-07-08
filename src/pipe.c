@@ -1,14 +1,18 @@
 #include "../minishell.h"
 
-static int	create_pipes(int **pipes, int count)
+static int	setup_pipes(int **pipes, pid_t **pids, int cmd_count)
 {
 	int	i;
 
+	*pipes = malloc((cmd_count -1) * sizeof(int *));
+	*pids = malloc(cmd_count *sizeof(pid_t));
+	if (!*pipes || !*pids)
+		return (0);
 	i = 0;
-	while (i < count)
+	while (i < cmd_count - 1)
 	{
-		pipes[i] = malloc(2 * sizeof(int));
-		if (!pipes[i] || pipe(pipes[i]) == -1)
+		(*pipes)[i] = malloc(2 * sizeof(int));
+		if (!(*pipes)[i] || pipe((*pipes)[i]) == -1)
 		{
 			while (i-- > 0)
 			{
@@ -69,5 +73,4 @@ static void	wait_pipes(pid_t *pids, int count, t_minishell *sh)
 		i++;
 	}
 }
-
 
