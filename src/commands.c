@@ -19,7 +19,7 @@ static void	print_cmd_err(char *cmd)
 	ft_putstr_fd(">: command not found!\n", 2);
 }
 
-static int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
+int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
 {
 	int	i;
 
@@ -39,7 +39,7 @@ static int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
 	return (1);
 }
 
-static void	exec_child(t_minishell *sh, t_command *cmd)
+void	exec_child(t_minishell *sh, t_command *cmd)
 {
 	char	*path;
 
