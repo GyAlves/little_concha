@@ -45,6 +45,13 @@ typedef struct s_redirect
 	char			*filename;
 }			t_redirect;
 
+typedef struct s_pipe_data
+{
+	int		**pipes;
+	int		cmd_count;
+	pid_t	*pids;
+}			t_pipe_data;
+
 typedef struct s_command
 {
 	char		**args;
@@ -131,6 +138,8 @@ char			*replace_variables(t_minishell *sh, char *input);
 
 // src/
 // src/commands.c
+int				apply_heredoc_redir(t_minishell *sh, t_command *cmd);
+void			exec_child(t_minishell *sh, t_command *cmd);
 void			exec_cmd(t_minishell *sh, t_command *cmd);
 // src/environment_var.c
 char			**get_envar_path(void);
