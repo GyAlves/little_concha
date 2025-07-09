@@ -32,7 +32,7 @@ int	fill_redirs(t_command *cmd, char **args)
 	count = 0;
 	while (args[i])
 	{
-		if (get_redir_type(args[i]) != INVALID)
+		if (is_redir(args[i]))
 		{
 			if (!fill_single_redir(cmd, args, i, count))
 				return (0);
@@ -54,7 +54,7 @@ int	count_redirs(char **args)
 	count = 0;
 	while (args[i])
 	{
-		if (get_redir_type(args[i]) != INVALID)
+		if (is_redir(args[i]))
 		{
 			count++;
 			i += 2;
