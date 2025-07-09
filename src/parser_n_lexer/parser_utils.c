@@ -9,7 +9,9 @@ int	count_cmd_args(char **args)
 	count = 0;
 	while (args[i])
 	{
-		if (get_redir_type(args[i]) != INVALID)
+		if (is_pipe(args[i]))
+			break ;
+		else if (is_redir(args[i]))
 			i += 2;
 		else
 		{
@@ -20,7 +22,7 @@ int	count_cmd_args(char **args)
 	return (count);
 }
 
-static char	**cpy_cmd_args(char **args, char **n_args)
+char	**cpy_cmd_args(char **args, char **n_args)
 {
 	int		i;
 	int		j;
@@ -29,8 +31,10 @@ static char	**cpy_cmd_args(char **args, char **n_args)
 	j = 0;
 	while (args[i])
 	{
-		if (get_redir_type(args[i]) != INVALID)
+		if (is_redir(args[i]))
 			i += 2;
+		else if (is_pipe(args[i]))
+			i++;
 		else
 		{
 			n_args[j] = ft_strdup(args[i]);
@@ -43,6 +47,7 @@ static char	**cpy_cmd_args(char **args, char **n_args)
 			j++;
 		}
 	}
+	n_args[j] = NULL;
 	return (n_args);
 }
 
@@ -56,4 +61,39 @@ char	**filter_n_rm_redir(char **args, int *n_count)
 		return (NULL);
 	n_args = cpy_cmd_args(args, n_args);
 	return (n_args);
+}
+
+int	init_cmd_arr(t_command **cmd, int cmd_count)
+{
+	*cmd = ft_calloc(cmd_count, sizeof(t_command));
+	if (!*cmd)
+		return (0);
+	return (1);
+}
+
+int	fill_cmd(char **args, t_command *cmd)
+{
+	int	i;
+	int	j;
+	int	start;
+
+	i = 0;
+	j = 0;
+	start = 0;
+	while (args[i])
+	{
+		if (is_pipe(args[i]) || !args[i + 1])
+		{
+			if (!parse_single_cmd(&cmd[j], args, start))
+			{
+				while (j-- > 0)
+					free_cmd_struct(&cmd[j]);
+				return (0);
+			}
+			start = i + 1;
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }

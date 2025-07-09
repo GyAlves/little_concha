@@ -43,17 +43,15 @@ static int	handle_redir_in_exc(t_minishell \
 	return (1);
 }
 
-int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
+static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	t_std_redir	backup;
 
 	backup.in = -1;
 	backup.out = -1;
-	if (!parse_n_init_cmd(sh, &cmd, args))
-		return (1);
 	if (cmd->piped)
-		return(handle_pipes(sh,cmd, count_cmd_args(args)));
+		return (handle_pipes(sh, cmd, count_cmd_args(cmd->args)));
 	if (!handle_redir_in_exc(sh, cmd, &backup))
 		return (1);
 	if (is_builtin(cmd))
@@ -64,5 +62,20 @@ int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 		status = sh->exit_status;
 	}
 	restore_std_backup(&backup);
+	return (status);
+}
+
+int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt)
+{
+	int	status;
+
+	if (!parse_n_init_cmd(cmd, args))
+	{
+		free_matrix(args);
+		return (1);
+	}
+	status = exc_cmd(sh, *cmd, prompt);
+	free_cmd_struct(*cmd);
+	free(*cmd);
 	return (status);
 }

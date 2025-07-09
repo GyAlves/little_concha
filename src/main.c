@@ -25,7 +25,7 @@ static int	init_minishell(t_minishell *sh, char **envp)
 int	main(int c, char **v, char **envp)
 {
 	t_minishell	sh;
-	t_command	cmd;
+	t_command	*cmd;
 	char		*prompt;
 	char		**args;
 
@@ -38,8 +38,10 @@ int	main(int c, char **v, char **envp)
 		args = read_input(&prompt);
 		if (!args)
 			continue ;
+		cmd = NULL;
 		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt);
-		free_cmd_struct(&cmd);
+		free_cmd_struct(cmd);
+		free(cmd);
 		free (prompt);
 		if (sh.exit_status == 111)
 			break ;

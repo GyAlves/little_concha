@@ -27,7 +27,7 @@ int	setup_pipes(t_pipe_data *data, int cmd_count)
 	return (1);
 }
 
-int	close_pipes(t_pipe_data *data)
+void	close_pipes(t_pipe_data *data)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int	close_pipes(t_pipe_data *data)
 	free(data->pipes);
 }
 
-static void	exc_pipe_child(t_minishell *sh, t_command *cmd, \
+static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
 int *in_fd, int *out_fd)
 {
 	if (in_fd)
@@ -71,11 +71,12 @@ t_pipe_data *data, int i)
 	if (pid == 0)
 	{
 		if (i == 0)
-			exc_pipe_child(sh, cmd, NULL, data->pipes[i]);
+			exec_pipe_child(sh, cmd, NULL, data->pipes[i]);
 		else if (i == data->cmd_count - 1)
-			exc_pipe_child(sh, cmd, &data->pipes[i - 1][0], NULL);
+			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], NULL);
 		else
-			exc_pipe_child(sh, cmd, &data->pipes[i - 1][0], &data->pipes[i][1]);
+			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], \
+			&data->pipes[i][1]);
 	}
 	data->pids[i] = pid;
 }
