@@ -50,8 +50,10 @@ int	init_n_exc_cmd(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 
 	backup.in = -1;
 	backup.out = -1;
-	if (!parse_n_init_cmd(sh, cmd, args))
+	if (!parse_n_init_cmd(sh, &cmd, args))
 		return (1);
+	if (cmd->piped)
+		return(handle_pipes(sh,cmd, count_cmd_args(args)));
 	if (!handle_redir_in_exc(sh, cmd, &backup))
 		return (1);
 	if (is_builtin(cmd))
