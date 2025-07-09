@@ -110,6 +110,16 @@ int				parse_n_init_cmd(t_minishell *sh, t_command *cmd, char **args);
 char			**filter_n_rm_redir(char **args, int *n_count);
 t_redir_type	get_redir_type(char *str);
 
+// src/pipe
+// src/pipe/pipe_utils.c
+int				setup_pipes(t_pipe_data *data, int cmd_count);
+int				close_pipes(t_pipe_data *data);
+void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
+				t_pipe_data *data, int i);
+void			wait_pipe_child(t_pipe_data *data, t_minishell *sh);
+// src/pipe/pipe.c
+int				handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count);
+
 // src/redirects
 // src/redirects/heredoc.c
 int				handle_heredoc(t_redirect *redir, t_minishell *sh);
