@@ -7,7 +7,7 @@ static void	print_num_arg_required(t_command *cmd)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
+void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt, char **args)
 {
 	(void)prompt;
 	ft_putstr_fd("exit\n", 1);
@@ -23,9 +23,9 @@ void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
 		{
 			print_num_arg_required(cmd);
 			sh->exit_status = 2;
-			return ;
+			cleanup_n_exit(sh, cmd, prompt, args);
 		}
 		sh->exit_status = ft_atoi(cmd->args[1]);
 	}
-	cleanup_n_exit(sh, cmd, prompt);
+	cleanup_n_exit(sh, cmd, prompt, args);
 }
