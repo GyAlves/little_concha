@@ -18,6 +18,11 @@ static int	init_minishell(t_minishell *sh, char **envp)
 	if (!sh->envp)
 		return (0);
 	cpy_envar_entries(sh->envp, envp, count_init_envar(envp));
+	if (!sh->envp[0])
+	{
+		free(sh->envp);
+		return (0);
+	}
 	sh->exit_status = 0;
 	return (1);
 }
@@ -40,8 +45,12 @@ int	main(int c, char **v, char **envp)
 			continue ;
 		cmd = NULL;
 		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt);
-		free_cmd_struct(cmd);
-		free(cmd);
+		if (cmd)
+		{
+			free_cmd_struct(cmd);
+			free(cmd);
+		}
+		free_matrix(args);
 		free (prompt);
 		if (sh.exit_status == 111)
 			break ;
