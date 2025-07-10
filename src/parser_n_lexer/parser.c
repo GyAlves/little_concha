@@ -20,13 +20,21 @@ static int	count_pipes(char **args)
 
 static int	init_cmd_redir(t_command *cmd, char **args)
 {
+	if (!cmd || !args)
+		return (0);
 	cmd->redir_count = count_redirs(args);
+	if (cmd->redir_count == 0)
+	{
+		cmd->redirects = NULL;
+		return (1);
+	}
 	cmd->redirects = ft_calloc(cmd->redir_count + 1, sizeof(t_redirect));
 	if (!cmd->redirects)
 		return (0);
 	if (!fill_redirs(cmd, args))
 	{
 		free(cmd->redirects);
+		cmd->redirects = NULL;
 		return (0);
 	}
 	return (1);
