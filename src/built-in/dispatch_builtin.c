@@ -1,7 +1,7 @@
 #include "../../minishell.h"
 
 static int	bi_from_cd_until_exit(t_minishell *sh, \
-	t_command *cmd, char *prompt)
+	t_command *cmd, char *prompt, char **args)
 {
 	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 	{
@@ -20,7 +20,7 @@ static int	bi_from_cd_until_exit(t_minishell *sh, \
 	}
 	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 	{
-		bi_exit(sh, cmd, prompt);
+		bi_exit(sh, cmd, prompt, args);
 		return (-1);
 	}
 	return (1);
@@ -67,11 +67,11 @@ int	is_builtin(t_command *cmd)
 	return (0);
 }
 
-int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
+int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt, char **args)
 {
 	int	return_val;
 
-	return_val = bi_from_cd_until_exit(sh, cmd, prompt);
+	return_val = bi_from_cd_until_exit(sh, cmd, prompt, args);
 	if (return_val <= 0)
 		return (return_val);
 	return_val = bi_from_export_until_unset(sh, cmd);
