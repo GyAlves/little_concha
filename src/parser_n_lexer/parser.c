@@ -32,26 +32,24 @@ static int	init_cmd_redir(t_command *cmd, char **args)
 
 int	parse_single_cmd(t_command *cmd, char **args, int start)
 {
-	char	**cmd_args;
 	int		n_count;
+	char	**cmd_args;
 
+	if (!cmd || !args)
+		return (0);
 	cmd->piped = 0;
 	n_count = count_cmd_args(args + start);
 	cmd_args = ft_calloc(n_count + 1, sizeof(char *));
 	if (!cmd_args)
 		return (0);
-	cmd_args = cpy_cmd_args(args + start, cmd_args);
-	if (!cmd_args)
-		return (0);
-	if (!init_cmd_redir(cmd, args + start))
+	if (!cpy_cmd_args(args + start, cmd_args))
 	{
 		free_matrix(cmd_args);
 		return (0);
 	}
-	cmd_args = filter_n_rm_redir(cmd_args, &n_count);
-	if (!cmd_args)
+	if (!init_cmd_redir(cmd, args + start))
 	{
-		free(cmd->redirects);
+		free_matrix(cmd_args);
 		return (0);
 	}
 	cmd->args = cmd_args;
@@ -68,7 +66,14 @@ int	parse_n_init_cmd(t_command **cmd, char **args)
 	if (!init_cmd_arr(cmd, cmd_count))
 		return (0);
 	if (cmd_count == 1)
-		return (parse_single_cmd(*cmd, args, 0));
+	{
+		if (!parse_single_cmd(*cmd, args, 0))
+		{
+			free(*cmd);
+			return (0);
+		}
+		return (1);
+	}
 	(*cmd)->piped = 1;
 	if (!fill_cmd(args,*cmd))
 	{

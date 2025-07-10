@@ -84,6 +84,8 @@ int	fill_cmd(char **args, t_command *cmd)
 	{
 		if (is_pipe(args[i]) || !args[i + 1])
 		{
+			if (!args[i + 1] && !is_pipe(args[i]))
+				i++;
 			if (!parse_single_cmd(&cmd[j], args, start))
 			{
 				while (j-- > 0)
