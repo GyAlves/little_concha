@@ -6,22 +6,22 @@ static int	bi_from_cd_until_exit(t_minishell *sh, \
 	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 	{
 		bi_cd(sh, cmd);
-		return (0);
+		return (sh->exit_status);
 	}
 	else if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 	{
 		bi_echo(sh, cmd);
-		return (0);
+		return (sh->exit_status);
 	}
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 	{
 		bi_env(sh, cmd);
-		return (0);
+		return (sh->exit_status);
 	}
 	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 	{
 		bi_exit(sh, cmd, prompt, args);
-		return (-1);
+		return (sh->exit_status);
 	}
 	return (1);
 }
@@ -31,17 +31,17 @@ static int	bi_from_export_until_unset(t_minishell *sh, t_command *cmd)
 	if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 	{
 		bi_export(sh, cmd);
-		return (0);
+		return (sh->exit_status);
 	}
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 	{
 		bi_pwd(sh);
-		return (0);
+		return (sh->exit_status);
 	}
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
 	{
 		bi_unset(sh, cmd);
-		return (0);
+		return (sh->exit_status);
 	}
 	return (1);
 }
