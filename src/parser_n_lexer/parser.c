@@ -5,6 +5,8 @@ static int	count_pipes(char **args)
 	int	i;
 	int	count;
 
+	if (!args)
+		return (0);
 	i = 0;
 	count = 1;
 	while (args[i])
