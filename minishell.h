@@ -74,7 +74,8 @@ void			bi_echo(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_env.c
 void			bi_env(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_exit.c
-void			bi_exit(t_minishell *sh, t_command *cmd, char *prompt);
+void			bi_exit(t_minishell *sh, t_command *cmd, \
+				char *prompt, char **args);
 // src/built-in/bi_export.c
 void			bi_export(t_minishell *sh, t_command *cmd);
 // src/built-in/bi_pwd.c
@@ -83,7 +84,8 @@ void			bi_pwd(t_minishell *sh);
 void			bi_unset(t_minishell *sh, t_command *cmd);
 // src/built-in/dispatch_builtin.c
 int				is_builtin(t_command *cmd);
-int				dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt);
+int				dispatch_builtin(t_minishell *sh, t_command *cmd, \
+				char *prompt, char **args);
 
 // src/environment_variables
 // src/environment_variables/cpy_n_sort_envar.c
@@ -138,7 +140,8 @@ int				apply_redir(t_redirect *redir);
 void			save_std_backup(t_std_redir *backup, t_redirect *redir);
 void			restore_std_backup(t_std_redir *backup);
 // src/utils/free_utils.c
-void			cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt);
+void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
+				char *prompt, char **args);
 void			free_matrix(char **matrix);
 void			free_minishell(t_minishell *sh);
 void			free_cmd_struct(t_command *cmd);
