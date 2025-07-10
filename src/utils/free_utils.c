@@ -12,9 +12,16 @@
 
 #include "../../minishell.h"
 
-void	cleanup_n_exit(t_minishell *sh, t_command *cmd, char *prompt)
+void	cleanup_n_exit(t_minishell *sh, t_command *cmd, \
+char *prompt, char **args)
 {
-	free_cmd_struct(cmd);
+	if (cmd)
+	{
+		free_cmd_struct(cmd);
+		free(cmd);
+	}
+	if (args)
+		free_matrix(args);
 	if (prompt)
 		free(prompt);
 	free_minishell(sh);
