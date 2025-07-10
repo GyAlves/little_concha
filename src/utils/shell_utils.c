@@ -43,7 +43,7 @@ static int	handle_redir_in_exc(t_minishell \
 	return (1);
 }
 
-static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt, char **args)
 {
 	int			status;
 	t_std_redir	backup;
@@ -55,7 +55,7 @@ static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	if (!handle_redir_in_exc(sh, cmd, &backup))
 		return (1);
 	if (is_builtin(cmd))
-		status = dispatch_builtin(sh, cmd, prompt);
+		status = dispatch_builtin(sh, cmd, prompt, args);
 	else
 	{
 		exec_cmd(sh, cmd);
@@ -70,12 +70,7 @@ int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt)
 	int	status;
 
 	if (!parse_n_init_cmd(cmd, args))
-	{
-		free_matrix(args);
 		return (1);
-	}
-	status = exc_cmd(sh, *cmd, prompt);
-	free_cmd_struct(*cmd);
-	free(*cmd);
+	status = exc_cmd(sh, *cmd, prompt, args);
 	return (status);
 }
