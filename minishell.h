@@ -56,6 +56,7 @@ typedef struct s_command
 {
 	char		**args;
 	t_redirect	*redirects;
+	t_pipe_data	*pipe;
 	int			redir_count;
 	int			piped;
 }			t_command;
@@ -64,6 +65,7 @@ typedef struct s_minishell
 {
 	char	**envp;
 	int		exit_status;
+	int		total_pipeln_cmd;
 }			t_minishell;
 
 // src/built-in
@@ -85,7 +87,7 @@ void			bi_unset(t_minishell *sh, t_command *cmd);
 // src/built-in/dispatch_builtin.c
 int				is_builtin(t_command *cmd);
 int				dispatch_builtin(t_minishell *sh, t_command *cmd, \
-				char *prompt, char **args);
+				char *prompt);
 
 // src/environment_variables
 // src/environment_variables/cpy_n_sort_envar.c
@@ -108,7 +110,7 @@ char			**alloc_init_envar_arr(int count);
 char			**lexer(char *input);
 // src/parser_n_lexer/parser.c
 int				parse_single_cmd(t_command *cmd, char **args, int start);
-int				parse_n_init_cmd(t_command **cmd, char **args);
+int				parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args);
 // src/parser_n_lexer/parser_utils.c
 int				count_cmd_args(char **args);
 char			**cpy_cmd_args(char **args, char **n_args);
@@ -150,6 +152,8 @@ int				count_redirs(char **args);
 int				fill_redirs(t_command *cmd, char **args);
 // src/utils/shell_utils.c
 char			**read_input(char **prompt);
+int				handle_redir_in_exc(t_minishell \
+				*sh, t_command *cmd, t_std_redir *backup);
 int				init_n_exc_cmd(t_minishell *sh, t_command **cmd, \
 char **args, char *prompt);
 // src/utils/var_expansion.c
@@ -160,7 +164,7 @@ char			*replace_variables(t_minishell *sh, char *input);
 // src/commands.c
 int				apply_heredoc_redir(t_minishell *sh, t_command *cmd);
 void			exec_child(t_minishell *sh, t_command *cmd);
-void			exec_cmd(t_minishell *sh, t_command *cmd);
+int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 // src/environment_var.c
 char			**get_envar_path(void);
 // src/path.c
@@ -186,5 +190,8 @@ char			*ft_substr(char const *s, unsigned int start, size_t len);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			**ft_split(char const *str, char separator);
+
+
+int				is_parent_builtin(t_command *cmd);
 
 #endif
