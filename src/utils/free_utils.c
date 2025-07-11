@@ -15,21 +15,9 @@
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, \
 char *prompt, char **args)
 {
-	int	i;
-
 	if (cmd)
 	{
-		if (cmd->piped && cmd->pipe && cmd->pipe->cmd_count > 1)
-		{
-			i = 0;
-			while ( i < cmd->pipe->cmd_count)
-			{
-				free_cmd_struct(&cmd[i]);
-				i++;
-			}
-		}
-		else
-			free_cmd_struct(cmd);
+		free_cmd_struct(cmd);
 		free(cmd);
 	}
 	if (args)
@@ -87,6 +75,4 @@ void	free_cmd_struct(t_command *cmd)
 		}
 		free(cmd->redirects);
 	}
-	if (cmd->pipe)
-		free(cmd->pipe);
 }
