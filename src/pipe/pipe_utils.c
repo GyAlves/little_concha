@@ -4,10 +4,15 @@ int	setup_pipes(t_pipe_data *data, int cmd_count)
 {
 	int	i;
 
-	data->pipes = malloc((cmd_count -1) * sizeof(int *));
 	data->pids = malloc(cmd_count * sizeof(pid_t));
-	if (!data->pipes || !data->pids)
+	if (!data->pids)
 		return (0);
+	data->pipes = malloc((cmd_count -1) * sizeof(int *));
+	if (!data->pipes)
+	{
+		free(data->pids);
+		return (0);
+	}
 	i = 0;
 	while (i < cmd_count - 1)
 	{
@@ -20,6 +25,8 @@ int	setup_pipes(t_pipe_data *data, int cmd_count)
 				close(data->pipes[i][1]);
 				free(data->pipes[i]);
 			}
+			free(data->pipes);
+			free(data->pids);
 			return (0);
 		}
 		i++;
