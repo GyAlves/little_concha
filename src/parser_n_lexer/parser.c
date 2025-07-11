@@ -38,6 +38,7 @@ int	parse_single_cmd(t_command *cmd, char **args, int start)
 	if (!cmd || !args)
 		return (0);
 	cmd->piped = 0;
+	cmd->redir_count = 0;
 	n_count = count_cmd_args(args + start);
 	cmd_args = ft_calloc(n_count + 1, sizeof(char *));
 	if (!cmd_args)
@@ -85,6 +86,5 @@ int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args)
 			return (0);
 		}
 	}
-	free_matrix(args);
 	return (1);
 }
