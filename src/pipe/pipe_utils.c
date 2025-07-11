@@ -52,6 +52,10 @@ void	close_pipes(t_pipe_data *data)
 static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
 int *in_fd, int *out_fd)
 {
+	t_std_redir	child_redir_backup;
+
+	child_redir_backup.in = -1;
+	child_redir_backup.out = -1;
 	if (in_fd)
 	{
 		dup2(*in_fd, STDIN_FILENO);
@@ -62,7 +66,7 @@ int *in_fd, int *out_fd)
 		dup2(*out_fd, STDOUT_FILENO);
 		close(*out_fd);
 	}
-	if (!apply_heredoc_redir(sh, cmd))
+	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
 		exit(1);
 	exec_child(sh, cmd);
 }
