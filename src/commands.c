@@ -21,9 +21,9 @@ static void	print_cmd_err(char *cmd_name, char	*error_msg)
 		ft_putstr_fd(": ", 2);
 	}
 	ft_putstr_fd(error_msg, 2);
-	ft_putstr_fd("/n", 2);
+	ft_putstr_fd("\n", 2);
 }
-
+/*
 int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
 {
 	int	i;
@@ -42,14 +42,18 @@ int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
 		i++;
 	}
 	return (1);
-}
+}*/
 
 void	exec_child(t_minishell *sh, t_command *cmd)
 {
-	char	*full_cmd_path;
+	char		*full_cmd_path;
+	t_std_redir	child_redir_backup;
 
-	if (!apply_heredoc_redir(sh, cmd))
-		exit(1);
+	child_redir_backup.in = -1;
+	child_redir_backup.out = -1;
+
+	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
+		exit (1);
 	if (is_builtin(cmd))
 	{
 		dispatch_builtin(sh,cmd, NULL);
@@ -73,7 +77,7 @@ void	exec_child(t_minishell *sh, t_command *cmd)
 	exit (126);
 }
 
-static int	is_parent_builtin(t_command *cmd)
+int	is_parent_builtin(t_command *cmd)
 {    
 	if (!cmd->args || !cmd->args[0])
 		return (0);
@@ -87,57 +91,33 @@ static int	is_parent_builtin(t_command *cmd)
 	return (0);
 }
 
-void	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	pid_t		pid;
-	t_std_redir	backup; //vai mexer com as bi do processo pai
-	t_std_redir	child_backup;
 
-	backup.in = -1;
-	backup.out = -1;
-
+	prompt = NULL;
 	if (cmd->piped || sh->total_pipeln_cmd > 1)
 		return (handle_pipes(sh, cmd, sh->total_pipeln_cmd));
-	if (is_builtin(cmd) && is_parent_builtin(cmd)) //cd, exit, export, unset no processo pai
+	pid = fork();
+	if (pid == -1)
 	{
-		if (!handle_redir_in_exc(sh, cmd, &backup))
-		{
-			restore_std_backup(&backup);
-			return (sh->exit_status);
-		}
-		dispatch_builtin(sh, cmd, prompt);
-		restore_std_backup(&backup);
-		return(sh->exit_status);
+		perror("minishell: fork failed!");
+		sh->exit_status = 1;
+		exit(1);
 	}
-	else //comando externos ou wcho, env, pwd
+	if (pid == 0) //filhote
 	{
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("minishell: fork failed!");
-			sh->exit_status = 1;
-			exit(1);
-		}
-		if (pid == 0) //filhote
-		{
-			child_backup.in = -1;
-			child_backup.out = -1;
-			if (!handle_redir_in_exc(sh, cmd, &child_backup))
-				exit (1);
-			exec_child(sh, cmd);
-			exit (127);
-		}
-		else //papai
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				sh->exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				sh->exit_status = 128 + WTERMSIG(status);
-		}
-		return (sh->exit_status);
+		exec_child(sh, cmd);
+		exit (127);
 	}
-	
+	else //papai
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			sh->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			sh->exit_status = 128 + WTERMSIG(status);
+	}
+	return (sh->exit_status);
 }
-
