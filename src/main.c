@@ -44,16 +44,33 @@ int	main(int c, char **v, char **envp)
 	{
 		args = read_input(&prompt);
 		if (!args)
+		{
+			if (prompt)
+			{
+				free(prompt);
+				prompt = NULL;
+			}
+			if (sh.exit_status == 111)
+				break ;
 			continue ;
+		}
 		cmd = NULL;
 		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt);
 		if (cmd)
 		{
-			free_cmd_struct(cmd);
+			i = 0;
+			while ( i < sh.total_pipeln_cmd)
+			{
+				free_cmd_struct(&cmd[i]);
+				i++;
+			}
 			free(cmd);
+			cmd = NULL;
 		}
 		free_matrix(args);
-		free (prompt);
+		args = NULL;
+		free(prompt);
+		prompt = NULL;
 		if (sh.exit_status == 111)
 			break ;
 	}
