@@ -31,10 +31,10 @@ char	**cpy_cmd_args(char **args, char **n_args)
 	j = 0;
 	while (args[i])
 	{
+		if (is_pipe(args[i]))
+			break ;
 		if (is_redir(args[i]))
 			i += 2;
-		else if (is_pipe(args[i]))
-			i++;
 		else
 		{
 			n_args[j] = ft_strdup(args[i]);
