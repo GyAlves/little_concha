@@ -42,6 +42,7 @@ int	fill_redirs(t_command *cmd, char **args)
 		else
 			i++;
 	}
+	cmd->redir_count = count;
 	return (1);
 }
 
