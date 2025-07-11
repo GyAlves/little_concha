@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   var_expansion_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 19:33:51 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:33:53 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/11 19:58:29 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/11 19:58:39 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*replace_variables(t_minishell *sh, char *input)
 {
-	size_t	index;
+	char	*res;
 
-	index = 0;
-	while (s1[index] != '\0' && s2[index] != '\0' && index < n)
-	{
-		if (s1[index] != s2[index])
-			return ((unsigned char)s1[index] - (unsigned char)s2[index]);
-		index++;
-	}
-	if (index < n)
-		return ((unsigned char)s1[index] - (unsigned char)s2[index]);
-	return (0);
+	res = expand_variable(sh, input);
+	return (res);
 }

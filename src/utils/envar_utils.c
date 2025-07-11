@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   envar_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 19:33:51 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:33:53 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/11 20:11:12 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/11 20:11:19 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	is_valid_id(char *envar)
 {
-	size_t	index;
+	int		valid;
+	char	*equal;
+	char	*key;
 
-	index = 0;
-	while (s1[index] != '\0' && s2[index] != '\0' && index < n)
-	{
-		if (s1[index] != s2[index])
-			return ((unsigned char)s1[index] - (unsigned char)s2[index]);
-		index++;
-	}
-	if (index < n)
-		return ((unsigned char)s1[index] - (unsigned char)s2[index]);
-	return (0);
+	if (!envar)
+		return (0);
+	equal = ft_strchr(envar, '=');
+	if (equal)
+		key = ft_strndup(envar, equal - envar);
+	else
+		key = ft_strdup(envar);
+	if (!key)
+		return (0);
+	valid = is_valid_key(key);
+	free(key);
+	return (valid);
 }
