@@ -90,34 +90,54 @@ static int	is_parent_builtin(t_command *cmd)
 void	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
-	pid_t		id;
-	t_std_redir	backup;
+	pid_t		pid;
+	t_std_redir	backup; //vai mexer com as bi do processo pai
+	t_std_redir	child_backup;
 
 	backup.in = -1;
 	backup.out = -1;
 
-	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
+	if (cmd->piped || sh->total_pipeln_cmd > 1)
+		return (handle_pipes(sh, cmd, sh->total_pipeln_cmd));
+	if (is_builtin(cmd) && is_parent_builtin(cmd)) //cd, exit, export, unset no processo pai
 	{
-		perror("minishell: invalid cmd!");
-		sh->exit_status = 1;
-		exit(EXIT_FAILURE);
+		if (!handle_redir_in_exc(sh, cmd, &backup))
+		{
+			restore_std_backup(&backup);
+			return (sh->exit_status);
+		}
+		dispatch_builtin(sh, cmd, prompt);
+		restore_std_backup(&backup);
+		return(sh->exit_status);
 	}
-	id = fork();
-	if (id == -1)
+	else //comando externos ou wcho, env, pwd
 	{
-		perror("minishell: fork failed!");
-		sh->exit_status = 1;
-		exit(EXIT_FAILURE);
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("minishell: fork failed!");
+			sh->exit_status = 1;
+			exit(1);
+		}
+		if (pid == 0) //filhote
+		{
+			child_backup.in = -1;
+			child_backup.out = -1;
+			if (!handle_redir_in_exc(sh, cmd, &child_backup))
+				exit (1);
+			exec_child(sh, cmd);
+			exit (127);
+		}
+		else //papai
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				sh->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				sh->exit_status = 128 + WTERMSIG(status);
+		}
+		return (sh->exit_status);
 	}
-	else if (id == 0)
-		exec_child(sh, cmd);
-	else if (id > 0)
-	{
-		waitpid(id, &status, 0);
-		if (WIFEXITED(status))
-			sh->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			sh->exit_status = 128 + WTERMSIG(status);
-	}
+	
 }
 
