@@ -5,14 +5,18 @@ int	count_cmd_args(char **args)
 	int		i;
 	int		count;
 
+	if (!args)
+		return (0);
 	i = 0;
 	count = 0;
-	while (args[i])
+	while (args[i] && !is_pipe(args[i]))
 	{
-		if (is_pipe(args[i]))
-			break ;
-		else if (is_redir(args[i]))
+		if (is_redir(args[i]))
+		{
+			if (!args[i + 1])
+				return (count);
 			i += 2;
+		}
 		else
 		{
 			count++;
@@ -82,10 +86,8 @@ int	fill_cmd(char **args, t_command *cmd)
 	start = 0;
 	while (args[i])
 	{
-		if (is_pipe(args[i]) || !args[i + 1])
+		if (is_pipe(args[i]) || args[i + 1] == NULL)
 		{
-			if (!args[i + 1] && !is_pipe(args[i]))
-				i++;
 			if (!parse_single_cmd(&cmd[j], args, start))
 			{
 				while (j-- > 0)
