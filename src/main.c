@@ -24,11 +24,13 @@ static int	init_minishell(t_minishell *sh, char **envp)
 		return (0);
 	}
 	sh->exit_status = 0;
+	sh->total_pipeln_cmd = 0;
 	return (1);
 }
 
 int	main(int c, char **v, char **envp)
 {
+	int			i;
 	t_minishell	sh;
 	t_command	*cmd;
 	char		*prompt;
