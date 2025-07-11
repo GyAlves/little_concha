@@ -56,13 +56,14 @@ int	parse_single_cmd(t_command *cmd, char **args, int start)
 	return (1);
 }
 
-int	parse_n_init_cmd(t_command **cmd, char **args)
+int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args)
 {
 	int	cmd_count;
 
 	if (!args || !args[0])
 		return (0);
 	cmd_count = count_pipes(args);
+	sh->total_pipeln_cmd = cmd_count;
 	if (!init_cmd_arr(cmd, cmd_count))
 		return (0);
 	if (cmd_count == 1)
@@ -72,14 +73,17 @@ int	parse_n_init_cmd(t_command **cmd, char **args)
 			free(*cmd);
 			return (0);
 		}
-		return (1);
+		(*cmd)->piped = 0;
 	}
-	(*cmd)->piped = 1;
-	if (!fill_cmd(args,*cmd))
+	else
 	{
-		free_cmd_struct(*cmd);
-		free(*cmd);
-		return (0);
+		(*cmd)->piped = 1;
+		if (!fill_cmd(args,*cmd))
+		{
+			free_cmd_struct(*cmd);
+			free(*cmd);
+			return (0);
+		}
 	}
 	free_matrix(args);
 	return (1);
