@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:26:35 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/11 20:15:29 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:52:45 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	print_export_err(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-static void	print_unset_err(char *arg)
+static void	print_unset_err(char *arg) // print_cmd_error
 {
 	ft_putstr_fd("minishell: unset: '", 2);
 	ft_putstr_fd(arg, 2);

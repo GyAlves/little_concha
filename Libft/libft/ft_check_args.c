@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_check_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 16:55:08 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/11 20:49:48 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/11 20:35:30 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/11 20:36:02 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "minishell.h"
 
-/* Libs */
-char	**read_input(char **prompt);
-void    print_cmd_err(char *cmd);
-void    print_cd_no_file_nor_dir(char *path);
-char	*replace_variables(t_minishell *sh, char *input);
-void    print_num_arg_required(t_command *cmd);
-void    print_export_err(char *arg);
-int	    is_valid_id(char *envar);
-void    print_unset_err(char *arg);
-
-#endif
+bool	check_args(char *arg)
+{
+	if (!arg)
+		return (false);
+	if (!((*arg == '+' || *arg == '-') || (*arg >= '0' && *arg <= '9')))
+		return (false);
+	if ((*arg == '+' || *arg == '-') && (!(arg[1] >= '0' && arg[1] <= '9')))
+		return (false);
+	while (*++arg)
+	{
+		if (!(*arg >= '0' && *arg <= '9'))
+			return (false);
+	}
+	return (true);
+}

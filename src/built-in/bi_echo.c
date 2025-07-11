@@ -6,13 +6,13 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 19:16:38 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:54:53 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:49:06 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	handle_n_flag(char **args, int *index)
+int	handle_n_flag(char **args, int *index)
 {
 	int	n_flag;
 
@@ -25,7 +25,7 @@ static int	handle_n_flag(char **args, int *index)
 	return (n_flag);
 }
 
-static void	print_echo_args(t_minishell *sh, char **args, int index)
+void	print_echo_args(t_minishell *sh, char **args, int index)
 {
 	char	*expanded;
 

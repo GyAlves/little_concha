@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:16 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/06/21 19:42:17 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/11 20:42:56 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "utils.h"
+
+static void exec_child(t_minishell *sh, t_command *cmd);
 
 int	cmd_setup(t_minishell *sh, t_command *cmd, char **args, char *prompt)
 {

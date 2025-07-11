@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:17:00 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/06/21 17:17:00 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:54 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdbool.h>
 
 /* LIBFT FUNCTION PROTOTYPES */
 size_t	ft_strlen(const char *s);

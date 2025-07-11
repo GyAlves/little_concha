@@ -6,16 +6,15 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 19:16:51 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 20:07:45 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:56:47 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
+void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt, char **args)
 {
 	(void)prompt;
-	
 	ft_putstr_fd("exit\n", 1);
 	if (cmd->args[1] && cmd->args[2])
 	{
@@ -25,12 +24,13 @@ void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt)
 	}
 	if (cmd->args[1])
 	{
-		if (!check_args(cmd->args[1])) // TODO: Understand this implementation in the libft
+		if (!check_args(cmd->args[1]))
 		{
 			print_num_arg_required(cmd);
 			sh->exit_status = 2;
-			return ;
+			cleanup_n_exit(sh, cmd, prompt, args);
 		}
 		sh->exit_status = ft_atoi(cmd->args[1]);
 	}
+	cleanup_n_exit(sh, cmd, prompt, args);
 }
