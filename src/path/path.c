@@ -82,11 +82,11 @@ static char	*search_in_paths(char *cmd)
 
 char	*set_path(char *cmd)
 {
-	if (ft_strchr(cmd, '/')) //could be absolute or relative
+	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
-			return (cmd); //is executable
-		return (NULL); //exists but is not executable
+			return (cmd);
+		return (NULL);
 	}
 	return (search_in_paths(cmd));
 }
