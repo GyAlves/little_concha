@@ -7,11 +7,7 @@ int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
 
 	data.cmd_count = cmd_count;
 	if (!setup_pipes(&data, cmd_count))
-	{
-		free(data.pipes);
-		free(data.pids);
 		return (0);
-	}
 	i = 0;
 	while (i < cmd_count)
 	{
