@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:17:00 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:54 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:52:28 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *str, char separator);
 void	free_matrix(char **matrix);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strndup(const char *s, size_t n);
 
 #endif

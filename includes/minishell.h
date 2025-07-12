@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:55:08 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/06/21 18:33:58 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/12 17:06:54 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include "utils.h"
 # include "built-in.h"
 # include "../Libft/libft.h"
+#include "env_variables.h"
 
 /* GLOBAL CONSTANTS */
 # define PROMPT "shell>> "

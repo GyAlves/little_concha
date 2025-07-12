@@ -6,13 +6,13 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 19:16:33 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:50:51 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:55:26 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*cd_envar_home(t_minishell *sh)
+char	*cd_envar_home(t_minishell *sh)
 {
 	char	*target;
 
@@ -31,7 +31,7 @@ static char	*cd_envar_home(t_minishell *sh)
 	return (target);
 }
 
-static int	change_curr_dir(t_minishell *sh, char *target)
+int	change_curr_dir(t_minishell *sh, char *target)
 {
 	char	*cwd;
 

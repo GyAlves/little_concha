@@ -6,11 +6,13 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 20:20:14 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 20:55:53 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:23:59 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built-in.h"
+#include "../Libft/libft.h"
 
 static int	bi_from_cd_until_exit(t_minishell *sh, \
 	t_command *cmd, char *prompt)
@@ -32,7 +34,7 @@ static int	bi_from_cd_until_exit(t_minishell *sh, \
 	}
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
-		bi_exit(sh, cmd, prompt, NULL);
+	   bi_exit(sh, cmd, prompt);
 		return (sh->exit_status);
 	}
 	return (1);

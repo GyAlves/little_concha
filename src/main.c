@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:53:21 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/06/21 19:29:29 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/12 17:27:35 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	shell.envp = envp;
 	shell.exit_status = 0;
+	if (!setup_env_variables(count_env_variables(envp), shell, envp))
+		return (1);
 	while (6)
 	{
 		args = read_input(&prompt);

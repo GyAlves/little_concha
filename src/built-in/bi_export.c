@@ -6,13 +6,13 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 20:08:49 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 20:09:24 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:34:09 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_sorted_envar(t_minishell *sh)
+void	print_sorted_envar(t_minishell *sh)
 {
 	char	**copy;
 
@@ -23,7 +23,7 @@ static void	print_sorted_envar(t_minishell *sh)
 	free_matrix(copy);
 }
 
-static void	set_envar(t_minishell *sh, char *arg)
+void	set_envar(t_minishell *sh, char *arg)
 {
 	char	*key;
 	char	*equal;

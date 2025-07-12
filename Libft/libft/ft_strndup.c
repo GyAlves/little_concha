@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.c                                      :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 17:57:42 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/12 17:34:01 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/12 16:51:46 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/12 16:52:14 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**read_input(char **prompt)
+char	*ft_strndup(const char *s, size_t n)
 {
-	char	**args;
+	char	*scopy;
+	size_t	len;
 
-	*prompt = readline(PROMPT);
-	if (!*prompt)
+	len = 0;
+	while (s[len] && len < n)
+		len++;
+	scopy = (char *)malloc(sizeof(char) * (len + 1));
+	if (!scopy)
 		return (NULL);
-	add_history(*prompt);
-	return (lexer(*prompt));
+	ft_strlcpy(scopy, s, len + 1);
+	return (scopy);
 }
