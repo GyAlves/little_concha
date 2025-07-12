@@ -12,12 +12,12 @@
 
 #include "../minishell.h"
 
-static int	init_minishell(t_minishell *sh, char **envp)
+static int	init_minishell(t_minishell *sh, char **envp) //inicializa a estrutura t_minishell 
 {
-	sh->envp = alloc_init_envar_arr(count_init_envar(envp));
+	sh->envp = alloc_init_envar_arr(count_init_envar(envp)); //aloca memoria em sh->envp
 	if (!sh->envp)
 		return (0);
-	cpy_envar_entries(sh->envp, envp, count_init_envar(envp));
+	cpy_envar_entries(sh->envp, envp, count_init_envar(envp)); //copia as envar para sh->envp
 	if (!sh->envp[0])
 	{
 		free(sh->envp);
@@ -38,11 +38,11 @@ int	main(int c, char **v, char **envp)
 
 	(void)c;
 	(void)v;
-	if (!init_minishell(&sh, envp))
+	if (!init_minishell(&sh, envp)) //se ocorrer um erro durante a inicialização da estrutura t_minishell, retorne erro
 		return (1);
 	while (6)
 	{
-		args = read_input(&prompt);
+		args = read_input(&prompt); //args salva o prompt(o mano que recebe o input do user) ja tokenizado
 		if (!args)
 		{
 			if (prompt)

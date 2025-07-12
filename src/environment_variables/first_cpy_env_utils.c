@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int	count_init_envar(char **envp)
+int	count_init_envar(char **envp) //conta quantas envar existem no arr envp, usado para saber o tamanho necessario para alocar mem para um novo arr de ambiente
 {
 	int	count;
 
@@ -10,7 +10,7 @@ int	count_init_envar(char **envp)
 	return (count);
 }
 
-char	**alloc_init_envar_arr(int count)
+char	**alloc_init_envar_arr(int count) //aloca memoria e cria um espaço para um arr de ponteiros que armazena a copia das envar
 {
 	char	**new_envp;
 
