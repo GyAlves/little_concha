@@ -51,7 +51,7 @@ char	*find_envar(char **envp, char *key)
 	return (NULL);
 }
 
-int	cpy_envar_entries(char **new_envp, char **old_envp, int count)
+int	cpy_envar_entries(char **new_envp, char **old_envp, int count) //copia as variaveis de ambiente de old_envp(arr original) para new_envp(arr alocado)
 {
 	int		i;
 	char	*tmp;
@@ -71,7 +71,7 @@ int	cpy_envar_entries(char **new_envp, char **old_envp, int count)
 		i++;
 	}
 	return (1);
-}
+} //obs: erro de liberação de memoria, pode ser resolvida em free_minishell() com free_matrix()
 
 char	*create_envar_entry(char *key, char *val)
 {
