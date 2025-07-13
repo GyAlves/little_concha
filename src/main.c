@@ -43,16 +43,16 @@ int	main(int c, char **v, char **envp)
 	while (6)
 	{
 		args = read_input(&prompt); //args salva o prompt(o mano que recebe o input do user) ja tokenizado
-		if (!args)
+		if (!args) //se não existem tokens para processar
 		{
-			if (prompt)
+			if (prompt) //verifica se prompt não é null antes de tentar liberar
 			{
-				free(prompt);
-				prompt = NULL;
+				free(prompt); //liberar memoria alocada pelo radliine
+				prompt = NULL; //definir como null para receber outro input
 			}
-			if (sh.exit_status == 111)
+			if (sh.exit_status == 111) //terminar o programa com ctrl+d (não funciona ainda)
 				break ;
-			continue ;
+			continue ; //volta para o inicio do loop
 		}
 		cmd = NULL;
 		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt);
