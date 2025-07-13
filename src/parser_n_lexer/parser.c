@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static int	count_pipes(char **args)
+static int	count_pipes(char **args) //conta a quantidade de pipes que tem na linha de comando e itera count para retornar posteriormente
 {
 	int	i;
 	int	count;
@@ -16,13 +16,13 @@ static int	count_pipes(char **args)
 	return (count);
 }
 
-static int	init_cmd_redir(t_command *cmd, char **args)
+static int	init_cmd_redir(t_command *cmd, char **args) //inicializa a struct de redir 
 {
-	cmd->redir_count = count_redirs(args);
-	cmd->redirects = ft_calloc(cmd->redir_count + 1, sizeof(t_redirect));
+	cmd->redir_count = count_redirs(args); //adiciona a contagem de redirs a struct
+	cmd->redirects = ft_calloc(cmd->redir_count + 1, sizeof(t_redirect)); //aloca memoria para a struct de redir
 	if (!cmd->redirects)
 		return (0);
-	if (!fill_redirs(cmd, args))
+	if (!fill_redirs(cmd, args)) //confere os argumentos passados 
 	{
 		free(cmd->redirects);
 		return (0);
@@ -30,20 +30,20 @@ static int	init_cmd_redir(t_command *cmd, char **args)
 	return (1);
 }
 
-int	parse_single_cmd(t_command *cmd, char **args, int start)
+int	parse_single_cmd(t_command *cmd, char **args, int start) //faz a contagem de pipes e de redir
 {
 	int		n_count;
 	char	**cmd_args;
 
 	if (!cmd || !args)
 		return (0);
-	cmd->piped = 0;
-	cmd->redir_count = 0;
+	cmd->piped = 0; //inicializa na struct
+	cmd->redir_count = 0; //inicializa na struct
 	n_count = count_cmd_args(args + start);
-	cmd_args = ft_calloc(n_count + 1, sizeof(char *));
+	cmd_args = ft_calloc(n_count + 1, sizeof(char *)); //aloca memoria para esse arr de arr 
 	if (!cmd_args)
 		return (0);
-	if (!cpy_cmd_args(args + start, cmd_args))
+	if (!cpy_cmd_args(args + start, cmd_args)) //
 	{
 		free_matrix(cmd_args);
 		return (0);
@@ -57,19 +57,19 @@ int	parse_single_cmd(t_command *cmd, char **args, int start)
 	return (1);
 }
 
-int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args)
+int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args) 
 {
 	int	cmd_count;
 
 	if (!args || !args[0])
 		return (0);
-	cmd_count = count_pipes(args);
-	sh->total_pipeln_cmd = cmd_count;
-	if (!init_cmd_arr(cmd, cmd_count))
+	cmd_count = count_pipes(args); //cmd_count armazena a qnt de pipes que apareceram
+	sh->total_pipeln_cmd = cmd_count; //aqui armazenamos a qnt em uma struct
+	if (!init_cmd_arr(cmd, cmd_count)) //se falhar em alocar memoria para cmd
 		return (0);
-	if (cmd_count == 1)
+	if (cmd_count == 1) //se a qnt de pipe for 1
 	{
-		if (!parse_single_cmd(*cmd, args, 0))
+		if (!parse_single_cmd(*cmd, args, 0)) //confere se existem pipes e redirs
 		{
 			free(*cmd);
 			return (0);

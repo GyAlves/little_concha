@@ -15,7 +15,7 @@ t_redir_type	get_redir_type(char *str)
 	return (INVALID);
 }
 
-int	is_pipe(char *str)
+int	is_pipe(char *str) //confere se é um pipe nos tokens 
 {
 	return (str && ft_strcmp(str, "|") == 0);
 }

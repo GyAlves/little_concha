@@ -23,7 +23,7 @@ static int	fill_single_redir(t_command *cmd, char **args, int i, int count)
 	return (1);
 }
 
-int	fill_redirs(t_command *cmd, char **args)
+int	fill_redirs(t_command *cmd, char **args) //confere em um loop os redirects em os inicializa
 {
 	int			i;
 	int			count;
@@ -34,7 +34,7 @@ int	fill_redirs(t_command *cmd, char **args)
 	{
 		if (is_redir(args[i]))
 		{
-			if (!fill_single_redir(cmd, args, i, count))
+			if (!fill_single_redir(cmd, args, i, count)) //confere se inicializou a struct de redir com sucesso
 				return (0);
 			count++;
 			i += 2;

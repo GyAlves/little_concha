@@ -50,12 +50,12 @@ int	main(int c, char **v, char **envp)
 				free(prompt); //liberar memoria alocada pelo radliine
 				prompt = NULL; //definir como null para receber outro input
 			}
-			if (sh.exit_status == 111) //terminar o programa com ctrl+d (não funciona ainda)
+			if (sh.exit_status == 111) //terminar o programa com ctrl+d
 				break ;
 			continue ; //volta para o inicio do loop
 		}
-		cmd = NULL;
-		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt);
+		cmd = NULL; // inicializa a var cmd pois 
+		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt); //processa os tokens de args e cria cmd, é atribuido a sh pois armazena o resultado da execução
 		if (cmd)
 		{
 			i = 0;

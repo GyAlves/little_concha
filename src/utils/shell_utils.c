@@ -91,12 +91,12 @@ static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	return (status);
 }
 
-int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt)
+int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt) //faz o parsing e a execução do comando
 {
 	int	status;
 
-	if (!parse_n_init_cmd(sh, cmd, args))
+	if (!parse_n_init_cmd(sh, cmd, args)) //parsing
 		return (1);
-	status = exc_cmd(sh, *cmd, prompt);
-	return (status);
+	status = exc_cmd(sh, *cmd, prompt); //execução
+	return (status); //retorna o starus da execução, se deu bom ou nn
 }
