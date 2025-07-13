@@ -1,8 +1,13 @@
 #include "../../minishell.h"
 
-char	**read_input(char **prompt) //chama readline() que captura o input do user, add o historico, por ultimo, passamos para o lexer para inicializar a tokenização
+char	**read_input(t_minishell *sh, char **prompt) //chama readline() que captura o input do user, add o historico, por ultimo, passamos para o lexer para inicializar a tokenização
 {
 	*prompt = readline("type> ");
+	if (!*prompt)
+    {
+        sh->exit_status = 111; // Sinalizar Ctrl+D
+        return (NULL);
+    }
 	if (!*prompt || **prompt == '\0')
 		return (NULL);
 	add_history(*prompt);

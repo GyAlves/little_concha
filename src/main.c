@@ -42,7 +42,7 @@ int	main(int c, char **v, char **envp)
 		return (1);
 	while (6)
 	{
-		args = read_input(&prompt); //args salva o prompt(o mano que recebe o input do user) ja tokenizado
+		args = read_input(&sh, &prompt); //args salva o prompt(o mano que recebe o input do user) ja tokenizado
 		if (!args) //se não existem tokens para processar
 		{
 			if (prompt) //verifica se prompt não é null antes de tentar liberar

@@ -151,7 +151,7 @@ void			free_cmd_struct(t_command *cmd);
 int				count_redirs(char **args);
 int				fill_redirs(t_command *cmd, char **args);
 // src/utils/shell_utils.c
-char			**read_input(char **prompt);
+char			**read_input(t_minishell *sh, char **prompt);
 int				handle_redir_in_exc(t_minishell \
 				*sh, t_command *cmd, t_std_redir *backup);
 int				init_n_exc_cmd(t_minishell *sh, t_command **cmd, \
