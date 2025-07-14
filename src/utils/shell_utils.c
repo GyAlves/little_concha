@@ -91,7 +91,7 @@ static int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt) //executa pip
 	return (status);
 }
 
-int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt) //faz o parsing e a execução do comando
+int	init_n_exec_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt) //faz o parsing e a execução do comando
 {
 	int	status;
 

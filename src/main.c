@@ -54,9 +54,9 @@ int	main(int c, char **v, char **envp)
 				break ;
 			continue ; //volta para o inicio do loop
 		}
-		cmd = NULL; // inicializa a var cmd pois 
-		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt); //processa os tokens de args e cria cmd, é atribuido a sh pois armazena o resultado da execução
-		if (cmd)
+		cmd = NULL; // inicializa a var cmd
+		sh.exit_status = init_n_exec_cmd(&sh, &cmd, args, prompt); //processa os tokens de args e cria cmd, é atribuido a sh pois armazena o resultado da execução
+		if (cmd) //verifica se cmd foi alocado antes de tentar liberar
 		{
 			i = 0;
 			while ( i < sh.total_pipeln_cmd)
