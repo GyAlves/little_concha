@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:53:21 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/12 17:27:35 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:19:27 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	init_minishell(t_minishell *shell, char **envp) //inicializa a estrutura t_minishell 
+{
+	setup_env_variables(count_env_variables(envp), shell, envp);
+
+	// sh->envp = alloc_init_envar_arr(count_init_envar(envp));
+	// if (!sh->envp)
+	// 	return (0);
+	// cpy_envar_entries(sh->envp, envp, count_init_envar(envp)); //copia as envar para sh->envp
+	// if (!sh->envp[0])
+	// {
+	// 	free(sh->envp);
+	// 	return (0);
+	// }
+	// sh->exit_status = 0;
+	// sh->total_pipeln_cmd = 0;
+	// return (1);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
