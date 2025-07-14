@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int	count_cmd_args(char **args) //conta quantos argumentos pertencem a um unico comando anted de um pipe ou o fim, e ignora os redir
+int	count_cmd_args(char **args) //conta quantos argumentos pertencem a um unico comando antes de um pipe ou o fim, e ignora os redir
 {
 	int		i;
 	int		count;
@@ -13,7 +13,7 @@ int	count_cmd_args(char **args) //conta quantos argumentos pertencem a um unico 
 	{
 		if (is_redir(args[i])) //verifica se um token é um redir
 		{
-			if (!args[i + 1]) //se é um redir porém nap existe arquivo, retorna o count atual, pois o redir esta incompleto
+			if (!args[i + 1]) //se é um redir porém nao existe arquivo, retorna o count atual, pois o redir esta incompleto
 				return (count);
 			i += 2; //se for redir, pula o token 
 		}
@@ -26,7 +26,7 @@ int	count_cmd_args(char **args) //conta quantos argumentos pertencem a um unico 
 	return (count);
 }
 
-char	**cpy_cmd_args(char **args, char **n_args) //
+char	**cpy_cmd_args(char **args, char **n_args) //copia os argumentos de args para n_args, excluindo pipes e redir
 {
 	int		i;
 	int		j;

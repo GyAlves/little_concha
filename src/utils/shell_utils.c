@@ -61,17 +61,17 @@ int	handle_redir_in_exc(t_minishell \
 	return (1);
 }
 
-static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+static int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt) //executa pipe, redir, bi ou comandos externos
 {
 	int			status;
 	t_std_redir	backup;
 
-	backup.in = -1;
-	backup.out = -1;
-	if (!process_all_heredocs(sh, cmd))
+	backup.in = -1; //armazena a copia dos fd antes dos redir, inicializa com -1 para indicar que não existe fd salvo
+	backup.out = -1; //armazena a copia dos fd antes dos redir, inicializa com -1 para indicar que não existe fd salvo
+	if (!process_all_heredocs(sh, cmd)) //processa heredocs
 		return (1);
 	if (cmd->piped)
-		return (handle_pipes(sh, cmd, count_cmd_args(cmd->args)));
+		return (handle_pipes(sh, cmd, count_cmd_args(cmd->args))); //se pipe existir tratamos pipes
 	if (is_builtin(cmd) && is_parent_builtin(cmd))
 	{
 		if (!handle_redir_in_exc(sh, cmd, &backup))
@@ -85,7 +85,7 @@ static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	}
 	else
 	{
-		exec_cmd(sh, cmd, prompt);
+		exec_child(sh, cmd, prompt);
 		status = sh->exit_status;
 	}
 	return (status);
@@ -97,6 +97,6 @@ int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt) 
 
 	if (!parse_n_init_cmd(sh, cmd, args)) //parsing
 		return (1);
-	status = exc_cmd(sh, *cmd, prompt); //execução
+	status = exec_cmd(sh, *cmd, prompt); //executa o cmd armazenado e armazena o resultado em status
 	return (status); //retorna o starus da execução, se deu bom ou nn
 }

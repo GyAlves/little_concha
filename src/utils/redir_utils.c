@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static int	fill_single_redir(t_command *cmd, char **args, int i, int count)
+static int	fill_single_redir(t_command *cmd, char **args, int i, int count) //preenche a estrada de redir na struct com o tipo e o nome
 {
 	int	j;
 

@@ -44,13 +44,13 @@ int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
 	return (1);
 }*/
 
-void	exec_child(t_minishell *sh, t_command *cmd) //
+void	exec_child_cmd(t_minishell *sh, t_command *cmd) //
 {
 	char		*full_cmd_path;
 	t_std_redir	child_redir_backup;
 
-	child_redir_backup.in = -1;
-	child_redir_backup.out = -1;
+	child_redir_backup.in = -1; //salva a o fd padrão do processo antes de aplicar o redir
+	child_redir_backup.out = -1; //salva a o fd padrão do processo antes de aplicar o redir
 
 	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
 		exit (1);
@@ -82,7 +82,7 @@ int	is_parent_builtin(t_command *cmd)
 	if (!cmd->args || !cmd->args[0])
 		return (0);
 	if (ft_strcmp(cmd->args[0], "cd") == 0 ||
-		ft_strcmp(cmd->args[0], "exit") == 0 ||
+		ft_strcmp	(cmd->args[0], "exit") == 0 ||
 		ft_strcmp(cmd->args[0], "export") == 0 ||
 		ft_strcmp(cmd->args[0], "unset") == 0 ||
 		ft_strcmp(cmd->args[0], "echo") == 0)
@@ -90,7 +90,7 @@ int	is_parent_builtin(t_command *cmd)
 	return (0);
 }
 
-int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+int	exec_child(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	pid_t		pid;
@@ -107,7 +107,7 @@ int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	}
 	if (pid == 0) //filhote
 	{
-		exec_child(sh, cmd);
+		exec_child_cmd(sh, cmd);
 		exit (127);
 	}
 	else //papai

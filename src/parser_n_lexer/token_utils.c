@@ -20,7 +20,7 @@ int	is_pipe(char *str) //confere se é um pipe nos tokens
 	return (str && ft_strcmp(str, "|") == 0);
 }
 
-int	is_redir(char *str)
+int	is_redir(char *str) //verifica se o token é um redir
 {
 	return (get_redir_type(str) != INVALID);
 }

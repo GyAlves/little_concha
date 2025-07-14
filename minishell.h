@@ -154,7 +154,7 @@ int				fill_redirs(t_command *cmd, char **args);
 char			**read_input(t_minishell *sh, char **prompt);
 int				handle_redir_in_exc(t_minishell \
 				*sh, t_command *cmd, t_std_redir *backup);
-int				init_n_exc_cmd(t_minishell *sh, t_command **cmd, \
+int				init_n_exec_cmd(t_minishell *sh, t_command **cmd, \
 char **args, char *prompt);
 // src/utils/var_expansion.c
 char			*expand_variable(t_minishell *sh, char *str);
@@ -163,8 +163,8 @@ char			*replace_variables(t_minishell *sh, char *input);
 // src/
 // src/commands.c
 int				apply_heredoc_redir(t_minishell *sh, t_command *cmd);
-void			exec_child(t_minishell *sh, t_command *cmd);
-int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+void			exec_child_cmd(t_minishell *sh, t_command *cmd);
+int				exec_child(t_minishell *sh, t_command *cmd, char *prompt);
 // src/environment_var.c
 char			**get_envar_path(void);
 // src/path.c

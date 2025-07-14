@@ -30,7 +30,7 @@ static int	init_cmd_redir(t_command *cmd, char **args) //inicializa a struct de 
 	return (1);
 }
 
-int	parse_single_cmd(t_command *cmd, char **args, int start) //faz a contagem de pipes e de redir
+int	parse_single_cmd(t_command *cmd, char **args, int start) //inicializa a struct para um unico comando, conta argumentos e redirs
 {
 	int		n_count;
 	char	**cmd_args;
@@ -43,7 +43,7 @@ int	parse_single_cmd(t_command *cmd, char **args, int start) //faz a contagem de
 	cmd_args = ft_calloc(n_count + 1, sizeof(char *)); //aloca memoria para esse arr de arr 
 	if (!cmd_args)
 		return (0);
-	if (!cpy_cmd_args(args + start, cmd_args)) //
+	if (!cpy_cmd_args(args + start, cmd_args)) //copia os argumentos do cmd(exceto pipes e redirs)
 	{
 		free_matrix(cmd_args);
 		return (0);
@@ -57,19 +57,19 @@ int	parse_single_cmd(t_command *cmd, char **args, int start) //faz a contagem de
 	return (1);
 }
 
-int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args) 
+int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args) //Processa args para criar um array de t_command, lidando com comandos simples (sem pipes)
 {
 	int	cmd_count;
 
 	if (!args || !args[0])
 		return (0);
-	cmd_count = count_pipes(args); //cmd_count armazena a qnt de pipes que apareceram
+	cmd_count = count_pipes(args); //cmd_count armazena o numero de pipes que apareceram
 	sh->total_pipeln_cmd = cmd_count; //aqui armazenamos a qnt em uma struct
 	if (!init_cmd_arr(cmd, cmd_count)) //se falhar em alocar memoria para cmd
 		return (0);
 	if (cmd_count == 1) //se a qnt de pipe for 1
 	{
-		if (!parse_single_cmd(*cmd, args, 0)) //confere se existem pipes e redirs
+		if (!parse_single_cmd(*cmd, args, 0)) //lida com comandos sem pipes
 		{
 			free(*cmd);
 			return (0);

@@ -1,13 +1,13 @@
 #include "../../minishell.h"
 
-int	setup_pipes(t_pipe_data *data, int cmd_count)
+int	setup_pipes(t_pipe_data *data, int cmd_count) //inicializa a struct pipe
 {
 	int	i;
 
-	data->pids = malloc(cmd_count * sizeof(pid_t));
+	data->pids = malloc(cmd_count * sizeof(pid_t)); //armazena os id do processo filho que é criado em fork_n_redirect_pipe() e espera em wait_pipe_child(), usamos para rastrear o processo filho 
 	if (!data->pids)
 		return (0);
-	data->pipes = malloc((cmd_count -1) * sizeof(int *));
+	data->pipes = malloc((cmd_count -1) * sizeof(int *)); //aloca memoria para o arr de int que tem dois fd, entrada e saida
 	if (!data->pipes)
 	{
 		free(data->pids);
@@ -50,12 +50,12 @@ void	close_pipes(t_pipe_data *data)
 }
 
 static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
-int *in_fd, int *out_fd)
+int *in_fd, int *out_fd) //muda a fd para a execução do pipe no processo filho
 {
 	t_std_redir	child_redir_backup;
 
-	child_redir_backup.in = -1;
-	child_redir_backup.out = -1;
+	child_redir_backup.in = -1; //salva a o fd padrão do processo antes de aplicar o redir
+	child_redir_backup.out = -1; //salva a o fd padrão do processo antes de aplicar o redir
 	if (in_fd)
 	{
 		dup2(*in_fd, STDIN_FILENO);
@@ -68,11 +68,11 @@ int *in_fd, int *out_fd)
 	}
 	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
 		exit(1);
-	exec_child(sh, cmd);
+	exec_child_cmd(sh, cmd);
 }
 
 void	fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
-t_pipe_data *data, int i)
+t_pipe_data *data, int i) //
 {
 	pid_t	pid;
 

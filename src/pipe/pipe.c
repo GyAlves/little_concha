@@ -1,12 +1,12 @@
 #include "../../minishell.h"
 
-int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
+int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count) //Configura e executa um pipe, criando processos filhos para cada comando.
 {
 	int			i;
 	t_pipe_data	data;
 
 	data.cmd_count = cmd_count;
-	if (!setup_pipes(&data, cmd_count))
+	if (!setup_pipes(&data, cmd_count)) //inicializa a struct e aloca memoria para a mesma
 		return (0);
 	i = 0;
 	while (i < cmd_count)
