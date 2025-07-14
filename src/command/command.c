@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 23:28:23 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/14 19:12:09 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:31:44 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int init_command(t_minishell *sh, t_command **cmd, char **args, char *prompt)
 
 int handle_single_cmd(t_command **cmd, char **args)
 {
-    (*cmd)->piped = 0;
+    (*cmd)->is_piped = 0;
     if (!parse_single_cmd(*cmd, args, 0))
     {
         free(*cmd);
@@ -48,7 +48,7 @@ int handle_single_cmd(t_command **cmd, char **args)
 
 int handle_multi_cmd(t_command **cmd, char **args)
 {
-    (*cmd)->piped = 1;
+    (*cmd)->is_piped = 1;
     if (!fill_cmd(args, *cmd))
     {
         cleanup_cmd(*cmd);
@@ -56,4 +56,3 @@ int handle_multi_cmd(t_command **cmd, char **args)
     }
     return 1;
 }
-

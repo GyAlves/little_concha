@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:34 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/14 18:58:54 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:25:07 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,7 @@ char			**alloc_init_envar_arr(int count);
 
 
 // src/parser_n_lexer/parser.c
-int				parse_single_cmd(t_command *cmd, char **args, int start);
 // src/parser_n_lexer/parser_utils.c
-int				count_cmd_args(char **args);
-char			**cpy_cmd_args(char **args, char **n_args);
 char			**filter_n_rm_redir(char **args, int *n_count);
 int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(char **args, t_command *cmd);
