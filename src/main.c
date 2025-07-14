@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:52 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/14 13:58:01 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/14 18:16:19 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	setup_command(t_command **cmd, t_minishell *shell, char **prompt, ch
 	int	counter;
 
 	*cmd = NULL;
-	shell->exit_status = init_n_exc_cmd(shell, cmd, *args, *prompt);
+	shell->exit_status = init_command(shell, cmd, *args, *prompt);
 	if (*cmd)
 	{
 		counter = 0;

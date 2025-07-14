@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/13 23:37:44 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/14 19:35:54 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ typedef struct s_command
 } t_command;
 
 /* Functions */
-int	setup_command(t_minishell *sh, t_command **cmd, char **args, char *prompt);
+int	init_command(t_minishell *sh, t_command **cmd, char **args, char *prompt);
+int	init_command_arr(t_command **cmd, int cmd_count);
+int handle_single_cmd(t_command **cmd, char **args);
+int handle_multi_cmd(t_command **cmd, char **args);
+int	parse_single_cmd(t_command *cmd, char **args, int start);
+int	count_command_args(char **args);
+void cleanup_cmd(t_command *cmd);
 
 #endif

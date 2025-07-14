@@ -67,14 +67,6 @@ char	**filter_n_rm_redir(char **args, int *n_count)
 	return (n_args);
 }
 
-int	init_cmd_arr(t_command **cmd, int cmd_count) //aloca memoria para cmd
-{
-	*cmd = ft_calloc(cmd_count, sizeof(t_command));
-	if (!*cmd)
-		return (0);
-	return (1);
-}
-
 int	fill_cmd(char **args, t_command *cmd)
 {
 	int	i;

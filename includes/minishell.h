@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:34 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/14 14:07:04 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/14 18:58:54 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_pipe_data
 #include "environment_variables.h"
 #include "shell.h"
 #include "command.h"
+#include "tokenization.h"
 
 // src/built-in
 // src/built-in/bi_cd.c
@@ -95,12 +96,9 @@ char			*create_envar_entry(char *key, char *val);
 int				count_init_envar(char **envp);
 char			**alloc_init_envar_arr(int count);
 
-// src/parser_n_lexer
-// src/parser_n_lexer/lexer.c
-char			**lexer(char *input);
+
 // src/parser_n_lexer/parser.c
 int				parse_single_cmd(t_command *cmd, char **args, int start);
-int				parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args);
 // src/parser_n_lexer/parser_utils.c
 int				count_cmd_args(char **args);
 char			**cpy_cmd_args(char **args, char **n_args);
@@ -110,7 +108,7 @@ int				fill_cmd(char **args, t_command *cmd);
 // src/parser_n_lexer/token_utils.c
 t_redir_type	get_redir_type(char *str);
 int				is_redir(char *str);
-int				is_pipe(char *str);
+
 // src/pipe
 // src/pipe/pipe_utils.c
 int				setup_pipes(t_pipe_data *data, int cmd_count);

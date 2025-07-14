@@ -3,44 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   command_management_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 23:31:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/14 13:57:55 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/14 19:32:56 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int	parse_n_init_cmd(t_minishell *sh, t_command **cmd, char **args) 
+int	init_command_arr(t_command **cmd, int cmd_count)
 {
-	int	cmd_count;
-
-	if (!args || !args[0])
+	*cmd = ft_calloc(cmd_count, sizeof(t_command));
+	if (!*cmd)
 		return (0);
-	cmd_count = count_pipes(args); //cmd_count armazena a qnt de pipes que apareceram
-	sh->total_pipeln_cmd = cmd_count; //aqui armazenamos a qnt em uma struct
-	if (!init_cmd_arr(cmd, cmd_count)) //se falhar em alocar memoria para cmd
-		return (0);
-	if (cmd_count == 1) //se a qnt de pipe for 1
-	{
-		if (!parse_single_cmd(*cmd, args, 0)) //confere se existem pipes e redirs
-		{
-			free(*cmd);
-			return (0);
-		}
-		(*cmd)->piped = 0;
-	}
-	else
-	{
-		(*cmd)->piped = 1;
-		if (!fill_cmd(args,*cmd))
-		{
-			free_cmd_struct(*cmd);
-			free(*cmd);
-			return (0);
-		}
-	}
 	return (1);
+}
+
+void cleanup_cmd(t_command *cmd)
+{
+    free_cmd_struct(cmd);
+    free(cmd);
+}
+
+int	count_command_args(char **args)
+{
+	int		counter;
+	int		count;
+
+	if (!args)
+		return (0);
+	counter = 0;
+	cmd_count = 0;
+	while (args[counter] && !is_pipe(args[counter]))
+	{
+		if (is_redir(args[counter]))
+		{
+			if (!args[counter + 1])
+				return (cmd_count);
+			counter += 2;
+		}
+		else
+		{
+			cmd_count++;
+			counter++;
+		}
+	}
+	return (cmd_count);
 }

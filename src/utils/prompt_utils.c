@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:00:28 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/14 14:06:38 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/14 18:12:01 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,4 @@ static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 		status = sh->exit_status;
 	}
 	return (status);
-}
-
-int	init_n_exc_cmd(t_minishell *sh, t_command **cmd, char **args, char *prompt) //faz o parsing e a execução do comando
-{
-	int	status;
-
-	if (!parse_n_init_cmd(sh, cmd, args)) //parsing
-		return (1);
-	status = exc_cmd(sh, *cmd, prompt); //execução
-	return (status); //retorna o starus da execução, se deu bom ou nn
 }
