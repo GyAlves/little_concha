@@ -3,77 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:52 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/06 17:37:55 by fleite-j         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:58:01 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-static int	init_minishell(t_minishell *sh, char **envp) //inicializa a estrutura t_minishell 
+static int	init_minishell(t_minishell *shell, char **envp)
 {
-	sh->envp = alloc_init_envar_arr(count_init_envar(envp)); //aloca memoria em sh->envp
-	if (!sh->envp)
-		return (0);
-	cpy_envar_entries(sh->envp, envp, count_init_envar(envp)); //copia as envar para sh->envp
-	if (!sh->envp[0])
+	setup_env_variables(count_init_envar(envp), shell, envp);
+	if (!shell->envp[0])
 	{
-		free(sh->envp);
+		free(shell->envp);
 		return (0);
 	}
-	sh->exit_status = 0;
-	sh->total_pipeln_cmd = 0;
+	shell->exit_status = 0;
+	shell->total_pipeln_cmd = 0;
 	return (1);
+}
+
+static bool	setup_prompt(t_minishell *shell, char **prompt, char ***args)
+{	
+	*args = read_input(shell, prompt);
+	if (!*args)
+	{
+		if (*prompt)
+		{
+			free(*prompt);
+			*prompt = NULL;
+		}
+		return (false);
+	}
+	return (true);
+}
+
+static void	setup_command(t_command **cmd, t_minishell *shell, char **prompt, char ***args)
+{
+	int	counter;
+
+	*cmd = NULL;
+	shell->exit_status = init_n_exc_cmd(shell, cmd, *args, *prompt);
+	if (*cmd)
+	{
+		counter = 0;
+		while (counter < shell->total_pipeln_cmd)
+		{
+			free_cmd_struct(&(*cmd)[counter]);
+			counter++;
+		}
+		free(*cmd);
+		*cmd = NULL;
+	}
 }
 
 int	main(int c, char **v, char **envp)
 {
-	int			i;
-	t_minishell	sh;
+	t_minishell	shell;
 	t_command	*cmd;
 	char		*prompt;
 	char		**args;
 
 	(void)c;
 	(void)v;
-	if (!init_minishell(&sh, envp)) //se ocorrer um erro durante a inicialização da estrutura t_minishell, retorne erro
+	if (!init_minishell(&shell, envp))
 		return (1);
 	while (6)
 	{
-		args = read_input(&sh, &prompt); //args salva o prompt(o mano que recebe o input do user) ja tokenizado
-		if (!args) //se não existem tokens para processar
+		if (!setup_prompt(&shell, &prompt, &args))
 		{
-			if (prompt) //verifica se prompt não é null antes de tentar liberar
-			{
-				free(prompt); //liberar memoria alocada pelo radliine
-				prompt = NULL; //definir como null para receber outro input
-			}
-			if (sh.exit_status == 111) //terminar o programa com ctrl+d
+			if (shell.exit_status == 111)
 				break ;
-			continue ; //volta para o inicio do loop
+			continue;
 		}
-		cmd = NULL; // inicializa a var cmd pois 
-		sh.exit_status = init_n_exc_cmd(&sh, &cmd, args, prompt); //processa os tokens de args e cria cmd, é atribuido a sh pois armazena o resultado da execução
-		if (cmd)
-		{
-			i = 0;
-			while ( i < sh.total_pipeln_cmd)
-			{
-				free_cmd_struct(&cmd[i]);
-				i++;
-			}
-			free(cmd);
-			cmd = NULL;
-		}
+		setup_command(&cmd, &shell, &prompt, &args);
 		free_matrix(args);
 		args = NULL;
 		free(prompt);
 		prompt = NULL;
-		if (sh.exit_status == 111)
+		if (shell.exit_status == 111)
 			break ;
 	}
-	free_minishell(&sh);
-	return (sh.exit_status);
+	free_minishell(&shell);
+	return (shell.exit_status);
 }

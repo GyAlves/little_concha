@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:21:32 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/07 13:21:33 by fleite-j         ###   ########.fr       */
+/*   Updated: 2025/07/13 23:25:46 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static void	print_cmd_err(char *cmd_name, char	*error_msg)
 {
@@ -96,7 +96,7 @@ int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	pid_t		pid;
 
 	prompt = NULL;
-	if (cmd->piped || sh->total_pipeln_cmd > 1)
+	if (cmd->is_piped || sh->total_pipeln_cmd > 1)
 		return (handle_pipes(sh, cmd, sh->total_pipeln_cmd));
 	pid = fork();
 	if (pid == -1)

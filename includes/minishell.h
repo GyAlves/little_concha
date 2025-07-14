@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:34 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/06 17:37:37 by fleite-j         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:07:04 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* Libs */
 # include <stdio.h>
 # include <stdbool.h>
 # include <stdlib.h>
@@ -52,21 +53,10 @@ typedef struct s_pipe_data
 	pid_t	*pids;
 }			t_pipe_data;
 
-typedef struct s_command
-{
-	char		**args;
-	t_redirect	*redirects;
-	t_pipe_data	*pipe;
-	int			redir_count;
-	int			piped;
-}			t_command;
-
-typedef struct s_minishell
-{
-	char	**envp;
-	int		exit_status;
-	int		total_pipeln_cmd;
-}			t_minishell;
+/* Headers */
+#include "environment_variables.h"
+#include "shell.h"
+#include "command.h"
 
 // src/built-in
 // src/built-in/bi_cd.c
@@ -151,7 +141,7 @@ void			free_cmd_struct(t_command *cmd);
 int				count_redirs(char **args);
 int				fill_redirs(t_command *cmd, char **args);
 // src/utils/shell_utils.c
-char			**read_input(t_minishell *sh, char **prompt);
+char			**read_input(t_minishell *shell, char **prompt);
 int				handle_redir_in_exc(t_minishell \
 				*sh, t_command *cmd, t_std_redir *backup);
 int				init_n_exc_cmd(t_minishell *sh, t_command **cmd, \

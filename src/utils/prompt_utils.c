@@ -1,11 +1,23 @@
-#include "../../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 14:00:28 by gyasminalve       #+#    #+#             */
+/*   Updated: 2025/07/14 14:06:38 by gyasminalve      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	**read_input(t_minishell *sh, char **prompt) //chama readline() que captura o input do user, add o historico, por ultimo, passamos para o lexer para inicializar a tokenização
+#include "minishell.h"
+
+char	**read_input(t_minishell *shell, char **prompt)
 {
-	*prompt = readline("type> ");
+	*prompt = readline(PROMPT);
 	if (!*prompt)
     {
-        sh->exit_status = 111; // Sinalizar Ctrl+D
+        shell->exit_status = 111;
         return (NULL);
     }
 	if (!*prompt || **prompt == '\0')

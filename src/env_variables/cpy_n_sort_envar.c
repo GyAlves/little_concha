@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static void	sort_envar(char **envp, int count)
 {

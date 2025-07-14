@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static char	**alloc_envar_array(int count)
 {
