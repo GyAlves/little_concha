@@ -76,3 +76,18 @@ void	free_cmd_struct(t_command *cmd)
 		free(cmd->redirects);
 	}
 }
+
+void	close_fd_in_child_pipes(t_pipe_data *pipe_data)
+{
+	int	i;
+
+	if (!pipe_data || !pipe_data->pipes)
+		return ;
+	i = 0;
+	while (i < pipe_data->cmd_count - 1)
+	{
+		close(pipe_data->pipes[i][0]);
+        close(pipe_data->pipes[i][1]);
+        i++;
+	}
+}

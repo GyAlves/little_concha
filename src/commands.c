@@ -84,8 +84,7 @@ int	is_parent_builtin(t_command *cmd)
 	if (ft_strcmp(cmd->args[0], "cd") == 0 ||
 		ft_strcmp(cmd->args[0], "exit") == 0 ||
 		ft_strcmp(cmd->args[0], "export") == 0 ||
-		ft_strcmp(cmd->args[0], "unset") == 0 ||
-		ft_strcmp(cmd->args[0], "echo") == 0)
+		ft_strcmp(cmd->args[0], "unset") == 0)
 		return (1);
 	return (0);
 }

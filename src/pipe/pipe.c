@@ -14,7 +14,9 @@ int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
 		fork_n_redirect_pipe(sh, &cmd[i], &data, i);
 		i++;
 	}
-	close_pipes(&data);
-	wait_pipe_child(&data, sh);
+	//fechar os fd no processo pai depois de todos os filhos serem forkeados, sem liberar memoria
+	close_fd_in_child_pipes(&data);
+	wait_pipe_child(&data, sh); //espera os filhos
+	close_n_free_parent_pipes(&data); //aqui fecha os fd e liberar 
 	return (1);
 }

@@ -114,7 +114,7 @@ int				is_redir(char *str);
 // src/pipe
 // src/pipe/pipe_utils.c
 int				setup_pipes(t_pipe_data *data, int cmd_count);
-void			close_pipes(t_pipe_data *data);
+void			close_n_free_parent_pipes(t_pipe_data *data);
 void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 				t_pipe_data *data, int i);
 void			wait_pipe_child(t_pipe_data *data, t_minishell *sh);
@@ -137,6 +137,7 @@ void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
 void			free_matrix(char **matrix);
 void			free_minishell(t_minishell *sh);
 void			free_cmd_struct(t_command *cmd);
+void			close_fd_in_child_pipes(t_pipe_data *pipe_data);
 // src/utils/redir_utils.c
 int				count_redirs(char **args);
 int				fill_redirs(t_command *cmd, char **args);

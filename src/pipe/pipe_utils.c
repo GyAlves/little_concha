@@ -34,7 +34,7 @@ int	setup_pipes(t_pipe_data *data, int cmd_count)
 	return (1);
 }
 
-void	close_pipes(t_pipe_data *data)
+void	close_n_free_parent_pipes(t_pipe_data *data)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ void	close_pipes(t_pipe_data *data)
 }
 
 static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
-int *in_fd, int *out_fd)
+int *in_fd, int *out_fd, t_pipe_data *pipe_info)
 {
 	t_std_redir	child_redir_backup;
 
@@ -66,6 +66,13 @@ int *in_fd, int *out_fd)
 		dup2(*out_fd, STDOUT_FILENO);
 		close(*out_fd);
 	}
+	else
+	{
+        if (dup2(sh->original_stdout, STDOUT_FILENO) == -1)
+            perror("dup2 original_stdout failed");
+	}
+		dup2(sh->original_stdout, STDOUT_FILENO);
+	close_fd_in_child_pipes(pipe_info);
 	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
 		exit(1);
 	exec_child(sh, cmd);
@@ -82,12 +89,12 @@ t_pipe_data *data, int i)
 	if (pid == 0)
 	{
 		if (i == 0)
-			exec_pipe_child(sh, cmd, NULL, data->pipes[i]);
+			exec_pipe_child(sh, cmd, NULL, data->pipes[i], data);
 		else if (i == data->cmd_count - 1)
-			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], NULL);
+			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], NULL, data);
 		else
 			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], \
-			&data->pipes[i][1]);
+			&data->pipes[i][1], data);
 	}
 	data->pids[i] = pid;
 }

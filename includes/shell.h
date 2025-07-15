@@ -21,6 +21,8 @@ typedef struct s_minishell
 	char	**envp;
 	int		exit_status;
 	int		total_pipeln_cmd;
+	int		original_stdin;
+	int		original_stdout;
 } t_minishell;
 
 /* Headers */

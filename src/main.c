@@ -70,6 +70,8 @@ int	main(int c, char **v, char **envp)
 	(void)v;
 	if (!init_minishell(&shell, envp))
 		return (1);
+	shell.original_stdin = dup(STDIN_FILENO);
+	shell.original_stdout = dup(STDOUT_FILENO);
 	while (6)
 	{
 		if (!setup_prompt(&shell, &prompt, &args))
