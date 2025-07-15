@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/14 20:29:46 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:49:15 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_command
     char			**args;        
     int				redirections_count;
     int				is_piped;
-    t_redirect		*redirects;    
+    t_redirect		*redirects;
     t_pipe_data		*pipe;
 } t_command;
 
