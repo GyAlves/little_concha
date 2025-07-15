@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	count_pipes(char **args)
+int	count_pipes(char **args) //conta a quantidade de pipes que tem na linha de comando e itera count para retornar posteriormente
 {
 	int	i;
 	int	count;

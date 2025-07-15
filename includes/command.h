@@ -13,7 +13,8 @@
 #ifndef COMMAND_H
 # define COMMAND_H
 
-#include "minishell.h"
+typedef struct s_redirect   t_redirect;
+typedef struct s_pipe_data  t_pipe_data;
 
 /* COMMAND STRUCTURE  */
 typedef struct s_command
@@ -30,6 +31,17 @@ typedef struct s_cmd_init
     int     cmd_count;
     char    **cmd_args;
 }   t_cmd_init;
+
+/* Headers */
+//# include "buil-in.h"
+//# include "env_var.h"
+# include "environment_variables.h"
+# include "minishell.h"
+# include "redirects.h"
+# include "shell.h"
+# include "tokenization.h"
+//# include "utils.h"
+# include "libft.h"
 
 /* Functions */
 int	init_command(t_minishell *sh, t_command **cmd, char **args, char *prompt);

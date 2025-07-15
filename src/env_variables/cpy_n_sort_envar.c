@@ -34,7 +34,7 @@ char	**cpy_and_sort_envar(t_minishell *sh)
 	copy = alloc_init_envar_arr(count);
 	if (!copy)
 		return (NULL);
-	if (!cpy_envar_entries(copy, sh->envp, count))
+	if (!copy_env_variables(copy, sh->envp, count))
 	{
 		free_matrix(copy);
 		return (NULL);

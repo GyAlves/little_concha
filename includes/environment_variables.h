@@ -14,10 +14,22 @@
 # define ENVIRONMENT_VARIABLES_H
 
 /* Forward declaration */
-struct s_minishell;
+# include  "minishell.h"
+# include  "shell.h"
+
+/* Headers */
+//# include "buil-in.h"
+# include "command.h"
+//# include "env_var.h"
+# include "minishell.h"
+# include "redirects.h"
+# include "shell.h"
+# include "tokenization.h"
+//# include "utils.h"
+# include "libft.h"
 
 /* Functions */
-char	**setup_env_variables(int var_count, struct s_minishell *shell, char **envp);
+char	**setup_env_variables(int var_count, t_minishell *shell, char **envp);
 int	    copy_env_variables(char **new_envp, char **old_envp, int count);
 
 #endif

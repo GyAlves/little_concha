@@ -13,8 +13,18 @@
 #ifndef TOKENIZATION_H
 # define TOKENIZATION_H
 
-/* Functions */
+/* Headers */
+//# include "buil-in.h"
+# include "command.h"
+//# include "env_var.h"
+# include "environment_variables.h"
+# include "minishell.h"
+# include "redirects.h"
+# include "shell.h"
+//# include "utils.h"
+# include "libft.h"
 
+/* Functions */
 // Lexer
 char    **lexer(char *input);
 

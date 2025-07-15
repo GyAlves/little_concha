@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 void	bi_pwd(t_minishell *sh)
 {

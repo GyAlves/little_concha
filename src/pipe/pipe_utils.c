@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	setup_pipes(t_pipe_data *data, int cmd_count)
 {

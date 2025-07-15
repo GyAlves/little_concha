@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static int	fill_single_redir(t_command *cmd, char **args, int i, int count)
 {
@@ -42,7 +42,7 @@ int	fill_redirs(t_command *cmd, char **args) //confere em um loop os redirects e
 		else
 			i++;
 	}
-	cmd->redir_count = count;
+	cmd->redirections_count = count;
 	return (1);
 }
 

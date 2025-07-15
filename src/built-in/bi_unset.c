@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static void	print_unset_err(char *arg)
 {

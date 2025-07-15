@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static void	print_cd_no_file_nor_dir(char *path)
 {

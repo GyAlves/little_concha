@@ -12,16 +12,15 @@
 
 #include "minishell.h"
 
-char	**setup_env_variables(int var_count, t_minishell shell, char **envp)
+char	**setup_env_variables(int var_count, t_minishell *shell, char **envp)
 {
 	char	**new_envp;
-
+	
 	new_envp = ft_calloc(var_count + 1, sizeof(char *));
 	if (!new_envp)
 		return (NULL);
-
-    shell.envp = new_envp;
-    if (!copy_env_variables(shell.envp, envp, var_count))
-        return (NULL);
+	shell->envp = new_envp;
+	if (!copy_env_variables(shell->envp, envp, var_count))
+		return (NULL);
 	return (new_envp);
 }

@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static int	input_redir(t_redirect *redir)
 {

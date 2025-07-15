@@ -17,7 +17,7 @@ static char	**append_envar(t_minishell *sh, char *envar_entry, int count)
 	new_envp = alloc_envar_array(count);
 	if (!new_envp)
 		return (NULL);
-	if (!cpy_envar_entries(new_envp, sh->envp, count))
+	if (!copy_env_variables(new_envp, sh->envp, count))
 	{
 		free(new_envp);
 		return (NULL);

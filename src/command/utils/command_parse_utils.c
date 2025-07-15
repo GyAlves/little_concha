@@ -25,13 +25,13 @@ bool    init_single_command(t_command *cmd, char **args, int start, t_cmd_init *
     return (true);
 }
 
-bool    parse_single_cmd(t_command *cmd, char **args, int start)
+bool    parse_single_cmd(t_command *cmd, char **args, int start) //inicializa a struct para um unico comando, conta argumentos e redirs
 {
     t_cmd_init cmd_init;
 
     if (!init_single_command(cmd, args, start, &cmd_init))
         return (false);
-    if (!copy_command_args(args + start, cmd_init.cmd_args))
+    if (!copy_command_args(args + start, cmd_init.cmd_args)) //copia os argumentos do cmd(exceto pipes e redirs)
     {
         free_matrix(cmd_init.cmd_args);
         return (false);
@@ -45,7 +45,7 @@ bool    parse_single_cmd(t_command *cmd, char **args, int start)
     return (true);
 }
 
-int	init_cmd_redir(t_command *cmd, char **args)
+int	init_cmd_redir(t_command *cmd, char **args) //inicializa a struct de redir 
 {
 	cmd->redirections_count = count_redirs(args); //adiciona a contagem de redirs a struct
 	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect)); //aloca memoria para a struct de redir

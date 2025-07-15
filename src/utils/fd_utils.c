@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 void	save_std_backup(t_std_redir *backup, t_redirect *redir)
 {

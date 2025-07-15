@@ -39,7 +39,7 @@ static int	process_all_heredocs(t_minishell *sh, t_command *cmd)
 	int	i;
 
 	i = 0;
-	while (i < cmd->redir_count)
+	while (i < cmd->redirections_count)
 	{
 		if (cmd->redirects[i].type == HEREDOC)
 		{
@@ -60,7 +60,7 @@ int	handle_redir_in_exc(t_minishell \
 	int	i;
 
 	i = 0;
-	while (i < cmd->redir_count)
+	while (i < cmd->redirections_count)
 	{
 		if (!process_single_redir(&cmd->redirects[i], backup))
 		{
@@ -73,7 +73,7 @@ int	handle_redir_in_exc(t_minishell \
 	return (1);
 }
 
-static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	t_std_redir	backup;
@@ -82,8 +82,8 @@ static int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	backup.out = -1;
 	if (!process_all_heredocs(sh, cmd))
 		return (1);
-	if (cmd->piped)
-		return (handle_pipes(sh, cmd, count_cmd_args(cmd->args)));
+	if (cmd->is_piped)
+		return (handle_pipes(sh, cmd, count_command_args(cmd->args)));
 	if (is_builtin(cmd) && is_parent_builtin(cmd))
 	{
 		if (!handle_redir_in_exc(sh, cmd, &backup))

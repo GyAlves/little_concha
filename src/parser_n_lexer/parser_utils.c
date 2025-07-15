@@ -1,14 +1,14 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 char	**filter_n_rm_redir(char **args, int *n_count)
 {
 	char	**n_args;
 
-	*n_count = count_cmd_args(args);
+	*n_count = count_command_args(args);
 	n_args = ft_calloc(*n_count + 1, sizeof(char *));
 	if (!n_args)
 		return (NULL);
-	n_args = cpy_cmd_args(args, n_args);
+	n_args = copy_command_args(args, n_args);
 	return (n_args);
 }
 

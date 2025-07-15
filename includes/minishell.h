@@ -54,10 +54,15 @@ typedef struct s_pipe_data
 }			t_pipe_data;
 
 /* Headers */
-#include "environment_variables.h"
-#include "shell.h"
-#include "command.h"
-#include "tokenization.h"
+//# include "buil-in.h"
+# include "command.h"
+//# include "env_var.h"
+# include "environment_variables.h"
+# include "redirects.h"
+# include "shell.h"
+# include "tokenization.h"
+//# include "utils.h"
+# include "libft.h"
 
 // src/built-in
 // src/built-in/bi_cd.c
@@ -145,6 +150,9 @@ char **args, char *prompt);
 char			*expand_variable(t_minishell *sh, char *str);
 char			*replace_variables(t_minishell *sh, char *input);
 
+// src/utils/prompt_utils.c
+int		exc_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+
 // src/
 // src/commands.c
 int				apply_heredoc_redir(t_minishell *sh, t_command *cmd);
@@ -154,28 +162,6 @@ int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 char			**get_envar_path(void);
 // src/path.c
 char			*set_path(char *cmd);
-
-// Libft/libft.c
-int				ft_isalpha(int c);
-int				ft_isalnum(int c);
-bool			check_args(char *arg);
-size_t			ft_strlen(const char *s);
-size_t			ft_arrlen(char **arr);
-char			*ft_itoa(int n);
-int				ft_atoi(const char *nptr);
-void			*ft_calloc(size_t nmemb, size_t size);
-void			*ft_memcpy(void *dest, const void *src, size_t n);
-void			ft_putstr_fd(char *s, int fd);
-size_t			ft_strlcpy(char *dst, const char *src, size_t size);
-char			*ft_strdup(const char *s);
-char			*ft_strndup(const char *s, size_t n);
-char			*ft_strchr(const char *s, int c);
-char			*ft_strjoin(const char *s1, const char *s2);
-char			*ft_substr(char const *s, unsigned int start, size_t len);
-int				ft_strcmp(const char *s1, const char *s2);
-int				ft_strncmp(const char *s1, const char *s2, size_t n);
-char			**ft_split(char const *str, char separator);
-
 
 int				is_parent_builtin(t_command *cmd);
 

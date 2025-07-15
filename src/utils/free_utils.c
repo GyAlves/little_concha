@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, \
 char *prompt, char **args)
@@ -63,7 +63,7 @@ void	free_cmd_struct(t_command *cmd)
 	if (cmd->redirects)
 	{
 		i = 0;
-		while (i < cmd->redir_count)
+		while (i < cmd->redirections_count)
 		{
 			if (cmd->redirects[i].filename)
 			{

@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 t_redir_type	get_redir_type(char *str)
 {

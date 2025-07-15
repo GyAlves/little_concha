@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	copy_env_variables(char **new_envp, char **old_envp, int count)
+int	copy_env_variables(char **new_envp, char **old_envp, int count) //copia as variaveis de ambiente de old_envp(arr original) para new_envp(arr alocado)
 {
 	int		counter;
 	char	*tmp;

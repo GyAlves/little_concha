@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 static int	handle_n_flag(char **args, int *index)
 {
