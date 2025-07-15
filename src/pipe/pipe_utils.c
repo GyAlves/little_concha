@@ -50,7 +50,7 @@ void	close_n_free_parent_pipes(t_pipe_data *data)
 }
 
 static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
-int *in_fd, int *out_fd, t_pipe_data *pipe_info)
+int *in_fd, int *out_fd, t_pipe_data *pipe_info) //hi
 {
 	t_std_redir	child_redir_backup;
 
