@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_variables_managament_utils.c                   :+:      :+:    :+:   */
+/*   minishell_setup_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/13 22:38:40 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/15 18:23:22 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/15 17:42:23 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/15 19:50:13 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	copy_env_variables(char **new_envp, char **old_envp, int count)
-{
-	int		counter;
-	char	*tmp;
-
-	counter = 0;
-	while (counter < count)
+bool	setup_prompt(t_minishell *shell, char **prompt, char ***args)
+{	
+	*args = read_input(shell, prompt);
+	if (!*args)
 	{
-		tmp = ft_strdup(old_envp[counter]);
-		if (!tmp)
+		if (*prompt)
 		{
-			while (counter > 0)
-				free(new_envp[--counter]);
-			free(new_envp);
-			return (0);
+			free(*prompt);
+			*prompt = NULL;
 		}
-		new_envp[counter] = tmp;
-		counter++;
+		return (false);
 	}
-	return (1);
-} //obs: erro de liberação de memoria, pode ser resolvida em free_minishell() com free_matrix()
+	return (true);
+}

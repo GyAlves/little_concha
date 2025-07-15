@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:34 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/14 20:25:07 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:46:48 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,12 @@ typedef struct s_pipe_data
 }			t_pipe_data;
 
 /* Headers */
-//# include "buil-in.h"
 # include "command.h"
-//# include "env_var.h"
 # include "environment_variables.h"
 # include "redirects.h"
 # include "shell.h"
 # include "tokenization.h"
-//# include "utils.h"
+# include "utils.h"
 # include "libft.h"
 
 // src/built-in

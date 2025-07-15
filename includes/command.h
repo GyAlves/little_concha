@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/14 20:49:15 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:03:42 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,11 @@ typedef struct s_cmd_init
 }   t_cmd_init;
 
 /* Headers */
-//# include "buil-in.h"
-//# include "env_var.h"
 # include "environment_variables.h"
 # include "minishell.h"
 # include "redirects.h"
 # include "shell.h"
 # include "tokenization.h"
-//# include "utils.h"
 # include "libft.h"
 
 /* Functions */
@@ -50,8 +47,9 @@ int handle_single_cmd(t_command **cmd, char **args);
 int handle_multi_cmd(t_command **cmd, char **args);
 int	count_command_args(char **args);
 char    **copy_command_args(char **args, char **n_args);
-void    cleanup_cmd(t_command *cmd);
+void    cleanup_command(t_command *cmd);
 bool    parse_single_cmd(t_command *cmd, char **args, int start);
-int	init_cmd_redir(t_command *cmd, char **args);
+int	init_cmd_redirection(t_command *cmd, char **args);
+void	setup_command(t_command **cmd, t_minishell *shell, char **prompt, char ***args);
 
 #endif

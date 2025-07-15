@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 19:15:47 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/14 20:30:15 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:04:03 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ bool    init_single_command(t_command *cmd, char **args, int start, t_cmd_init *
     return (true);
 }
 
-bool    parse_single_cmd(t_command *cmd, char **args, int start) //inicializa a struct para um unico comando, conta argumentos e redirs
+bool    parse_single_cmd(t_command *cmd, char **args, int start)
 {
     t_cmd_init cmd_init;
 
     if (!init_single_command(cmd, args, start, &cmd_init))
         return (false);
-    if (!copy_command_args(args + start, cmd_init.cmd_args)) //copia os argumentos do cmd(exceto pipes e redirs)
+    if (!copy_command_args(args + start, cmd_init.cmd_args))
     {
         free_matrix(cmd_init.cmd_args);
         return (false);
     }
-    if (!init_cmd_redir(cmd, args + start))
+    if (!init_cmd_redirection(cmd, args + start))
     {
         free_matrix(cmd_init.cmd_args);
         return (false);
@@ -45,13 +45,13 @@ bool    parse_single_cmd(t_command *cmd, char **args, int start) //inicializa a 
     return (true);
 }
 
-int	init_cmd_redir(t_command *cmd, char **args) //inicializa a struct de redir 
+int	init_cmd_redirection(t_command *cmd, char **args)
 {
-	cmd->redirections_count = count_redirs(args); //adiciona a contagem de redirs a struct
-	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect)); //aloca memoria para a struct de redir
+	cmd->redirections_count = count_redirs(args);
+	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect));
 	if (!cmd->redirects)
 		return (0);
-	if (!fill_redirs(cmd, args)) //confere os argumentos passados 
+	if (!fill_redirs(cmd, args))
 	{
 		free(cmd->redirects);
 		return (0);

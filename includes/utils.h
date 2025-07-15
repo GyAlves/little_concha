@@ -1,13 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 17:47:02 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/15 17:47:52 by galves-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/* Headers 
-# include "buil-in.h"
-# include "command.h"
-# include "env_var.h"
-# include "environment_variables.h"
-# include "minishell.h"
-# include "redirects.h"
-# include "shell.h"
-# include "tokenization.h"
-# include "utils.h"
-# include "libft.h"
-*/
+#ifndef UTILS_H
+# define UTILS_H
+
+/* Functions */
+bool	setup_prompt(t_minishell *shell, char **prompt, char ***args);
+void	setup_command(t_command **cmd, t_minishell *shell, char **prompt, char ***args);
+
+#endif
