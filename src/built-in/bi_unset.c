@@ -1,4 +1,16 @@
-#include "../../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bi_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 static void	print_unset_err(char *arg)
 {
@@ -13,11 +25,11 @@ static char	**alloc_envar_arr(t_minishell *sh)
 	char	**new_envp;
 
 	if (!sh->envp)
-		return (NULL); //não faz nada
+		return (NULL);
 	count = ft_arrlen(sh->envp);
 	if (count <= 0)
 		return (NULL);
-	new_envp = ft_calloc(count, sizeof(char *)); //cria um novo array
+	new_envp = ft_calloc(count, sizeof(char *));
 	return (new_envp);
 }
 

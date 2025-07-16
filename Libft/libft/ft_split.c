@@ -1,4 +1,16 @@
-#include "../../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 13:18:22 by fleite-j          #+#    #+#             */
+/*   Updated: 2025/07/07 13:18:24 by fleite-j         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../libft.h"
 
 static int	count_words(const char *str, char separator)
 {
@@ -23,23 +35,6 @@ static int	count_words(const char *str, char separator)
 			index++;
 	}
 	return (count);
-}
-
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	if (!matrix)
-		return ;
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i++;
-	}
-	free(matrix);
-	matrix = NULL;
 }
 
 static int	free_memory(char ***str_list, int allocated)

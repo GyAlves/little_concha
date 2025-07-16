@@ -1,7 +1,7 @@
 NAME = libft.a
 
 CC = cc
-FLAGS = -Wall -Werror -Wextra -I
+FLAGS = -Wall -Werror -Wextra -I../includes
 INCLUDE = ../minishell.h
 OBJ_DIR = obj/
 LIBFT = libft/ft_strncmp.c libft/ft_strlen.c libft/ft_calloc.c libft/ft_substr.c  \
@@ -20,7 +20,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)%.o: %.c
 	mkdir -p $(@D)
-	$(CC) $(FLAGS) $(INCLUDE) -c $^ -o $@
+	$(CC) $(FLAGS) -c $^ -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
