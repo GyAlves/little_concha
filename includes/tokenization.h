@@ -17,18 +17,19 @@
 typedef struct s_command    t_command;
 typedef enum e_redir_type   t_redir_type;
 
-/* Tokenization and parsing functions */
+/* LEXER DOMAIN - Token creation and input processing */
 // src/tokenization/lexer/lexer.c
 char    **lexer(char *input);
-// src/tokenization/parser/utils/parser_pipes_utils.c
-int	is_pipe(char *str);
-int	count_pipes(char **args);
-// src/parser_n_lexer/parser_utils.c
+// src/tokenization/lexer/token_utils.c
+t_redir_type	get_redir_type(char *str);
+
+/* PARSER DOMAIN - Command structure parsing and analysis */
+// src/tokenization/parser/parser_utils.c
 char			**filter_n_rm_redir(char **args, int *n_count);
 int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(char **args, t_command *cmd);
-// src/parser_n_lexer/token_utils.c
-t_redir_type	get_redir_type(char *str);
-int				is_redir(char *str);
+// src/tokenization/parser/utils/parser_pipes_utils.c
+int				is_pipe(char *str);
+int				count_pipes(char **args);
 
 #endif

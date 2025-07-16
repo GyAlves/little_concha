@@ -6,13 +6,13 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:24:57 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/14 18:32:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/16 12:00:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_pipes(char **args) //conta a quantidade de pipes que tem na linha de comando e itera count para retornar posteriormente
+int	count_pipes(char **args)
 {
 	int	i;
 	int	count;

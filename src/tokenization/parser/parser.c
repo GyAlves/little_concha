@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_utils.c                                      :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:00:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:00:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
- * This file is currently empty but reserved for future redirection utilities.
- * The actual redirection utilities are currently in src/redirects/utils/redirects_utils.c
+/*
+ * This file serves as the main parser entry point.
+ * Parser functionality is distributed across:
+ * - parser_utils.c: Core parsing utilities
+ * - utils/parser_pipes_utils.c: Pipe-specific parsing
+ * 
+ * Future parser enhancements (quotes, escapes, etc.) should be added here.
  */

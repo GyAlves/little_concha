@@ -22,9 +22,12 @@ void			bi_pwd(t_minishell *sh);
 // src/built-in/bi_unset.c
 void			bi_unset(t_minishell *sh, t_command *cmd);
 // src/built-in/dispatch_builtin.c
-int				is_builtin(t_command *cmd);
 int				dispatch_builtin(t_minishell *sh, t_command *cmd, \
 				char *prompt);
+// src/built-in/utils/built_in_utils.c
+int				bi_from_cd_until_exit(t_minishell *sh, t_command *cmd, char *prompt);
+int				bi_from_export_until_unset(t_minishell *sh, t_command *cmd);
+int				is_builtin(t_command *cmd);
 int				is_parent_builtin(t_command *cmd);
 
 #endif

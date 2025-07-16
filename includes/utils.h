@@ -37,6 +37,8 @@ void			close_fd_in_child_pipes(t_pipe_data *pipe_data);
 // src/utils/redir_utils.c
 int				count_redirs(char **args);
 int				fill_redirs(t_command *cmd, char **args);
+// src/redirects/utils/redirects_utils.c
+int				is_redir(char *str);
 // src/utils/shell_utils.c
 char			**read_input(t_minishell *shell, char **prompt);
 int				handle_redir_in_exc(t_minishell \
