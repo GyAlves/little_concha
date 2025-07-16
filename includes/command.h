@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/15 20:03:42 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/15 23:43:53 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 int				exc_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 // src/command/utils/command_cleanup_utils.c
 void			free_cmd_struct(t_command *cmd);
+void	print_cmd_err(char *cmd_name, char	*error_msg);
 
 #endif
