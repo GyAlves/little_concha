@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_input_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,31 @@
 
 #include "minishell.h"
 
-int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 {
-	int		fd;
-	char	*temp_file;
+	char	*line;
+	char	*expanded;
 
-	temp_file = generate_file();
-	if (!temp_file)
-		return (0);
-	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
+	while (6)
 	{
-		free(temp_file);
-		return (0);
+		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2);
+			return (0);
+		}
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			return (1);
+		}
+		expanded = replace_variables(sh, line);
+		free(line);
+		if (!expanded)
+			return (0);
+		write(fd, expanded, ft_strlen(expanded));
+		write(fd, "\n", 1);
+		free(expanded);
 	}
-	if (!write_till_delimiter(fd, redir->filename, sh))
-	{
-		close(fd);
-		unlink(temp_file);
-		free(temp_file);
-		return (0);
-	}
-	close(fd);
-	free(redir->filename);
-	redir->filename = temp_file;
-	return (1);
+	return (0);
 }

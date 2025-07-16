@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   pipe_cleanup_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,33 @@
 
 #include "minishell.h"
 
-int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+void	close_n_free_parent_pipes(t_pipe_data *data)
 {
-	int		fd;
-	char	*temp_file;
+	int	i;
 
-	temp_file = generate_file();
-	if (!temp_file)
-		return (0);
-	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
+	i = 0;
+	while (i < data->cmd_count - 1)
 	{
-		free(temp_file);
-		return (0);
+		close(data->pipes[i][0]);
+		close(data->pipes[i][1]);
+		free(data->pipes[i]);
+		i++;
 	}
-	if (!write_till_delimiter(fd, redir->filename, sh))
+	free(data->pipes);
+}
+
+void	wait_pipe_child(t_pipe_data *data, t_minishell *sh)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < data->cmd_count)
 	{
-		close(fd);
-		unlink(temp_file);
-		free(temp_file);
-		return (0);
+		waitpid(data->pids[i], &status, 0);
+		if (WIFEXITED(status))
+			sh->exit_status = WEXITSTATUS(status);
+		i++;
 	}
-	close(fd);
-	free(redir->filename);
-	redir->filename = temp_file;
-	return (1);
+	free(data->pids);
 }

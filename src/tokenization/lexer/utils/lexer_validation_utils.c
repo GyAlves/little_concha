@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_pipes_utils.c                               :+:      :+:    :+:   */
+/*   lexer_validation_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 18:24:57 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:00:00 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_pipes(char **args)
+t_redir_type	get_redir_type(char *str)
 {
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 1;
-	while (args[i])
-	{
-		if (is_pipe(args[i]))
-			count++;
-		i++;
-	}
-	return (count);
+	if (!str)
+		return (INVALID);
+	if (!ft_strcmp(str, ">"))
+		return (R_OUT);
+	if (!ft_strcmp(str, ">>"))
+		return (APPEND);
+	if (!ft_strcmp(str, "<"))
+		return (R_IN);
+	if (!ft_strcmp(str, "<<"))
+		return (HEREDOC);
+	return (INVALID);
 }
 
 int	is_pipe(char *str)

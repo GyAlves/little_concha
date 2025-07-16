@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   parser_count_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,18 @@
 
 #include "minishell.h"
 
-int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+int	count_pipes(char **args)
 {
-	int		fd;
-	char	*temp_file;
+	int	i;
+	int	count;
 
-	temp_file = generate_file();
-	if (!temp_file)
-		return (0);
-	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
+	i = 0;
+	count = 1;
+	while (args[i])
 	{
-		free(temp_file);
-		return (0);
+		if (is_pipe(args[i]))
+			count++;
+		i++;
 	}
-	if (!write_till_delimiter(fd, redir->filename, sh))
-	{
-		close(fd);
-		unlink(temp_file);
-		free(temp_file);
-		return (0);
-	}
-	close(fd);
-	free(redir->filename);
-	redir->filename = temp_file;
-	return (1);
+	return (count);
 }

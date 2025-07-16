@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_file_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,25 @@
 
 #include "minishell.h"
 
-int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+char	*generate_file(void)
 {
-	int		fd;
+	int		i;
 	char	*temp_file;
+	char	*nbr_file;
 
-	temp_file = generate_file();
-	if (!temp_file)
-		return (0);
-	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
+	i = 0;
+	while (6)
 	{
+		nbr_file = ft_itoa(i);
+		if (!nbr_file)
+			return (NULL);
+		temp_file = ft_strjoin("/tmp/minishell_heredoc_", nbr_file);
+		free(nbr_file);
+		if (!temp_file)
+			return (NULL);
+		if (access(temp_file, F_OK) != 0)
+			return (temp_file);
 		free(temp_file);
-		return (0);
+		i++;
 	}
-	if (!write_till_delimiter(fd, redir->filename, sh))
-	{
-		close(fd);
-		unlink(temp_file);
-		free(temp_file);
-		return (0);
-	}
-	close(fd);
-	free(redir->filename);
-	redir->filename = temp_file;
-	return (1);
 }

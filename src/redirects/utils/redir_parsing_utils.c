@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirects_utils.c                                  :+:      :+:    :+:   */
+/*   redir_parsing_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 19:29:02 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/15 20:05:54 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_redir(char *str)
-{
-	return (get_redir_type(str) != INVALID);
-}
 
 int	fill_single_redir(t_command *cmd, char **args, int i, int count)
 {

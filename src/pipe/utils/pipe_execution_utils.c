@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*   pipe_execution_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,57 +12,8 @@
 
 #include "minishell.h"
 
-int	setup_pipes(t_pipe_data *data, int cmd_count)
-{
-	int	i;
-
-	data->pids = malloc(cmd_count * sizeof(pid_t));
-	if (!data->pids)
-		return (0);
-	data->pipes = malloc((cmd_count -1) * sizeof(int *));
-	if (!data->pipes)
-	{
-		free(data->pids);
-		return (0);
-	}
-	i = 0;
-	while (i < cmd_count - 1)
-	{
-		data->pipes[i] = malloc(2 * sizeof(int));
-		if (!data->pipes[i] || pipe(data->pipes[i]) == -1)
-		{
-			while (i-- > 0)
-			{
-				close(data->pipes[i][0]);
-				close(data->pipes[i][1]);
-				free(data->pipes[i]);
-			}
-			free(data->pipes);
-			free(data->pids);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-void	close_n_free_parent_pipes(t_pipe_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->cmd_count - 1)
-	{
-		close(data->pipes[i][0]);
-		close(data->pipes[i][1]);
-		free(data->pipes[i]);
-		i++;
-	}
-	free(data->pipes);
-}
-
 static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
-int *in_fd, int *out_fd, t_pipe_data *pipe_info) //hi
+int *in_fd, int *out_fd, t_pipe_data *pipe_info)
 {
 	t_std_redir	child_redir_backup;
 
@@ -109,20 +60,4 @@ t_pipe_data *data, int i)
 			&data->pipes[i][1], data);
 	}
 	data->pids[i] = pid;
-}
-
-void	wait_pipe_child(t_pipe_data *data, t_minishell *sh)
-{
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < data->cmd_count)
-	{
-		waitpid(data->pids[i], &status, 0);
-		if (WIFEXITED(status))
-			sh->exit_status = WEXITSTATUS(status);
-		i++;
-	}
-	free(data->pids);
 }

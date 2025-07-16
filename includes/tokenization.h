@@ -20,16 +20,17 @@ typedef enum e_redir_type   t_redir_type;
 /* LEXER DOMAIN - Token creation and input processing */
 // src/tokenization/lexer/lexer.c
 char    **lexer(char *input);
-// src/tokenization/lexer/token_utils.c
+// src/tokenization/lexer/utils/lexer_validation_utils.c
 t_redir_type	get_redir_type(char *str);
+int				is_pipe(char *str);
 
 /* PARSER DOMAIN - Command structure parsing and analysis */
-// src/tokenization/parser/parser_utils.c
+// src/tokenization/parser/utils/parser_filter_utils.c
 char			**filter_n_rm_redir(char **args, int *n_count);
+// src/tokenization/parser/utils/parser_command_utils.c
 int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(char **args, t_command *cmd);
-// src/tokenization/parser/utils/parser_pipes_utils.c
-int				is_pipe(char *str);
+// src/tokenization/parser/utils/parser_count_utils.c
 int				count_pipes(char **args);
 
 #endif

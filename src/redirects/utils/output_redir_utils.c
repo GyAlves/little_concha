@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   output_redir_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,26 @@
 
 #include "minishell.h"
 
-int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+int	output_redir(t_redirect *redir)
 {
-	int		fd;
-	char	*temp_file;
+	int	fd;
 
-	temp_file = generate_file();
-	if (!temp_file)
-		return (0);
-	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-	{
-		free(temp_file);
 		return (0);
-	}
-	if (!write_till_delimiter(fd, redir->filename, sh))
-	{
-		close(fd);
-		unlink(temp_file);
-		free(temp_file);
-		return (0);
-	}
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	free(redir->filename);
-	redir->filename = temp_file;
+	return (1);
+}
+
+int	append_redir(t_redirect *redir)
+{
+	int	fd;
+
+	fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		return (0);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 	return (1);
 }

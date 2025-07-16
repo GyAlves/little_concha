@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   pipe_setup_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,36 @@
 
 #include "minishell.h"
 
-int	handle_heredoc(t_redirect *redir, t_minishell *sh)
+int	setup_pipes(t_pipe_data *data, int cmd_count)
 {
-	int		fd;
-	char	*temp_file;
+	int	i;
 
-	temp_file = generate_file();
-	if (!temp_file)
+	data->pids = malloc(cmd_count * sizeof(pid_t));
+	if (!data->pids)
 		return (0);
-	fd = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
+	data->pipes = malloc((cmd_count -1) * sizeof(int *));
+	if (!data->pipes)
 	{
-		free(temp_file);
+		free(data->pids);
 		return (0);
 	}
-	if (!write_till_delimiter(fd, redir->filename, sh))
+	i = 0;
+	while (i < cmd_count - 1)
 	{
-		close(fd);
-		unlink(temp_file);
-		free(temp_file);
-		return (0);
+		data->pipes[i] = malloc(2 * sizeof(int));
+		if (!data->pipes[i] || pipe(data->pipes[i]) == -1)
+		{
+			while (i-- > 0)
+			{
+				close(data->pipes[i][0]);
+				close(data->pipes[i][1]);
+				free(data->pipes[i]);
+			}
+			free(data->pipes);
+			free(data->pids);
+			return (0);
+		}
+		i++;
 	}
-	close(fd);
-	free(redir->filename);
-	redir->filename = temp_file;
 	return (1);
 }
