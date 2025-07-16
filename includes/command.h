@@ -5,30 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 16:55:08 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/06/21 19:00:57 by gyasminalve      ###   ########.fr       */
+/*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
+/*   Updated: 2025/07/16 09:19:01 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_H
 # define COMMAND_H
 
-/* FORWARD DECLARATIONS */
-typedef struct s_minishell	t_minishell;
+# include <stdbool.h>
 
-/* COMMAND STRUCTURE  */
+typedef struct s_redirect   t_redirect;
+typedef struct s_pipe_data  t_pipe_data;
+
+/* COMMAND STRUCTURE */
 typedef struct s_command
 {
-	char	**args;			// Command arguments: {"echo", "hello", NULL}
-	char	*input_file;	// Input redirection: < file
-	char	*output_file;	// Output redirection: > file
-	char	*delimiter;		// Heredoc delimiter: << EOF
-	int		append;			// Append mode flag: >> file
-	int		piped;			// Pipe flag: cmd1 | cmd2
-}			t_command;
+	char			**args;
+	int				redirections_count;
+	int				is_piped;
+	t_redirect		*redirects;
+	t_pipe_data		*pipe;
+}	t_command;
 
-/* Functions */
-void		exec_cmd(t_minishell *sh, t_command *cmd);
-int			cmd_setup(t_minishell *sh, t_command *cmd, char **args, char *prompt);
+typedef struct s_cmd_init
+{
+	int		cmd_count;
+	char	**cmd_args;
+}	t_cmd_init;
+
+/* Forward declarations */
+typedef struct s_minishell  t_minishell;
+
+/* Command functions */
+int				init_command(t_minishell *sh, t_command **cmd, char **args, \
+					char *prompt);
+int				init_command_arr(t_command **cmd, int cmd_count);
+int				handle_single_cmd(t_command **cmd, char **args);
+int				handle_multi_cmd(t_command **cmd, char **args);
+int				count_command_args(char **args);
+char			**copy_command_args(char **args, char **n_args);
+void			cleanup_command(t_command *cmd);
+bool			parse_single_cmd(t_command *cmd, char **args, int start);
+int				init_cmd_redirection(t_command *cmd, char **args);
+void			setup_command(t_command **cmd, t_minishell *shell, \
+					char **prompt, char ***args);
+void			exec_child(t_minishell *sh, t_command *cmd);
+int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+int				exc_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+void			free_cmd_struct(t_command *cmd);
+void			print_cmd_err(char *cmd_name, char *error_msg);
 
 #endif

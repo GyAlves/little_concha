@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 19:33:51 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:33:53 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/07 13:20:17 by fleite-j          #+#    #+#             */
+/*   Updated: 2025/07/16 11:43:36 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "minishell.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

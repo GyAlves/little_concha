@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 19:16:46 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:36:07 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	bi_env(t_minishell *sh, t_command *cmd)
 {
-	int	envp_counter;
+	int	i;
 
 	if (cmd->args[1])
 	{
-		ft_putstr_fd("env: too many arguments\n", 2);
-		sh->exit_status = 127;
+		ft_putstr_fd("minishell: env: too many arguments\n", 2);
+		sh->exit_status = 1;
 		return ;
 	}
 	if (!sh->envp)
@@ -27,12 +27,15 @@ void	bi_env(t_minishell *sh, t_command *cmd)
 		sh->exit_status = 0;
 		return ;
 	}
-	envp_counter = 0;
-	while (sh->envp[envp_counter])
+	i = 0;
+	while (sh->envp[i])
 	{
-		ft_putstr_fd(sh->envp[envp_counter], 1);
-		write(1, "\n", 1);
-		envp_counter++;
+		if (ft_strchr(sh->envp[i], '='))
+		{
+			ft_putstr_fd(sh->envp[i], 1);
+			write(1, "\n", 1);
+		}
+		i++;
 	}
 	sh->exit_status = 0;
 }

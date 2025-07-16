@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 20:35:30 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 20:36:02 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/07 13:16:03 by fleite-j          #+#    #+#             */
+/*   Updated: 2025/07/07 13:16:08 by fleite-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../libft.h"
 
 bool	check_args(char *arg)
 {

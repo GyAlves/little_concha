@@ -5,12 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 20:12:55 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 20:18:16 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_unset_err(char *arg)
+{
+	ft_putstr_fd("minishell: unset: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
 
 static char	**alloc_envar_arr(t_minishell *sh)
 {
@@ -28,25 +35,25 @@ static char	**alloc_envar_arr(t_minishell *sh)
 
 static int	cpy_envar_excluding_key(char **dst, char **src, char *key)
 {
-	int	src_counter;
-	int	dst_counter;
+	int	i;
+	int	j;
 
-	src_counter = 0;
-	dst_counter = 0;
-	while (src[src_counter])
+	i = 0;
+	j = 0;
+	while (src[i])
 	{
-		if (ft_strncmp(src[src_counter], key, ft_strlen(key)) \
-			|| !(src[src_counter][ft_strlen(key)] == '='))
+		if (ft_strncmp(src[i], key, ft_strlen(key)) \
+			|| !(src[i][ft_strlen(key)] == '='))
 		{
-			dst[dst_counter] = ft_strdup(src[src_counter]);
-			if (!dst[dst_counter])
+			dst[j] = ft_strdup(src[i]);
+			if (!dst[j])
 			{
 				free_matrix(dst);
 				return (0);
 			}
-			dst_counter++;
+			j++;
 		}
-		src_counter++;
+		i++;
 	}
 	return (1);
 }

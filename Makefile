@@ -3,7 +3,7 @@ NAME = minishell
 
 # Compiler
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -ILibft
 
 # Directories
 LIBFT = Libft/libft.a
@@ -19,6 +19,9 @@ OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
 LIBS = -lreadline
 
 all: $(NAME)
+
+v: all
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=suppfile.sup ./$(NAME)
 
 $(LIBFT):
 	make -C ./Libft

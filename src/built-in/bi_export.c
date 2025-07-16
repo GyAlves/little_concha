@@ -5,14 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 20:08:49 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/12 16:34:09 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_sorted_envar(t_minishell *sh)
+static void	print_export_err(char *arg)
+{
+	ft_putstr_fd("minishell: export: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+static void	print_sorted_envar(t_minishell *sh)
 {
 	char	**copy;
 
@@ -23,7 +30,7 @@ void	print_sorted_envar(t_minishell *sh)
 	free_matrix(copy);
 }
 
-void	set_envar(t_minishell *sh, char *arg)
+static void	set_envar(t_minishell *sh, char *arg)
 {
 	char	*key;
 	char	*equal;

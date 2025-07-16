@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 19:16:38 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 20:49:06 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_n_flag(char **args, int *index)
+static int	handle_n_flag(char **args, int *index)
 {
 	int	n_flag;
 
@@ -25,7 +25,7 @@ int	handle_n_flag(char **args, int *index)
 	return (n_flag);
 }
 
-void	print_echo_args(t_minishell *sh, char **args, int index)
+static void	print_echo_args(t_minishell *sh, char **args, int index)
 {
 	char	*expanded;
 

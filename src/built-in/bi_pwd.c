@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/11 19:16:56 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:34:57 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	bi_pwd(t_minishell *sh)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		perror("pwd");
+		perror("minishell: pwd");
 		sh->exit_status = 1;
 		return ;
 	}

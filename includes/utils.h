@@ -5,22 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 16:55:08 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/11 20:49:48 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/15 17:47:02 by galves-a          #+#    #+#             */
+/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-/* Libs */
-char	**read_input(char **prompt);
-void    print_cmd_err(char *cmd);
-void    print_cd_no_file_nor_dir(char *path);
-char	*replace_variables(t_minishell *sh, char *input);
-void    print_num_arg_required(t_command *cmd);
-void    print_export_err(char *arg);
-int	    is_valid_id(char *envar);
-void    print_unset_err(char *arg);
+/* Forward declarations */
+typedef struct s_minishell  t_minishell;
+typedef struct s_command    t_command;
+
+/* Generic utility functions */
+void			free_matrix(char **matrix);
+void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
+				char *prompt, char **args);
+void			free_minishell(t_minishell *sh);
 
 #endif

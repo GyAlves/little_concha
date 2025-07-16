@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 16:51:46 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/12 16:52:14 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/07 13:20:30 by fleite-j          #+#    #+#             */
+/*   Updated: 2025/07/07 13:20:31 by fleite-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../libft.h"
 
 char	*ft_strndup(const char *s, size_t n)
 {
