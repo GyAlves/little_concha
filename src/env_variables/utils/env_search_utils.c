@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_cpy_env_utils.c                              :+:      :+:    :+:   */
+/*   env_search_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,22 +12,17 @@
 
 #include "minishell.h"
 
-int	count_init_envar(char **envp) //conta quantas envar existem no arr envp, usado para saber o tamanho necessario para alocar mem para um novo arr de ambiente
+char	*find_envar(char **envp, char *key)
 {
-	int	count;
+	int	i;
 
-	count = 0;
-	while (envp[count])
-		count++;
-	return (count);
-}
-
-char	**alloc_init_envar_arr(int count) //aloca memoria e cria um espaço para um arr de ponteiros que armazena a copia das envar
-{
-	char	**new_envp;
-
-	new_envp = ft_calloc(count + 1, sizeof(char *));
-	if (!new_envp)
-		return (NULL);
-	return (new_envp);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0 \
+		&& envp[i][ft_strlen(key)] == '=')
+			return (envp[i]);
+		i++;
+	}
+	return (NULL);
 }

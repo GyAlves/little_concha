@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cpy_n_sort_envar.c                                :+:      :+:    :+:   */
+/*   env_display_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,49 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	sort_envar(char **envp, int count)
-{
-	int		i;
-	int		swapped;
-	char	*tmp;
-
-	swapped = 1;
-	while (swapped)
-	{
-		i = 0;
-		swapped = 0;
-		while (i < count - 1)
-		{
-			if (ft_strcmp(envp[i], envp[i + 1]) > 0)
-			{
-				tmp = envp[i];
-				envp[i] = envp[i + 1];
-				envp[i + 1] = tmp;
-				swapped = 1;
-			}
-			i++;
-		}
-	}
-}
-
-char	**cpy_and_sort_envar(t_minishell *sh)
-{
-	int		count;
-	char	**copy;
-
-	count = count_init_envar(sh->envp);
-	copy = alloc_init_envar_arr(count);
-	if (!copy)
-		return (NULL);
-	if (!copy_env_variables(copy, sh->envp, count))
-	{
-		free_matrix(copy);
-		return (NULL);
-	}
-	sort_envar(copy, count);
-	return (copy);
-}
 
 void	print_envar(char **envp)
 {

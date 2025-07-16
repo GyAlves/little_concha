@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envar_utils.c                                      :+:      :+:    :+:   */
+/*   env_validation_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -46,38 +46,4 @@ int	is_valid_id(char *envar)
 	valid = is_valid_key(key);
 	free(key);
 	return (valid);
-}
-
-char	*find_envar(char **envp, char *key)
-{
-	int		i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0 \
-		&& envp[i][ft_strlen(key)] == '=')
-			return (envp[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*create_envar_entry(char *key, char *val)
-{
-	char	*tmp;
-	char	*envar_entry;
-
-	if (!key)
-		return (NULL);
-	if (!val)
-		return (ft_strdup(key));
-	tmp = ft_strjoin(key, "=");
-	if (!tmp)
-		return (NULL);
-	envar_entry = ft_strjoin(tmp, val);
-	free(tmp);
-	if (!envar_entry)
-		return (NULL);
-	return (envar_entry);
 }
