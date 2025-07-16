@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_cleanup_utils.c                               :+:      :+:    :+:   */
+/*   redir_execution_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,48 +12,49 @@
 
 #include "minishell.h"
 
-void	close_n_free_parent_pipes(t_pipe_data *data)
+static int	process_single_redir(t_redirect *redir, t_std_redir *backup)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->cmd_count - 1)
-	{
-		close(data->pipes[i][0]);
-		close(data->pipes[i][1]);
-		free(data->pipes[i]);
-		i++;
-	}
-	free(data->pipes);
+	save_std_backup(backup, redir);
+	if (!apply_redir(redir))
+		return (0);
+	return (1);
 }
 
-void	wait_pipe_child(t_pipe_data *data, t_minishell *sh)
+int	process_all_heredocs(t_minishell *sh, t_command *cmd)
 {
 	int	i;
-	int	status;
 
 	i = 0;
-	while (i < data->cmd_count)
+	while (i < cmd->redirections_count)
 	{
-		waitpid(data->pids[i], &status, 0);
-		if (WIFEXITED(status))
-			sh->exit_status = WEXITSTATUS(status);
+		if (cmd->redirects[i].type == HEREDOC)
+		{
+			if (!handle_heredoc(&cmd->redirects[i], sh))
+			{
+				sh->exit_status = 1;
+				return (0);
+			}
+		}
 		i++;
 	}
-	free(data->pids);
+	return (1);
 }
 
-void	close_fd_in_child_pipes(t_pipe_data *pipe_data)
+int	handle_redir_in_exc(t_minishell \
+	*sh, t_command *cmd, t_std_redir *backup)
 {
 	int	i;
 
-	if (!pipe_data || !pipe_data->pipes)
-		return ;
 	i = 0;
-	while (i < pipe_data->cmd_count - 1)
+	while (i < cmd->redirections_count)
 	{
-		close(pipe_data->pipes[i][0]);
-        close(pipe_data->pipes[i][1]);
-        i++;
+		if (!process_single_redir(&cmd->redirects[i], backup))
+		{
+			sh->exit_status = 1;
+			restore_std_backup(backup);
+			return (0);
+		}
+		i++;
 	}
+	return (1);
 }

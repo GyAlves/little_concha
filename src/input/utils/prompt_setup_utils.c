@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_utils.c                                         :+:      :+:    :+:   */
+/*   prompt_setup_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,26 +12,17 @@
 
 #include "minishell.h"
 
-void	save_std_backup(t_std_redir *backup, t_redirect *redir)
-{
-	if (redir->type == R_IN || redir->type == HEREDOC)
-		backup->in = dup(STDIN_FILENO);
-	else if (redir->type == R_OUT || redir->type == APPEND)
-		backup->out = dup(STDOUT_FILENO);
-}
-
-void	restore_std_backup(t_std_redir *backup)
-{
-	if (backup->in != -1)
+bool	setup_prompt(t_minishell *shell, char **prompt, char ***args)
+{	
+	*args = read_input(shell, prompt);
+	if (!*args)
 	{
-		dup2(backup->in, STDIN_FILENO);
-		close(backup->in);
-		backup->in = -1;
+		if (*prompt)
+		{
+			free(*prompt);
+			*prompt = NULL;
+		}
+		return (false);
 	}
-	if (backup->out != -1)
-	{
-		dup2(backup->out, STDOUT_FILENO);
-		close(backup->out);
-		backup->out = -1;
-	}
+	return (true);
 }

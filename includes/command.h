@@ -52,5 +52,9 @@ void	setup_command(t_command **cmd, t_minishell *shell, char **prompt, char ***a
 // src/commands.c
 void			exec_child(t_minishell *sh, t_command *cmd);
 int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+// src/command/utils/command_execution_utils.c
+int				exc_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+// src/command/utils/command_cleanup_utils.c
+void			free_cmd_struct(t_command *cmd);
 
 #endif

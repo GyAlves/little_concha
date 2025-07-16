@@ -41,11 +41,19 @@ int				is_redir(char *str);
 int				fill_single_redir(t_command *cmd, char **args, int i, int count);
 int				fill_redirs(t_command *cmd, char **args);
 int				count_redirs(char **args);
+// src/redirects/utils/fd_backup_utils.c
+void			save_std_backup(t_std_redir *backup, t_redirect *redir);
+void			restore_std_backup(t_std_redir *backup);
+// src/redirects/utils/redir_execution_utils.c
+int				handle_redir_in_exc(t_minishell \
+				*sh, t_command *cmd, t_std_redir *backup);
+int				process_all_heredocs(t_minishell *sh, t_command *cmd);
 // src/pipe/utils/pipe_setup_utils.c
 int				setup_pipes(t_pipe_data *data, int cmd_count);
 // src/pipe/utils/pipe_cleanup_utils.c
 void			close_n_free_parent_pipes(t_pipe_data *data);
 void			wait_pipe_child(t_pipe_data *data, t_minishell *sh);
+void			close_fd_in_child_pipes(t_pipe_data *pipe_data);
 // src/pipe/utils/pipe_execution_utils.c
 void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 				t_pipe_data *data, int i);

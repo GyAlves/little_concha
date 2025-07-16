@@ -37,6 +37,9 @@ char			**cpy_and_sort_envar(t_minishell *sh);
 void			sort_envar(char **envp, int count);
 // src/env_variables/utils/env_display_utils.c
 void			print_envar(char **envp);
+// src/env_variables/utils/env_expansion_utils.c
+char			*expand_variable(t_minishell *sh, char *str);
+char			*replace_variables(t_minishell *sh, char *input);
 // src/path.c
 char			*set_path(char *cmd);
 char			**get_envar_path(void);
