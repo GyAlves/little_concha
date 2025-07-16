@@ -3,6 +3,7 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "minishell.h": "c",
-        "redirects.h": "c"
+        "redirects.h": "c",
+        "environment_variables.h": "c"
     }
 }

@@ -61,7 +61,7 @@ typedef struct s_pipe_data
 # include "shell.h"
 # include "tokenization.h"
 # include "utils.h"
-# include "libft.h"
+# include "../Libft/libft.h"
 
 
 #endif

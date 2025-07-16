@@ -18,9 +18,7 @@ typedef struct s_minishell  t_minishell;
 typedef struct s_command    t_command;
 
 /* Generic utility functions */
-// src/utils/generic_utils.c
 void			free_matrix(char **matrix);
-// src/utils/main_cleanup_utils.c
 void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
 				char *prompt, char **args);
 void			free_minishell(t_minishell *sh);
