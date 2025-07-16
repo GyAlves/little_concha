@@ -24,6 +24,11 @@ int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
 	while (i < cmd_count)
 	{
 		fork_n_redirect_pipe(sh, &cmd[i], &data, i);
+		dprintf(2, "Parent: Command %d (%s) has %d redirections.\n",
+    	i, cmd[i].args[0], cmd[i].redirections_count);
+		for (int j = 0; j < cmd[i].redirections_count; j++) {
+    		dprintf(2, "  Redirection %d: Type %d, Filename: %s\n", j, cmd[i].redirects[j].type, cmd[i].redirects[j].filename);
+		}
 		i++;
 	}
 	//fechar os fd no processo pai depois de todos os filhos serem forkeados, sem liberar memoria

@@ -18,7 +18,7 @@ This document provides a comprehensive guide to understanding how the `little_co
    └── run_shell_loop() ───────► MAIN SHELL LOOP
 
 2. MAIN LOOP (src/main.c:28)
-   ┌─► while(6) {
+   ┌─► while(6)
    │     ├── setup_prompt() ──► Get user input & tokenize
    │     ├── setup_command() ─► Parse & execute commands
    │     ├── cleanup memory
