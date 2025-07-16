@@ -6,11 +6,12 @@
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:21:32 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/13 23:25:46 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/15 21:13:51 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built-in.h"
 
 static void	print_cmd_err(char *cmd_name, char	*error_msg)
 {
@@ -23,26 +24,6 @@ static void	print_cmd_err(char *cmd_name, char	*error_msg)
 	ft_putstr_fd(error_msg, 2);
 	ft_putstr_fd("\n", 2);
 }
-/*
-int	apply_heredoc_redir(t_minishell *sh, t_command *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (i < cmd->redir_count)
-	{
-		if (cmd->redirects[i].type == HEREDOC)
-		{
-			if (!apply_redir(&cmd->redirects[i]))
-			{
-				sh->exit_status = 1;
-				return (0);
-			}
-		}
-		i++;
-	}
-	return (1);
-}*/
 
 void	exec_child(t_minishell *sh, t_command *cmd) //
 {
@@ -94,7 +75,7 @@ int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	int			status;
 	pid_t		pid;
 
-	prompt = NULL;
+	(void)prompt;
 	if (cmd->is_piped || sh->total_pipeln_cmd > 1)
 		return (handle_pipes(sh, cmd, sh->total_pipeln_cmd));
 	pid = fork();

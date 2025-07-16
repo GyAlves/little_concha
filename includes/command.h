@@ -13,6 +13,8 @@
 #ifndef COMMAND_H
 # define COMMAND_H
 
+# include <stdbool.h>
+
 typedef struct s_redirect   t_redirect;
 typedef struct s_pipe_data  t_pipe_data;
 
@@ -32,15 +34,11 @@ typedef struct s_cmd_init
     char    **cmd_args;
 }   t_cmd_init;
 
-/* Headers */
-# include "environment_variables.h"
-# include "minishell.h"
-# include "redirects.h"
-# include "shell.h"
-# include "tokenization.h"
-# include "libft.h"
+/* Forward declarations */
+typedef struct s_minishell  t_minishell;
 
-/* Functions */
+/* Command functions */
+// src/command/command.c
 int	init_command(t_minishell *sh, t_command **cmd, char **args, char *prompt);
 int	init_command_arr(t_command **cmd, int cmd_count);
 int handle_single_cmd(t_command **cmd, char **args);
@@ -51,5 +49,8 @@ void    cleanup_command(t_command *cmd);
 bool    parse_single_cmd(t_command *cmd, char **args, int start);
 int	init_cmd_redirection(t_command *cmd, char **args);
 void	setup_command(t_command **cmd, t_minishell *shell, char **prompt, char ***args);
+// src/commands.c
+void			exec_child(t_minishell *sh, t_command *cmd);
+int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 
 #endif

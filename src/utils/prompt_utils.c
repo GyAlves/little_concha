@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built-in.h"
 
 char	**read_input(t_minishell *shell, char **prompt)
 {
