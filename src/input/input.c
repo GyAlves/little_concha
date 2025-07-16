@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   generic_utils.c                                    :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Created: 2025/07/16 09:16:18 by gyasminalve       #+#    #+#             */
+/*   Updated: 2025/07/16 09:16:30 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	if (!matrix)
-		return ;
-	i = 0;
-	while (matrix[i])
+bool	setup_prompt(t_minishell *shell, char **prompt, char ***args)
+{	
+	*args = read_input(shell, prompt);
+	if (!*args)
 	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i++;
+		if (*prompt)
+		{
+			free(*prompt);
+			*prompt = NULL;
+		}
+		return (false);
 	}
-	free(matrix);
-	matrix = NULL;
+	return (true);
 }
