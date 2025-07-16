@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<<< HEAD:src/path/path.c
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 19:15:09 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:15:11 by galves-a         ###   ########.fr       */
-========
-/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/06 17:38:11 by fleite-j          #+#    #+#             */
+/*   Updated: 2025/07/16 12:07:44 by gyasminalve      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Updated: 2025/07/06 17:38:14 by fleite-j         ###   ########.fr       */
->>>>>>>> commented_n_start_to_solve_pipe:src/command/command_path.c
 /*                                                                            */
 /* ************************************************************************** */
 
