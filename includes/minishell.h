@@ -55,6 +55,7 @@ typedef struct s_pipe_data
 
 /* Headers */
 # include "command.h"
+# include "built-in.h"
 # include "environment_variables.h"
 # include "input.h"
 # include "redirects.h"
