@@ -15,13 +15,13 @@
 
 static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, char *prompt ,t_std_redir *backup)
 {
-	if (!handle_redir_in_exc(sh, cmd, &backup))
+	if (!handle_redir_in_exc(sh, cmd, backup))
 	{
-		restore_std_backup(&backup);
+		restore_std_backup(backup);
 		return (sh->exit_status);
 	}
 	dispatch_builtin(sh, cmd, prompt);
-	restore_std_backup(&backup);
+	restore_std_backup(backup);
 	return (sh->exit_status);
 }
 
@@ -46,9 +46,19 @@ int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 	return (status);
 }
 
+static void	wait_for_child_process(t_minishell *sh, pid_t pid)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		sh->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		sh->exit_status = 128 + WTERMSIG(status);
+}
+
 int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
-	int			status;
 	pid_t		pid;
 
 	(void)prompt;
@@ -63,21 +73,15 @@ int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	}
 	if (pid == 0)
 	{
-		exec_child(sh, cmd);
+		exec_cmd_in_child(sh, cmd);
 		exit(127);
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			sh->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			sh->exit_status = 128 + WTERMSIG(status);
-	}
+		wait_for_child_process(sh, pid);
 	return (sh->exit_status);
 }
 
-void	exec_child(t_minishell *sh, t_command *cmd)
+void	exec_cmd_in_child(t_minishell *sh, t_command *cmd)
 {
 	char		*full_cmd_path;
 	t_std_redir	child_redir_backup;
