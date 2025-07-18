@@ -23,7 +23,7 @@ typedef struct s_minishell
 	int		total_pipeln_cmd;
 	int		original_stdin;
 	int		original_stdout;
-}			t_minishell;
+} t_minishell;
 
 /* Core shell functions */
 

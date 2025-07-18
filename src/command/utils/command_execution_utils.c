@@ -12,20 +12,7 @@
 
 #include "minishell.h"
 
-static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, \
-			char *prompt, t_std_redir *backup)
-{
-	if (!handle_redir_in_exc(sh, cmd, backup))
-	{
-		restore_std_backup(backup);
-		return (sh->exit_status);
-	}
-	dispatch_builtin(sh, cmd, prompt);
-	restore_std_backup(backup);
-	return (sh->exit_status);
-}
-
-int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
+int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	t_std_redir	backup;
@@ -37,28 +24,27 @@ int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 	if (cmd->is_piped)
 		return (handle_pipes(sh, cmd, count_command_args(cmd->args)));
 	if (is_builtin(cmd) && is_parent_builtin(cmd))
-		return (handle_parent_bi_exec(sh, cmd, prompt, &backup));
+	{
+		if (!handle_redir_in_exc(sh, cmd, &backup))
+		{
+			restore_std_backup(&backup);
+			return (sh->exit_status);
+		}
+		dispatch_builtin(sh, cmd, prompt);
+		restore_std_backup(&backup);
+		return (sh->exit_status);
+	}
 	else
 	{
-		exec_external_cmd(sh, cmd, prompt);
+		exec_cmd(sh, cmd, prompt);
 		status = sh->exit_status;
 	}
 	return (status);
 }
 
-static void	wait_for_child_process(t_minishell *sh, pid_t pid)
+int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
-	int	status;
-
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		sh->exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		sh->exit_status = 128 + WTERMSIG(status);
-}
-
-int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
-{
+	int			status;
 	pid_t		pid;
 
 	(void)prompt;
@@ -71,12 +57,51 @@ int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 		sh->exit_status = 1;
 		exit(1);
 	}
-	if (pid == 0)
+	if (pid == 0) //filhote
 	{
-		exec_cmd_in_child(sh, cmd);
+		exec_child(sh, cmd);
+		exit (127);
+	}
+	else //papai
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			sh->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			sh->exit_status = 128 + WTERMSIG(status);
+	}
+	return (sh->exit_status);
+}
+
+void	exec_child(t_minishell *sh, t_command *cmd) //
+{
+	char		*full_cmd_path;
+	t_std_redir	child_redir_backup;
+
+	child_redir_backup.in = -1;
+	child_redir_backup.out = -1;
+
+	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
+		exit (1);
+	if (is_builtin(cmd) && !is_parent_builtin(cmd))
+	{
+		dispatch_builtin(sh,cmd, NULL);
+		exit(sh->exit_status);
+	}
+	if (!cmd->args[0])
+	{
+		print_cmd_err(NULL, "commmand not found");
 		exit(127);
 	}
-	else
-		wait_for_child_process(sh, pid);
-	return (sh->exit_status);
+	full_cmd_path = set_path(cmd->args[0]);
+	if (!full_cmd_path)
+	{
+		print_cmd_err(cmd->args[0], "command not found");
+		exit(127);
+	}
+	execve(full_cmd_path, cmd->args, sh->envp);
+	perror("minishell");
+	if (full_cmd_path != cmd->args[0])
+		free(full_cmd_path);
+	exit (126);
 }

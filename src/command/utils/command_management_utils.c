@@ -20,8 +20,8 @@ int	init_command_arr(t_command **cmd, int cmd_count)
 	return (1);
 }
 
-void	cleanup_command(t_command *cmd)
+void cleanup_command(t_command *cmd)
 {
-	free_cmd_struct(cmd);
-	free(cmd);
+    free_cmd_struct(cmd);
+    free(cmd);
 }

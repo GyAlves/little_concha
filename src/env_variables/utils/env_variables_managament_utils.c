@@ -32,4 +32,4 @@ int	copy_env_variables(char **new_envp, char **old_envp, int count)
 		counter++;
 	}
 	return (1);
-}
+} //obs: erro de liberação de memoria, pode ser resolvida em free_minishell() com free_matrix()

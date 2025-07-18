@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" //test
+#include "minishell.h"
 
 static int	init_minishell(t_minishell *shell, char **envp)
 {

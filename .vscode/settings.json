@@ -4,6 +4,6 @@
     "files.associations": {
         "minishell.h": "c",
         "redirects.h": "c",
-        "built-in.h": "c"
+        "environment_variables.h": "c"
     }
 }
