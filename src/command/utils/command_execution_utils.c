@@ -13,7 +13,19 @@
 #include "minishell.h"
 #include "built-in.h"
 
-int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, char *prompt ,t_std_redir *backup)
+{
+	if (!handle_redir_in_exc(sh, cmd, &backup))
+	{
+		restore_std_backup(&backup);
+		return (sh->exit_status);
+	}
+	dispatch_builtin(sh, cmd, prompt);
+	restore_std_backup(&backup);
+	return (sh->exit_status);
+}
+
+int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	t_std_redir	backup;
@@ -25,25 +37,16 @@ int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	if (cmd->is_piped)
 		return (handle_pipes(sh, cmd, count_command_args(cmd->args)));
 	if (is_builtin(cmd) && is_parent_builtin(cmd))
-	{
-		if (!handle_redir_in_exc(sh, cmd, &backup))
-		{
-			restore_std_backup(&backup);
-			return (sh->exit_status);
-		}
-		dispatch_builtin(sh, cmd, prompt);
-		restore_std_backup(&backup);
-		return (sh->exit_status);
-	}
+		return (handle_parent_bi_exec(sh, cmd, prompt, &backup));
 	else
 	{
-		exec_cmd(sh, cmd, prompt);
+		exec_external_cmd(sh, cmd, prompt);
 		status = sh->exit_status;
 	}
 	return (status);
 }
 
-int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
+int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	pid_t		pid;
@@ -58,12 +61,12 @@ int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 		sh->exit_status = 1;
 		exit(1);
 	}
-	if (pid == 0) //filhote
+	if (pid == 0)
 	{
 		exec_child(sh, cmd);
-		exit (127);
+		exit(127);
 	}
-	else //papai
+	else
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
@@ -74,7 +77,7 @@ int	exec_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	return (sh->exit_status);
 }
 
-void	exec_child(t_minishell *sh, t_command *cmd) //
+void	exec_child(t_minishell *sh, t_command *cmd)
 {
 	char		*full_cmd_path;
 	t_std_redir	child_redir_backup;
@@ -104,5 +107,5 @@ void	exec_child(t_minishell *sh, t_command *cmd) //
 	perror("minishell");
 	if (full_cmd_path != cmd->args[0])
 		free(full_cmd_path);
-	exit (126);
+	exit(126);
 }
