@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_child_process_utils.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 15:45:36 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/18 15:45:38 by fleite-j         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:59:18 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*get_n_val_cmd_path(t_command *cmd)
 
 	if (!cmd->args[0])
 	{
-		print_cmd_err(NULL, "commmand not found");
+		print_cmd_err(NULL, "commmand not found!");
 		exit(127);
 	}
 	full_cmd_path = set_path(cmd->args[0]);
