@@ -64,4 +64,10 @@ typedef struct s_pipe_data
 	pid_t	*pids;
 }			t_pipe_data;
 
+typedef struct s_pipe_io_fd
+{
+	int	*in;
+	int	*out;
+}			t_pipe_io_fd;	
+
 #endif
