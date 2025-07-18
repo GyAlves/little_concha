@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/16 09:19:01 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/18 19:50:13 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 
 typedef struct s_redirect   t_redirect;
 typedef struct s_pipe_data  t_pipe_data;
+typedef struct s_std_redir  t_std_redir;
+
+typedef struct s_pipe_io_fd
+{
+	int		*in;
+	int		*out;
+}	t_pipe_io_fd;
 
 /* COMMAND STRUCTURE */
 typedef struct s_command
@@ -55,5 +62,10 @@ int				exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 int				exc_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 void			free_cmd_struct(t_command *cmd);
 void			print_cmd_err(char *cmd_name, char *error_msg);
+void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
+					t_pipe_data *data, int i);
+void			close_fd_in_child_pipes(t_pipe_data *pipe_info);
+int				handle_redir_in_exc(t_minishell *sh, t_command *cmd, \
+					t_std_redir *backup);
 
 #endif

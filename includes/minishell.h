@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:34 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/15 17:46:48 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:50:13 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,9 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "../Libft/libft.h"
 
-<<<<<<< HEAD
-=======
-/* Headers */
-# include "command.h"
-# include "built_in.h"
-# include "environment_variables.h"
-# include "input.h"
-# include "redirects.h"
-# include "shell.h"
-# include "tokenization.h"
-# include "utils.h"
-# include "libft.h"
-
->>>>>>> pipe_solved_n_redir_pendent
+/* Type definitions that need to be available before includes */
 typedef enum e_redir_type
 {
 	INVALID,
@@ -69,13 +57,12 @@ typedef struct s_pipe_data
 
 /* Headers */
 # include "command.h"
+# include "built_in.h"
 # include "environment_variables.h"
 # include "input.h"
 # include "redirects.h"
 # include "shell.h"
 # include "tokenization.h"
 # include "utils.h"
-# include "../Libft/libft.h"
-
 
 #endif
