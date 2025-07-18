@@ -14,8 +14,8 @@
 # define UTILS_H
 
 /* Forward declarations */
-typedef struct s_minishell  t_minishell;
-typedef struct s_command    t_command;
+typedef struct s_minishell	t_minishell;
+typedef struct s_command	t_command;
 
 /* Generic utility functions */
 // src/utils/generic_utils.c

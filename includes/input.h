@@ -14,7 +14,7 @@
 # define INPUT_H
 
 /* Forward declarations */
-typedef struct s_minishell  t_minishell;
+typedef struct s_minishell	t_minishell;
 
 /* Input functions */
 // src/input/utils/input_utils.c

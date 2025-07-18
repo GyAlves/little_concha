@@ -14,12 +14,12 @@
 # define TOKENIZATION_H
 
 /* Forward declarations */
-typedef struct s_command    t_command;
-typedef enum e_redir_type   t_redir_type;
+typedef struct s_command	t_command;
+typedef enum e_redir_type	t_redir_type;
 
 /* LEXER DOMAIN - Token creation and input processing */
 // src/tokenization/lexer/lexer.c
-char    **lexer(char *input);
+char			**lexer(char *input);
 // src/tokenization/lexer/utils/lexer_validation_utils.c
 t_redir_type	get_redir_type(char *str);
 int				is_pipe(char *str);

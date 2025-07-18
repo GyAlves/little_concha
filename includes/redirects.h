@@ -14,11 +14,11 @@
 # define REDIRECTS_H
 
 /* Forward declarations */
-typedef struct s_minishell  t_minishell;
-typedef struct s_command    t_command;
-typedef struct s_redirect   t_redirect;
-typedef struct s_std_redir  t_std_redir;
-typedef struct s_pipe_data  t_pipe_data;
+typedef struct s_minishell	t_minishell;
+typedef struct s_command	t_command;
+typedef struct s_redirect	t_redirect;
+typedef struct s_std_redir	t_std_redir;
+typedef struct s_pipe_data	t_pipe_data;
 
 /* Redirection and pipe functions */
 // src/redirects/heredoc.c
@@ -38,7 +38,8 @@ int				write_till_delimiter(int fd, char *delimiter, t_minishell *sh);
 // src/redirects/utils/redir_validation_utils.c
 int				is_redir(char *str);
 // src/redirects/utils/redir_parsing_utils.c
-int				fill_single_redir(t_command *cmd, char **args, int i, int count);
+int				fill_single_redir(t_command *cmd, char \
+				**args, int i, int count);
 int				fill_redirs(t_command *cmd, char **args);
 int				count_redirs(char **args);
 // src/redirects/utils/fd_backup_utils.c

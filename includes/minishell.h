@@ -25,6 +25,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+/* Headers */
+# include "command.h"
+# include "built-in.h"
+# include "environment_variables.h"
+# include "input.h"
+# include "redirects.h"
+# include "shell.h"
+# include "tokenization.h"
+# include "utils.h"
+# include "libft.h"
+
 typedef enum e_redir_type
 {
 	INVALID,
@@ -52,17 +63,5 @@ typedef struct s_pipe_data
 	int		cmd_count;
 	pid_t	*pids;
 }			t_pipe_data;
-
-/* Headers */
-# include "command.h"
-# include "built-in.h"
-# include "environment_variables.h"
-# include "input.h"
-# include "redirects.h"
-# include "shell.h"
-# include "tokenization.h"
-# include "utils.h"
-# include "libft.h"
-
 
 #endif
