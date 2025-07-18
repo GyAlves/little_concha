@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:41:28 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,29 @@ int *in_fd, int *out_fd, t_pipe_data *pipe_info)
 	child_redir_backup.out = -1;
 	if (in_fd)
 	{
-		dup2(*in_fd, STDIN_FILENO);
-		close(*in_fd);
+		dispatch_builtin(sh, cmd, NULL);
+		_exit(sh->exit_status);
 	}
-	if (out_fd)
+	else
 	{
-		dup2(*out_fd, STDOUT_FILENO);
-		close(*out_fd);
+		exec_cmd_in_child(sh, cmd);
+		_exit(127);
+	}
+}
+
+static t_pipe_io_fd	get_pipe_io_fd(t_pipe_data *data, int i)
+{
+	t_pipe_io_fd	fd;
+
+	if (i == 0)
+	{
+		fd.in = NULL;
+		fd.out = &data->pipes[i][1];
+	}
+	else if (i == data->cmd_count - 1)
+	{
+		fd.in = &data->pipes[i - 1][0];
+		fd.out = NULL;
 	}
 	else
 	{
@@ -44,20 +60,16 @@ int *in_fd, int *out_fd, t_pipe_data *pipe_info)
 void	fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 t_pipe_data *data, int i)
 {
-	pid_t	pid;
+	pid_t			pid;
+	t_pipe_io_fd	fd;
 
 	pid = fork();
 	if (pid == -1)
 		exit (1);
 	if (pid == 0)
 	{
-		if (i == 0)
-			exec_pipe_child(sh, cmd, NULL, data->pipes[i], data);
-		else if (i == data->cmd_count - 1)
-			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], NULL, data);
-		else
-			exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], \
-			&data->pipes[i][1], data);
+		fd = get_pipe_io_fd(data, i);
+		exec_pipe_child(sh, cmd, &fd, data);
 	}
 	data->pids[i] = pid;
 }

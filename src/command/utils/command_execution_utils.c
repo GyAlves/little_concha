@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "built-in.h"
 
 int	exc_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 {

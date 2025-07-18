@@ -25,6 +25,20 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+<<<<<<< HEAD
+=======
+/* Headers */
+# include "command.h"
+# include "built_in.h"
+# include "environment_variables.h"
+# include "input.h"
+# include "redirects.h"
+# include "shell.h"
+# include "tokenization.h"
+# include "utils.h"
+# include "libft.h"
+
+>>>>>>> pipe_solved_n_redir_pendent
 typedef enum e_redir_type
 {
 	INVALID,

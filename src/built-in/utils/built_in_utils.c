@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "built-in.h"
 
 int	bi_from_cd_until_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {
