@@ -15,6 +15,11 @@
 
 # include <stdbool.h>
 
+/* Forward declarations */
+typedef struct s_redirect	t_redirect;
+typedef struct s_pipe_data	t_pipe_data;
+typedef struct s_minishell	t_minishell;
+
 /* COMMAND STRUCTURE  */
 typedef struct s_command
 {
@@ -31,11 +36,6 @@ typedef struct s_cmd_init
 	char	**cmd_args;
 }			t_cmd_init;
 
-/* Forward declarations */
-typedef struct s_redirect	t_redirect;
-typedef struct s_pipe_data	t_pipe_data;
-typedef struct s_minishell	t_minishell;
-
 /* Command functions */
 // src/command/command.c
 int		init_command(t_minishell *sh, t_command **cmd, \
@@ -51,10 +51,11 @@ int		init_cmd_redirection(t_command *cmd, char **args);
 void	setup_command(t_command **cmd, t_minishell *shell, \
 		char **prompt, char ***args);
 // src/commands.c
-void	exec_child(t_minishell *sh, t_command *cmd);
-int		exec_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 // src/command/utils/command_execution_utils.c
-int		exc_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+int		exec_command(t_minishell *sh, t_command *cmd, char *prompt);
+int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+// src/command/utils/command_child_process_utils.c
+void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);
 // src/command/utils/command_cleanup_utils.c
 void	free_cmd_struct(t_command *cmd);
 void	print_cmd_err(char *cmd_name, char	*error_msg);

@@ -79,7 +79,7 @@ int *in_fd, int *out_fd, t_pipe_data *pipe_info)
     }
     else
     {
-        exec_child(sh, cmd);
+        exec_cmd_in_child(sh, cmd);
         _exit(127);
     }
 }

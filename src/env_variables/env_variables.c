@@ -15,7 +15,7 @@
 char	**setup_env_variables(int var_count, t_minishell *shell, char **envp)
 {
 	char	**new_envp;
-	
+
 	new_envp = ft_calloc(var_count + 1, sizeof(char *));
 	if (!new_envp)
 		return (NULL);
