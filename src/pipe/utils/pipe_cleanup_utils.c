@@ -53,7 +53,7 @@ void	close_fd_in_child_pipes(t_pipe_data *pipe_data)
 	while (i < pipe_data->cmd_count - 1)
 	{
 		close(pipe_data->pipes[i][0]);
-        close(pipe_data->pipes[i][1]);
-        i++;
+		close(pipe_data->pipes[i][1]);
+		i++;
 	}
 }
