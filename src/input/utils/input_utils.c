@@ -16,10 +16,10 @@ char	**read_input(t_minishell *shell, char **prompt)
 {
 	*prompt = readline(PROMPT);
 	if (!*prompt)
-    {
-        shell->exit_status = 111;
-        return (NULL);
-    }
+	{
+		shell->exit_status = 111;
+		return (NULL);
+	}
 	if (!*prompt || **prompt == '\0')
 		return (NULL);
 	add_history(*prompt);
