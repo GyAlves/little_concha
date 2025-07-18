@@ -95,12 +95,12 @@ static t_pipe_io_fd	get_pipe_io_fd(t_pipe_data *data, int i)
 		fd.in = NULL;
 		fd.out = &data->pipes[i][1];
 	}
-    else if (i == data->cmd_count - 1)
-    {
+	else if (i == data->cmd_count - 1)
+	{
 		fd.in = &data->pipes[i - 1][0];
 		fd.out = NULL;
 	}
-    else
+	else
 	{
 		fd.in = &data->pipes[i - 1][0];
 		fd.out = &data->pipes[i][1];
@@ -108,19 +108,19 @@ static t_pipe_io_fd	get_pipe_io_fd(t_pipe_data *data, int i)
 	return (fd);
 }
 
-void    fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
+void	fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 t_pipe_data *data, int i)
 {
-    pid_t   		pid;
+	pid_t			pid;
 	t_pipe_io_fd	fd;
 
-    pid = fork();
-    if (pid == -1)
-        exit (1);
-    if (pid == 0)
-    {
+	pid = fork();
+	if (pid == -1)
+		exit (1);
+	if (pid == 0)
+	{
 		fd = get_pipe_io_fd(data, i);
-        exec_pipe_child(sh, cmd, &fd, data);
-    }
-    data->pids[i] = pid;
+		exec_pipe_child(sh, cmd, &fd, data);
+	}
+	data->pids[i] = pid;
 }
