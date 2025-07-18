@@ -14,11 +14,12 @@
 
 char	**read_input(t_minishell *shell, char **prompt)
 {
+	//função de conferir sinal aqui 
 	*prompt = readline(PROMPT);
 	if (!*prompt)
 	{
-		shell->exit_status = 111;
-		return (NULL);
+		shell->exit_status = 111; //sig
+		exit (0);
 	}
 	if (!*prompt || **prompt == '\0')
 		return (NULL);

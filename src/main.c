@@ -61,6 +61,7 @@ int	main(int c, char **v, char **envp)
 		return (1);
 	shell.original_stdin = dup(STDIN_FILENO);
 	shell.original_stdout = dup(STDOUT_FILENO);
+	//mais ou menos por aqui confere a saida de sinais
 	status = run_shell_loop(&shell);
 	free_minishell(&shell);
 	return (status);
