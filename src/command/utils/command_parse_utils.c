@@ -12,37 +12,38 @@
 
 #include "minishell.h"
 
-bool    init_single_command(t_command *cmd, char **args, int start, t_cmd_init *cmd_init)
+bool	init_single_command(t_command *cmd, char **args, \
+		int start, t_cmd_init *cmd_init)
 {
-    if (!cmd || !args || !cmd_init)
-        return (false);
-    cmd->is_piped = 0;
-    cmd->redirections_count = 0;
-    cmd_init->cmd_count = count_command_args(args + start);
-    cmd_init->cmd_args = ft_calloc(cmd_init->cmd_count + 1, sizeof(char *));
-    if (!cmd_init->cmd_args)
-        return (false);
-    return (true);
+	if (!cmd || !args || !cmd_init)
+		return (false);
+	cmd->is_piped = 0;
+	cmd->redirections_count = 0;
+	cmd_init->cmd_count = count_command_args(args + start);
+	cmd_init->cmd_args = ft_calloc(cmd_init->cmd_count + 1, sizeof(char *));
+	if (!cmd_init->cmd_args)
+		return (false);
+	return (true);
 }
 
-bool    parse_single_cmd(t_command *cmd, char **args, int start)
+bool	parse_single_cmd(t_command *cmd, char **args, int start)
 {
-    t_cmd_init cmd_init;
+	t_cmd_init	cmd_init;
 
-    if (!init_single_command(cmd, args, start, &cmd_init))
-        return (false);
-    if (!copy_command_args(args + start, cmd_init.cmd_args))
-    {
-        free_matrix(cmd_init.cmd_args);
-        return (false);
-    }
-    if (!init_cmd_redirection(cmd, args + start))
-    {
-        free_matrix(cmd_init.cmd_args);
-        return (false);
-    }
-    cmd->args = cmd_init.cmd_args;
-    return (true);
+	if (!init_single_command(cmd, args, start, &cmd_init))
+		return (false);
+	if (!copy_command_args(args + start, cmd_init.cmd_args))
+	{
+		free_matrix(cmd_init.cmd_args);
+		return (false);
+	}
+	if (!init_cmd_redirection(cmd, args + start))
+	{
+		free_matrix(cmd_init.cmd_args);
+		return (false);
+	}
+	cmd->args = cmd_init.cmd_args;
+	return (true);
 }
 
 int	init_cmd_redirection(t_command *cmd, char **args)

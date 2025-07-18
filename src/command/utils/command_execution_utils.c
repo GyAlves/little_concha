@@ -13,7 +13,8 @@
 #include "minishell.h"
 #include "built-in.h"
 
-static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, char *prompt ,t_std_redir *backup)
+static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, \
+			char *prompt, t_std_redir *backup)
 {
 	if (!handle_redir_in_exc(sh, cmd, backup))
 	{
@@ -79,37 +80,4 @@ int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	else
 		wait_for_child_process(sh, pid);
 	return (sh->exit_status);
-}
-
-void	exec_cmd_in_child(t_minishell *sh, t_command *cmd)
-{
-	char		*full_cmd_path;
-	t_std_redir	child_redir_backup;
-
-	child_redir_backup.in = -1;
-	child_redir_backup.out = -1;
-
-	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
-		exit (1);
-	if (is_builtin(cmd) && !is_parent_builtin(cmd))
-	{
-		dispatch_builtin(sh,cmd, NULL);
-		exit(sh->exit_status);
-	}
-	if (!cmd->args[0])
-	{
-		print_cmd_err(NULL, "commmand not found");
-		exit(127);
-	}
-	full_cmd_path = set_path(cmd->args[0]);
-	if (!full_cmd_path)
-	{
-		print_cmd_err(cmd->args[0], "command not found");
-		exit(127);
-	}
-	execve(full_cmd_path, cmd->args, sh->envp);
-	perror("minishell");
-	if (full_cmd_path != cmd->args[0])
-		free(full_cmd_path);
-	exit(126);
 }

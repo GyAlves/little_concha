@@ -52,7 +52,7 @@ int	init_command(t_minishell *sh, t_command **cmd, char **args, char *prompt)
 		if (!handle_multi_cmd(cmd, args))
 			return (0);
 	}
-	return (exc_cmd(sh, *cmd, prompt));
+	return (exec_command(sh, *cmd, prompt));
 }
 
 int	handle_single_cmd(t_command **cmd, char **args)
