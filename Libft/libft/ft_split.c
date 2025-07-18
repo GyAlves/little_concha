@@ -1,4 +1,16 @@
-#include "../libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 13:18:22 by fleite-j          #+#    #+#             */
+/*   Updated: 2025/07/18 19:29:34 by galves-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 static int	count_words(const char *str, char separator)
 {
@@ -23,18 +35,6 @@ static int	count_words(const char *str, char separator)
 			index++;
 	}
 	return (count);
-}
-
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	if (!matrix)
-		return ;
-	i = 0;
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix);
 }
 
 static int	free_memory(char ***str_list, int allocated)

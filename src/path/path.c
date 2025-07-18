@@ -6,7 +6,11 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 19:15:09 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/11 19:15:11 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:27:02 by galves-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*   Updated: 2025/07/06 17:38:14 by fleite-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +67,7 @@ static char	*build_and_check_path(char *cmd, char *path_dir)
 	if (!full_path)
 		return (NULL);
 	if (access(full_path, X_OK) == 0)
-		return (full_path); //cmd found and is executable
+		return (full_path);
 	free(full_path);
 	return (NULL);
 }
@@ -74,7 +78,7 @@ static char	*search_in_paths(char *cmd)
 	char	*full_path;
 	char	**path;
 
-	path = get_envar_path(); //simple cmd without '/', to find the folder in PATH
+	path = get_envar_path();
 	if (!path)
 		return (NULL);
 	i = 0;
@@ -89,7 +93,7 @@ static char	*search_in_paths(char *cmd)
 		i++;
 	}
 	free_matrix(path);
-	return (NULL); //no path found
+	return (NULL);
 }
 
 char	*set_path(char *cmd)
