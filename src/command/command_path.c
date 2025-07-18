@@ -13,7 +13,11 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:38:11 by fleite-j          #+#    #+#             */
 /*   Updated: 2025/07/06 17:38:14 by fleite-j         ###   ########.fr       */
+<<<<<<< HEAD
 >>>>>>>> pipe_solved_n_redir_pendent:src/command/command_path.c
+=======
+>>>>>>>> commented_n_start_to_solve_pipe:src/command/command_path.c
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
 /*                                                                            */
 /* ************************************************************************** */
 

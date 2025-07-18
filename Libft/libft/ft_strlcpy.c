@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+<<<<<<< HEAD
 #include "libft.h"
+=======
+#include "../libft.h"
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {

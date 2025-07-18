@@ -6,7 +6,11 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:34 by fleite-j          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/18 19:26:35 by galves-a         ###   ########.fr       */
+=======
+/*   Updated: 2025/07/15 17:46:48 by galves-a         ###   ########.fr       */
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +28,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+<<<<<<< HEAD
 
 /* Headers */
 # include "command.h"
@@ -35,6 +40,8 @@
 # include "tokenization.h"
 # include "utils.h"
 # include "libft.h"
+=======
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
 
 typedef enum e_redir_type
 {
@@ -64,10 +71,23 @@ typedef struct s_pipe_data
 	pid_t	*pids;
 }			t_pipe_data;
 
+<<<<<<< HEAD
 typedef struct s_pipe_io_fd
 {
 	int	*in;
 	int	*out;
 }			t_pipe_io_fd;	
+=======
+/* Headers */
+# include "command.h"
+# include "environment_variables.h"
+# include "input.h"
+# include "redirects.h"
+# include "shell.h"
+# include "tokenization.h"
+# include "utils.h"
+# include "../Libft/libft.h"
+
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
 
 #endif

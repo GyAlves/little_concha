@@ -12,9 +12,7 @@
 
 #include "minishell.h"
 
-#include "minishell.h"
-
-char	*cd_envar_home(t_minishell *sh)
+static void	print_cd_no_file_nor_dir(char *path)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	if (path)

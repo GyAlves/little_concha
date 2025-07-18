@@ -1,14 +1,21 @@
 {
     "cSpell.enabled": false,
 <<<<<<< HEAD
+<<<<<<< HEAD
     "files.associations": {
         "minishell.h": "c"
 =======
+=======
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "minishell.h": "c",
         "redirects.h": "c",
+<<<<<<< HEAD
         "built-in.h": "c"
 >>>>>>> pipe_solved_n_redir_pendent
+=======
+        "environment_variables.h": "c"
+>>>>>>> e808775af988923e17434033f446e2d9f779cd2e
     }
 }

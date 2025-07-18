@@ -6,11 +6,11 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:20:41 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/18 19:29:59 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:31:35 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 static char	*allocate_memory(size_t len)
 {

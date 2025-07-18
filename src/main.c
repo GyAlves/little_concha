@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:52 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/18 19:26:26 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:31:17 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ static int	run_shell_loop(t_minishell *shell)
     return (shell->exit_status);
 }
 
-#include "minishell.h"
-
-int	main(int argc, char **argv, char **envp)
+int	main(int c, char **v, char **envp)
 {
 	t_minishell	shell;
 	int			status;
