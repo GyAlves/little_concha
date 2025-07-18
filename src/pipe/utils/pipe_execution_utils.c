@@ -55,7 +55,7 @@ static void	setup_pipe_fd(t_pipe_io_fd *fd, int original_stdout)
 	}
 	else
 	{
-		if (dup2(sh->original_stdout, STDOUT_FILENO) == -1)
+		if (dup2(original_stdout, STDOUT_FILENO) == -1)
 		{
 			perror("minishell: dup2 original_stdout failed");
 			_exit(1);
@@ -86,6 +86,28 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 	}
 }
 
+static t_pipe_io_fd	get_pipe_io_fd(t_pipe_data *data, int i)
+{
+	t_pipe_io_fd	fd;
+
+	if (i == 0)
+	{
+		fd.in = NULL;
+		fd.out = &data->pipes[i][1];
+	}
+    else if (i == data->cmd_count - 1)
+    {
+		fd.in = &data->pipes[i - 1][0];
+		fd.out = NULL;
+	}
+    else
+	{
+		fd.in = &data->pipes[i - 1][0];
+		fd.out = &data->pipes[i][1];
+	}
+	return (fd);
+}
+
 void    fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 t_pipe_data *data, int i)
 {
@@ -97,13 +119,8 @@ t_pipe_data *data, int i)
         exit (1);
     if (pid == 0)
     {
-        if (i == 0)
-            exec_pipe_child(sh, cmd, NULL, &data->pipes[i][1], data);
-        else if (i == data->cmd_count - 1)
-            exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], &sh->original_stdout, data);
-        else
-            exec_pipe_child(sh, cmd, &data->pipes[i - 1][0], \
-            &data->pipes[i][1], data);
+		fd = get_pipe_io_fd(data, i);
+        exec_pipe_child(sh, cmd, &fd, data);
     }
     data->pids[i] = pid;
 }
