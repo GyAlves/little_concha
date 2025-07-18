@@ -27,27 +27,27 @@ static int	init_minishell(t_minishell *shell, char **envp)
 
 static int	run_shell_loop(t_minishell *shell)
 {
-    t_command	*cmd;
-    char		*prompt;
-    char		**args;
+	t_command	*cmd;
+	char		*prompt;
+	char		**args;
 
-    while (1)
-    {
-        if (!setup_prompt(shell, &prompt, &args))
-        {
-            if (shell->exit_status == 111)
-                break ;
-            continue;
-        }
-        setup_command(&cmd, shell, &prompt, &args);
-        free_matrix(args);
-        args = NULL;
-        free(prompt);
-        prompt = NULL;
-        if (shell->exit_status == 111)
-            break ;
-    }
-    return (shell->exit_status);
+	while (1)
+	{
+		if (!setup_prompt(shell, &prompt, &args))
+		{
+			if (shell->exit_status == 111)
+				break ;
+			continue ;
+		}
+		setup_command(&cmd, shell, &prompt, &args);
+		free_matrix(args);
+		args = NULL;
+		free(prompt);
+		prompt = NULL;
+		if (shell->exit_status == 111)
+			break ;
+	}
+	return (shell->exit_status);
 }
 
 int	main(int c, char **v, char **envp)

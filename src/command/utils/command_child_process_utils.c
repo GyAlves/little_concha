@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "built-in.h"
 
 static void	handle_child_bi(t_minishell *sh, t_command *cmd)
 {

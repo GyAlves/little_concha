@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "built-in.h"
 
 static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, \
 			char *prompt, t_std_redir *backup)

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "built-in.h"
 
 int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
 {
