@@ -70,4 +70,6 @@ typedef struct s_pipe_io_fd
 	int	*out;
 }			t_pipe_io_fd;	
 
+extern volatile	g_sig_status;
+
 #endif

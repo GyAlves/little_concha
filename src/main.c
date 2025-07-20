@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" //test
+#include "minishell.h" //variavel global que guarda o status da struct sh.exit_status	
+
+volatile	g_sig_status;
 
 static int	init_minishell(t_minishell *shell, char **envp)
 {
