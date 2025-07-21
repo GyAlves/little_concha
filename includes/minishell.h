@@ -56,6 +56,7 @@ typedef struct s_redirect
 {
 	t_redir_type	type;
 	char			*filename;
+	char			*heredoc_delimiter;
 }			t_redirect;
 
 typedef struct s_pipe_data
