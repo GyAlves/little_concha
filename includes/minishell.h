@@ -28,6 +28,7 @@
 /* Headers */
 # include "command.h"
 # include "built_in.h"
+# include "signals.h"
 # include "environment_variables.h"
 # include "input.h"
 # include "redirects.h"
@@ -70,6 +71,6 @@ typedef struct s_pipe_io_fd
 	int	*out;
 }			t_pipe_io_fd;	
 
-extern volatile	g_sig_status;
+extern volatile int	g_sig_status;
 
 #endif

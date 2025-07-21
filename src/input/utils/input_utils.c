@@ -14,15 +14,25 @@
 
 char	**read_input(t_minishell *shell, char **prompt)
 {
-	//função de conferir sinal aqui 
 	*prompt = readline(PROMPT);
 	if (!*prompt)
 	{
-		shell->exit_status = 111; //sig
+		ft_putstr_fd("exit\n", 1);
+		shell->exit_status = 0;
 		exit (0);
 	}
-	if (!*prompt || **prompt == '\0')
+	if (g_sig_status != 0)
+	{
+		if (g_sig_status == 1)
+			shell->exit_status = 130;
+		g_sig_status = 0;
+	}
+	if (**prompt == '\0')
+	{
+		free(*prompt);
+		*prompt = NULL;
 		return (NULL);
+	}
 	add_history(*prompt);
 	return (lexer(*prompt));
 }

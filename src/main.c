@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" //variavel global que guarda o status da struct sh.exit_status	
+#include "minishell.h"
 
-volatile	g_sig_status;
+volatile int	g_sig_status = 0;
 
 static int	init_minishell(t_minishell *shell, char **envp)
 {
@@ -30,22 +30,22 @@ static int	init_minishell(t_minishell *shell, char **envp)
 static int	run_shell_loop(t_minishell *shell)
 {
 	t_command	*cmd;
-	char		*prompt;
+	char		*prompt_line;
 	char		**args;
 
 	while (1)
 	{
-		if (!setup_prompt(shell, &prompt, &args))
+		if (!setup_prompt(shell, &prompt_line, &args))
 		{
 			if (shell->exit_status == 111)
 				break ;
 			continue ;
 		}
-		setup_command(&cmd, shell, &prompt, &args);
+		setup_command(&cmd, shell, &prompt_line, &args);
 		free_matrix(args);
 		args = NULL;
-		free(prompt);
-		prompt = NULL;
+		free(prompt_line);
+		prompt_line = NULL;
 		if (shell->exit_status == 111)
 			break ;
 	}
@@ -63,7 +63,7 @@ int	main(int c, char **v, char **envp)
 		return (1);
 	shell.original_stdin = dup(STDIN_FILENO);
 	shell.original_stdout = dup(STDOUT_FILENO);
-	//mais ou menos por aqui confere a saida de sinais
+	setup_shell_signals();
 	status = run_shell_loop(&shell);
 	free_minishell(&shell);
 	return (status);

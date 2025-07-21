@@ -49,12 +49,26 @@ int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 static void	wait_for_child_process(t_minishell *sh, pid_t pid)
 {
 	int	status;
+	int	term_sig;
 
+	g_sig_status = 2;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
+	{
 		sh->exit_status = WEXITSTATUS(status);
+		g_sig_status = 0;
+	}
 	else if (WIFSIGNALED(status))
-		sh->exit_status = 128 + WTERMSIG(status);
+	{
+		term_sig = WTERMSIG(status);
+		sh->exit_status = 128 + term_sig;
+		if (term_sig == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		g_sig_status = 0;
+	}
+	else
+		g_sig_status = 0;
 }
 
 int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
@@ -69,10 +83,11 @@ int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)
 	{
 		perror("minishell: fork failed!");
 		sh->exit_status = 1;
-		exit(1);
+		return (1);
 	}
 	if (pid == 0)
 	{
+		setup_child_signals();
 		exec_cmd_in_child(sh, cmd);
 		exit(127);
 	}

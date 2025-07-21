@@ -4,6 +4,10 @@
     "files.associations": {
         "minishell.h": "c",
         "redirects.h": "c",
-        "built-in.h": "c"
+        "built-in.h": "c",
+        "command.h": "c",
+        "stdbool.h": "c",
+        "readline.h": "c",
+        "history.h": "c"
     }
 }
