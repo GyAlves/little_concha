@@ -35,6 +35,12 @@ int				append_redir(t_redirect *redir);
 char			*generate_file(void);
 // src/redirects/utils/heredoc_input_utils.c
 int				write_till_delimiter(int fd, char *delimiter, t_minishell *sh);
+void			handle_child_routine(const char *delimiter, \
+				int write_fd, t_minishell *sh);
+// src/redirects/heredoc/heredoc_input_utils.c
+int				heredoc_init_file(t_redirect *redir);
+int				handle_heredoc_fork_n_wait(int parent_fd, \
+				t_minishell *sh, t_redirect *redir);
 // src/redirects/utils/redir_validation_utils.c
 int				is_redir(char *str);
 // src/redirects/utils/redir_parsing_utils.c
