@@ -237,42 +237,310 @@ These features are correctly omitted as per 42 minishell subject:
 
 ## 🎯 **ACTION PLAN FOR EVALUATION READINESS**
 
+### **CURRENT STATUS UPDATE** ✅ **PROGRESS MADE**
+
+#### ✅ **LEXER COMPLETED** (Step 1 Done)
+**Status:** ✅ **IMPLEMENTED**  
+The lexer has been successfully upgraded to handle quotes:
+
+```c
+// ✅ COMPLETED: src/tokenization/lexer/lexer.c
+typedef struct s_token {
+    char *content;      // Raw content with quotes
+    bool was_double;    // Was enclosed in double quotes
+    bool was_single;    // Was enclosed in single quotes
+} token_t;
+
+token_t *lexer(char *input); // Returns array of tokens with quote info
+```
+
+**Features Implemented:**
+- Quote state machine (single/double quote detection)
+- Proper token boundary detection with quotes
+- Quote type preservation in token structure
+- Space handling within quoted strings
+
+---
+
 ### **CRITICAL PRIORITY** (Must Complete)
 
-#### 1. Implement Quote Parsing 🚨 **BLOCKING**
-**Estimated Time:** 2-3 days  
-**Complexity:** Medium-High  
+#### 1. Implement Parser 🚨 **CURRENT BLOCKING ISSUE**
+**Estimated Time:** 1-2 days  
+**Complexity:** Medium  
+**Status:** ❌ **NOT IMPLEMENTED**
 
-**Step 1: Enhanced Lexer**
+The parser must process the `token_t` array from the lexer and convert it to clean `char **` format for the existing command system.
+
+**Core Requirement:** Convert `token_t *tokens` → `char **args`
+
+---
+
+#### **DETAILED PARSER IMPLEMENTATION GUIDE**
+
+**Step 1: Core Parser Function**
 ```c
-// Replace simple ft_split() with quote-aware tokenizer
-// File: src/tokenization/lexer/lexer.c
-char **advanced_lexer(char *input)
+// File: src/tokenization/parser/parser.c
+char **parse_tokens(token_t *tokens, t_minishell *shell)
 {
-    // Implement quote state machine:
-    // - NORMAL: outside quotes
-    // - SINGLE_QUOTE: inside single quotes (literal)  
-    // - DOUBLE_QUOTE: inside double quotes (expansion)
+    char **result;
+    int token_count;
+    int i;
+    
+    // 1. Count non-null tokens
+    token_count = count_valid_tokens(tokens);
+    
+    // 2. Allocate result array
+    result = malloc(sizeof(char *) * (token_count + 1));
+    if (!result)
+        return (NULL);
+    
+    // 3. Process each token
+    i = 0;
+    while (tokens[i].content != NULL)
+    {
+        result[i] = process_token(&tokens[i], shell);
+        if (!result[i])
+        {
+            free_string_array(result, i);
+            return (NULL);
+        }
+        i++;
+    }
+    result[token_count] = NULL;
+    
+    return (result);
 }
 ```
 
-**Step 2: Quote-Aware Parser**
+**Step 2: Token Processing Logic**
 ```c
-// File: src/tokenization/parser/parser.c  
-// Add quote type detection and handling
-typedef enum {
-    TOKEN_NORMAL,
-    TOKEN_SINGLE_QUOTED,
-    TOKEN_DOUBLE_QUOTED
-} t_token_type;
+// Core function to process individual tokens
+char *process_token(token_t *token, t_minishell *shell)
+{
+    char *cleaned_content;
+    char *expanded_content;
+    
+    // 1. Remove quotes from content
+    cleaned_content = remove_quotes(token->content, token->was_single, token->was_double);
+    if (!cleaned_content)
+        return (NULL);
+    
+    // 2. Handle variable expansion based on quote type
+    if (token->was_single)
+    {
+        // Single quotes: NO variable expansion (literal)
+        return (cleaned_content);
+    }
+    else
+    {
+        // No quotes or double quotes: Variable expansion allowed
+        expanded_content = expand_variables(cleaned_content, shell);
+        free(cleaned_content);
+        return (expanded_content);
+    }
+}
 ```
 
-**Step 3: Integration with Variable Expansion**
+**Step 3: Quote Removal Implementation**
 ```c
-// Modify: src/env_variables/utils/env_expansion_utils.c
-// Skip expansion in single-quoted tokens
-// Process expansion in double-quoted tokens
+// Remove surrounding quotes and preserve internal content
+char *remove_quotes(char *content, bool was_single, bool was_double)
+{
+    int len;
+    char *result;
+    int start;
+    int end;
+    
+    if (!content)
+        return (NULL);
+    
+    len = ft_strlen(content);
+    
+    // If no quotes detected, return copy as-is
+    if (!was_single && !was_double)
+        return (ft_strdup(content));
+    
+    // Calculate start and end positions (skip outer quotes)
+    start = 0;
+    end = len;
+    
+    // Remove first quote if present
+    if ((was_single && content[0] == '\'') || (was_double && content[0] == '"'))
+        start = 1;
+    
+    // Remove last quote if present
+    if ((was_single && content[len - 1] == '\'') || (was_double && content[len - 1] == '"'))
+        end = len - 1;
+    
+    // Extract content between quotes
+    if (end <= start)
+        return (ft_strdup("")); // Empty string case
+    
+    result = ft_substr(content, start, end - start);
+    return (result);
+}
 ```
+
+**Step 4: Variable Expansion Integration**
+```c
+// Enhanced variable expansion with quote context awareness
+char *expand_variables(char *str, t_minishell *shell)
+{
+    // Use existing expand_variables function but ensure it handles:
+    // 1. $VAR expansion in unquoted and double-quoted contexts
+    // 2. $? expansion for exit status
+    // 3. Proper handling of edge cases like $, $$, etc.
+    
+    // This function should already exist in:
+    // src/env_variables/utils/env_expansion_utils.c
+    // Just ensure it's called correctly from parser
+    
+    return (expand_env_vars(str, shell->envp, shell->exit_status));
+}
+```
+
+**Step 5: Helper Functions**
+```c
+// Count valid tokens in array
+int count_valid_tokens(token_t *tokens)
+{
+    int count = 0;
+    
+    while (tokens[count].content != NULL)
+        count++;
+    
+    return (count);
+}
+
+// Free string array on error
+void free_string_array(char **arr, int count)
+{
+    int i = 0;
+    
+    while (i < count)
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
+}
+```
+
+---
+
+#### **INTEGRATION STEPS**
+
+**Step 6: Update Input Processing**
+```c
+// File: src/utils/prompt_utils.c or src/utils/input.c
+// Update read_input function to use new parser
+
+token_t *read_input(t_minishell *shell, char **prompt)
+{
+    *prompt = readline(PROMPT);
+    if (!*prompt)
+    {
+        shell->exit_status = 111;
+        return (NULL);
+    }
+    
+    if (!*prompt || **prompt == '\0')
+        return (NULL);
+    
+    add_history(*prompt);
+    
+    // ✅ Use new lexer (already implemented)
+    return (lexer(*prompt));
+}
+
+// NEW: Add parser integration function
+char **process_input_tokens(token_t *tokens, t_minishell *shell)
+{
+    if (!tokens)
+        return (NULL);
+    
+    // Use new parser to convert tokens to string array
+    return (parse_tokens(tokens, shell));
+}
+```
+
+**Step 7: Update Main Loop Integration**
+```c
+// File: src/main.c - Update setup_prompt function
+bool setup_prompt(t_minishell *shell, char **prompt, char ***args)
+{
+    token_t *tokens;
+    
+    // Get tokens from input
+    tokens = read_input(shell, prompt);
+    if (!tokens)
+        return (false);
+    
+    // Parse tokens into string array
+    *args = process_input_tokens(tokens, shell);
+    
+    // Free token array (content is now in args)
+    free_token_array(tokens);
+    
+    return (*args != NULL);
+}
+```
+
+---
+
+#### **ERROR HANDLING & EDGE CASES**
+
+**Critical Cases to Handle:**
+1. **Empty quotes**: `echo ""` → `["echo", ""]`
+2. **Mixed quotes**: `echo "hello" 'world'` → `["echo", "hello", "world"]`
+3. **Nested quotes**: `echo "It's working"` → `["echo", "It's working"]`
+4. **Variables in quotes**: `echo "Hello $USER"` → `["echo", "Hello john"]` (expand)
+5. **Variables in single quotes**: `echo 'Hello $USER'` → `["echo", "Hello $USER"]` (literal)
+6. **Unclosed quotes**: Should be handled by lexer (return error)
+
+**Memory Management:**
+- Free token array after parsing
+- Handle allocation failures gracefully
+- Clean up partial results on errors
+
+---
+
+#### **TESTING STRATEGY**
+
+**Test Cases to Implement:**
+```bash
+# Basic quote handling
+echo "hello world"        # → hello world
+echo 'hello world'        # → hello world
+
+# Variable expansion
+echo "Hello $USER"        # → Hello username
+echo 'Hello $USER'        # → Hello $USER (literal)
+
+# Mixed scenarios  
+echo "double" 'single'    # → double single
+cd "my directory"         # Should work with spaces
+
+# Edge cases
+echo ""                   # → (empty output)
+echo ''                   # → (empty output)
+echo "unclosed quote      # Should show error
+```
+
+---
+
+#### **ESTIMATED COMPLETION TIME**
+
+**Parser Implementation:** 1-2 days
+- Core parser logic: 4-6 hours
+- Integration with existing system: 2-4 hours  
+- Testing and debugging: 4-6 hours
+- Edge case handling: 2-3 hours
+
+**After Parser Completion:**
+- ✅ Quote parsing fully functional
+- ✅ Ready for 42 evaluation
+- ✅ All mandatory requirements met
 
 ### **RECOMMENDED** (Nice to Have)
 
