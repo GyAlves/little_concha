@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_count_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:43:58 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_pipes(char **args)
+int	count_pipes(token_t *args)
 {
 	int	i;
 	int	count;
@@ -21,7 +21,7 @@ int	count_pipes(char **args)
 	count = 1;
 	while (args[i])
 	{
-		if (is_pipe(args[i]))
+		if (is_pipe(args[i].content))
 			count++;
 		i++;
 	}

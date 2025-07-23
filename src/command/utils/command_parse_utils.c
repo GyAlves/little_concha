@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command_parse_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 19:15:47 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/15 20:04:03 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:47:29 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	init_single_command(t_command *cmd, char **args, \
+bool	init_single_command(t_command *cmd, token_t *args, \
 		int start, t_cmd_init *cmd_init)
 {
 	if (!cmd || !args || !cmd_init)
@@ -26,7 +26,7 @@ bool	init_single_command(t_command *cmd, char **args, \
 	return (true);
 }
 
-bool	parse_single_cmd(t_command *cmd, char **args, int start)
+bool	parse_single_cmd(t_command *cmd, token_t *args, int start)
 {
 	t_cmd_init	cmd_init;
 
@@ -46,7 +46,7 @@ bool	parse_single_cmd(t_command *cmd, char **args, int start)
 	return (true);
 }
 
-int	init_cmd_redirection(t_command *cmd, char **args)
+int	init_cmd_redirection(t_command *cmd, token_t *args)
 {
 	cmd->redirections_count = count_redirs(args);
 	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect));

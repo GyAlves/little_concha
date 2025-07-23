@@ -6,7 +6,7 @@
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:29:03 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/13 23:11:28 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/22 19:33:59 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 typedef struct s_minishell	t_minishell;
 
 /* Environment variable functions */
-// src/env_variables/env_variables.c
 char	**setup_env_variables(int var_count, t_minishell *shell, char **envp);
 int		copy_env_variables(char **new_envp, char **old_envp, int count);
 // src/env_variables/envar_management.c

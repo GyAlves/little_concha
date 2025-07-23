@@ -19,7 +19,7 @@ static void	print_num_arg_required(t_command *cmd)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt, char **args)
+void	bi_exit(t_minishell *sh, t_command *cmd, char *prompt, token_t *args)
 {
 	(void)prompt;
 	ft_putstr_fd("exit\n", 1);

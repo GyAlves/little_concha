@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_command_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:50:13 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fill_cmd(char **args, t_command *cmd)
+int	fill_cmd(token_t *args, t_command *cmd)
 {
 	int	i;
 	int	j;
@@ -23,7 +23,7 @@ int	fill_cmd(char **args, t_command *cmd)
 	start = 0;
 	while (args[i])
 	{
-		if (is_pipe(args[i]) || args[i + 1] == NULL)
+		if (is_pipe(args[i].content) || args[i + 1].content == NULL)
 		{
 			if (!parse_single_cmd(&cmd[j], args, start))
 			{

@@ -12,19 +12,19 @@
 
 #include "minishell.h"
 
-int	fill_single_redir(t_command *cmd, char **args, int i, int count)
+int	fill_single_redir(t_command *cmd, token_t *args, int i, int count)
 {
 	int	j;
 
-	if (!args[i + 1])
+	if (!args[i + 1].content)
 	{
 		j = count;
 		while (j > 0)
 			free(cmd->redirects[--j].filename);
 		return (0);
 	}
-	cmd->redirects[count].type = get_redir_type(args[i]);
-	cmd->redirects[count].filename = ft_strdup(args[i + 1]);
+	cmd->redirects[count].type = get_redir_type(args[i].content);
+	cmd->redirects[count].filename = ft_strdup(args[i + 1].content);
 	if (!cmd->redirects[count].filename)
 	{
 		j = count;
@@ -35,16 +35,16 @@ int	fill_single_redir(t_command *cmd, char **args, int i, int count)
 	return (1);
 }
 
-int	fill_redirs(t_command *cmd, char **args)
+int	fill_redirs(t_command *cmd, token_t *args)
 {
 	int			i;
 	int			count;
 
 	i = 0;
 	count = 0;
-	while (args[i])
+	while (args[i].content)
 	{
-		if (is_redir(args[i]))
+		if (is_redir(args[i].content))
 		{
 			if (!fill_single_redir(cmd, args, i, count))
 				return (0);
@@ -58,16 +58,16 @@ int	fill_redirs(t_command *cmd, char **args)
 	return (1);
 }
 
-int	count_redirs(char **args)
+int	count_redirs(token_t *args)
 {
 	int	i;
 	int	count;
 
 	i = 0;
 	count = 0;
-	while (args[i])
+	while (args[i].content)
 	{
-		if (is_redir(args[i]))
+		if (is_redir(args[i].content))
 		{
 			count++;
 			i += 2;

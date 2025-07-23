@@ -6,7 +6,7 @@
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 22:54:41 by gyasminalve       #+#    #+#             */
-/*   Updated: 2025/07/15 23:43:53 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/22 20:00:34 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,21 @@ typedef struct s_cmd_init
 }			t_cmd_init;
 
 /* Command functions */
-// src/command/command.c
 int		init_command(t_minishell *sh, t_command **cmd, \
-		char **args, char *prompt);
+		token_t *args, char *prompt);
 int		init_command_arr(t_command **cmd, int cmd_count);
-int		handle_single_cmd(t_command **cmd, char **args);
-int		handle_multi_cmd(t_command **cmd, char **args);
-int		count_command_args(char **args);
-char	**copy_command_args(char **args, char **n_args);
+int		handle_single_cmd(t_command **cmd, token_t *args);
+int		handle_multi_cmd(t_command **cmd, token_t *args);
+int		count_command_args(token_t *args);
+char	**copy_command_args(token_t *args, char **n_args);
 void	cleanup_command(t_command *cmd);
-bool	parse_single_cmd(t_command *cmd, char **args, int start);
-int		init_cmd_redirection(t_command *cmd, char **args);
+bool	parse_single_cmd(t_command *cmd, token_t *args, int start);
+int		init_cmd_redirection(t_command *cmd, token_t *args);
 void	setup_command(t_command **cmd, t_minishell *shell, \
-		char **prompt, char ***args);
-// src/commands.c
-// src/command/utils/command_execution_utils.c
+		char **prompt, token_t **args);
 int		exec_command(t_minishell *sh, t_command *cmd, char *prompt);
 int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
-// src/command/utils/command_child_process_utils.c
 void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);
-// src/command/utils/command_cleanup_utils.c
 void	free_cmd_struct(t_command *cmd);
 void	print_cmd_err(char *cmd_name, char	*error_msg);
 

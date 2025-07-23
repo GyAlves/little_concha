@@ -123,6 +123,118 @@ These features are correctly omitted as per 42 minishell subject:
 
 ---
 
+## 📚 **ENHANCED LEXER IMPLEMENTATION GUIDE**
+
+### **Step-by-Step Implementation Strategy**
+
+#### **Phase 1: Understanding the Problem**
+**Current Issue Analysis:**
+- The existing lexer uses simple space-splitting which breaks on quoted strings
+- Input like `echo "hello world"` becomes `["echo", "\"hello", "world\""]` instead of `["echo", "hello world"]`
+- No state tracking means quotes are treated as regular characters
+
+**Goal:** Transform the lexer from space-based splitting to character-by-character parsing with quote state awareness.
+
+#### **Phase 2: Design the State System**
+**Core Concept: Quote State Machine**
+- Think of parsing as having three "modes" or states
+- **Normal state**: Outside quotes, spaces separate tokens
+- **Single quote state**: Inside single quotes, preserve everything literally
+- **Double quote state**: Inside double quotes, preserve spaces but allow variable expansion
+
+**State Transition Logic:**
+- When you encounter a quote character, change state
+- When you encounter the matching closing quote, return to normal state
+- Only split tokens on spaces when in normal state
+
+#### **Phase 3: Algorithm Design**
+**Main Loop Structure:**
+1. Iterate through each character in the input string
+2. For each character, decide what to do based on current state
+3. Build tokens character by character instead of splitting by spaces
+4. Handle state changes when encountering quote characters
+
+**Token Building Strategy:**
+- Maintain a "current token" buffer
+- Add characters to this buffer as you parse
+- When you encounter a space in normal state, finalize the current token
+- When you reach the end of input, finalize any remaining token
+
+#### **Phase 4: Implementation Steps**
+
+**Step 1: Create State Tracking**
+- Define an enumeration for the three states
+- Add a variable to track current parsing state
+- Initialize state to "normal" at the start
+
+**Step 2: Replace ft_split with Manual Parsing**
+- Remove the ft_split call
+- Create a character-by-character loop
+- Add logic to handle each state differently
+
+**Step 3: Implement Token Building**
+- Create helper functions to manage token creation
+- Add functions to append characters to current token
+- Add function to finalize and add token to results array
+
+**Step 4: Handle State Transitions**
+- When encountering single quote in normal state: switch to single quote state
+- When encountering single quote in single quote state: switch back to normal
+- Same logic for double quotes
+- Ignore quote characters when in opposite quote state
+
+**Step 5: Space Handling Logic**
+- In normal state: spaces end current token
+- In quote states: spaces are added to current token like any other character
+
+#### **Phase 5: Error Handling**
+**Unclosed Quotes Detection:**
+- If you reach end of input while still in a quote state, that's an error
+- Return appropriate error indication (NULL or error flag)
+
+**Memory Management:**
+- Ensure proper allocation and deallocation of token buffers
+- Clean up partial results if parsing fails midway
+
+#### **Phase 6: Testing Strategy**
+**Test Cases to Verify:**
+1. Simple cases: `echo hello` → `["echo", "hello"]`
+2. Double quotes: `echo "hello world"` → `["echo", "hello world"]`
+3. Single quotes: `echo 'hello world'` → `["echo", "hello world"]`
+4. Mixed quotes: `echo "hello" 'world'` → `["echo", "hello", "world"]`
+5. Empty quotes: `echo ""` → `["echo", ""]`
+6. Quotes with special characters: `echo "hello|world"` → `["echo", "hello|world"]`
+
+#### **Phase 7: Integration Points**
+**Files to Modify:**
+- `src/tokenization/lexer/lexer.c` - Main implementation
+- Consider if `includes/tokenization.h` needs updates for new data structures
+
+**Backward Compatibility:**
+- Keep the same function signature: `char **lexer(char *input)`
+- Ensure existing code that calls lexer continues to work
+- The change should be transparent to the rest of the system
+
+### **Implementation Tips**
+
+**Memory Management Best Practices:**
+- Use dynamic allocation for tokens since you don't know final count
+- Start with small arrays and resize as needed
+- Always clean up on error conditions
+
+**Debugging Strategies:**
+- Add debug prints to show state transitions
+- Print the current token being built
+- Verify token count matches expectations
+
+**Common Pitfalls to Avoid:**
+- Don't forget to handle end-of-string while in quote state
+- Remember that quotes themselves should not appear in final tokens
+- Be careful with array bounds and memory allocation
+- Test edge cases like empty input and input with only quotes
+
+---
+
 ## 🎯 **ACTION PLAN FOR EVALUATION READINESS**
 
 ### **CRITICAL PRIORITY** (Must Complete)

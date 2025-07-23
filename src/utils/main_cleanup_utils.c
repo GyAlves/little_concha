@@ -6,14 +6,14 @@
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 09:13:54 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/22 19:51:26 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, \
-char *prompt, char **args)
+char *prompt, token_t *args)
 {
 	if (cmd)
 	{
@@ -35,17 +35,17 @@ void	free_minishell(t_minishell *sh)
 	clear_history();
 }
 
-void	free_matrix(char **matrix)
+void	free_matrix(token_t *matrix)
 {
 	int	i;
 
 	if (!matrix)
 		return ;
 	i = 0;
-	while (matrix[i])
+	while (matrix[i].content)
 	{
-		free(matrix[i]);
-		matrix[i] = NULL;
+		free(matrix[i].content);
+		matrix[i].content = NULL;
 		i++;
 	}
 	free(matrix);

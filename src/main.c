@@ -6,7 +6,7 @@
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:52 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/15 21:29:36 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/22 19:51:49 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	run_shell_loop(t_minishell *shell)
 {
 	t_command	*cmd;
 	char		*prompt_line;
-	char		**args;
+	token_t		*args;
 
 	while (1)
 	{
