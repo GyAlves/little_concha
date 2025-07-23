@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:01:03 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/23 00:26:22 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/23 20:04:08 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ token_t	*lexer(char *input)
     tokens = malloc(sizeof(token_t) * (tokens_count + 1));
     if (!tokens)
         return (NULL);
-    
+
     input_counter = 0;
     token_index = 0;
     while(input[input_counter])
