@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/22 19:56:05 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/23 21:14:59 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-token_t	*read_input(t_minishell *shell, char **prompt)
+char	**read_input(t_minishell *shell, char **prompt)
 {
+	token_t *tokens;
+
 	*prompt = readline(PROMPT);
 	if (!*prompt)
 	{
@@ -34,5 +36,8 @@ token_t	*read_input(t_minishell *shell, char **prompt)
 		return (NULL);
 	}
 	add_history(*prompt);
-	return (lexer(*prompt));
+	tokens = lexer(*prompt, shell);
+	if (token_t)
+		return (NULL);
+	return (tokens_parser(tokens));
 }

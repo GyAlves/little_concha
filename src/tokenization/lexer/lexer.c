@@ -6,13 +6,13 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:01:03 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/23 20:04:08 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:16:50 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-token_t	*lexer(char *input)
+token_t	*lexer(char *input, t_minishell *shell)
 {
     token_t *tokens;
     int     tokens_count;
@@ -20,6 +20,7 @@ token_t	*lexer(char *input)
     int     token_index;
     
     tokens_count = count_tokens(input);
+    shell->tokens_count = tokens_count;
     tokens = malloc(sizeof(token_t) * (tokens_count + 1));
     if (!tokens)
         return (NULL);

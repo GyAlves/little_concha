@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:02:44 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/22 19:59:47 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/23 21:19:28 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_token
 } token_t;
 
 /* LEXER DOMAIN - Token creation and input processing */
-token_t			*lexer(char *input);
+token_t			*lexer(char *input, t_minishell *shell);
 t_redir_type	get_redir_type(char *str);
 int				is_pipe(char *str);
 
@@ -37,5 +37,6 @@ char			**filter_n_rm_redir(token_t *args, int *n_count);
 int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(token_t *args, t_command *cmd);
 int				count_pipes(token_t *args);
+char            **tokens_parser(token_t *tokens, t_minishell *shell);
 
 #endif
