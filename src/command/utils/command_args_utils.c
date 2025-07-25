@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "utils.h"
 
-int	count_command_args(token_t *args)
+int	count_command_args(t_token *args)
 {
 	int		counter;
 	int		cmd_count;
@@ -39,7 +39,7 @@ int	count_command_args(token_t *args)
 	return (cmd_count);
 }
 
-char	**copy_command_args(token_t *args, char **n_args)
+char	**copy_command_args(t_token *args, char **n_args)
 {
 	int		i;
 	int		j;

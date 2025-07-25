@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-bool	init_single_command(t_command *cmd, token_t *args, \
+bool	init_single_command(t_command *cmd, t_token *args, \
 		int start, t_cmd_init *cmd_init)
 {
 	if (!cmd || !args || !cmd_init)
@@ -26,7 +26,7 @@ bool	init_single_command(t_command *cmd, token_t *args, \
 	return (true);
 }
 
-bool	parse_single_cmd(t_command *cmd, token_t *args, int start)
+bool	parse_single_cmd(t_command *cmd, t_token *args, int start)
 {
 	t_cmd_init	cmd_init;
 
@@ -46,7 +46,7 @@ bool	parse_single_cmd(t_command *cmd, token_t *args, int start)
 	return (true);
 }
 
-int	init_cmd_redirection(t_command *cmd, token_t *args)
+int	init_cmd_redirection(t_command *cmd, t_token *args)
 {
 	cmd->redirections_count = count_redirs(args);
 	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect));

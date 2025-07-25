@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 void	cleanup_n_exit(t_minishell *sh, t_command *cmd, \
-char *prompt, token_t *args)
+char *prompt, t_token *args)
 {
 	if (cmd)
 	{
@@ -51,7 +51,7 @@ void	free_string_matrix(char **matrix)
 	free(matrix);
 }
 
-void	free_matrix(token_t *matrix)
+void	free_matrix(t_token *matrix)
 {
 	int	i;
 

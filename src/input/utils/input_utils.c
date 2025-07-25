@@ -14,7 +14,7 @@
 
 char	**read_input(t_minishell *shell, char **prompt)
 {
-	token_t *tokens;
+	t_token *tokens;
 
 	*prompt = readline(PROMPT);
 	if (!*prompt)

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	**filter_n_rm_redir(token_t *args, int *n_count)
+char	**filter_n_rm_redir(t_token *args, int *n_count)
 {
 	char	**n_args;
 

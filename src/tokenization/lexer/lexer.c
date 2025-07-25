@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-token_t	*lexer(char *input, t_minishell *shell)
+t_token	*lexer(char *input, t_minishell *shell)
 {
-    token_t *tokens;
+    t_token *tokens;
     int     tokens_count;
     int     input_counter;
     int     token_index;
     
     tokens_count = count_tokens(input);
     shell->tokens_count = tokens_count;
-    tokens = malloc(sizeof(token_t) * (tokens_count + 1));
+    tokens = malloc(sizeof(t_token) * (tokens_count + 1));
     if (!tokens)
         return (NULL);
 
@@ -36,11 +36,11 @@ token_t	*lexer(char *input, t_minishell *shell)
         tokens[token_index] = fill_token(input, &input_counter);
         token_index++;
     }
-    tokens[tokens_count] = (token_t){NULL, false, false};
+    tokens[tokens_count] = (t_token){NULL, false, false};
     return (tokens);
 }
 
-token_t fill_token(char *input, int *pos)
+t_token fill_token(char *input, int *pos)
 {
     int start;
     bool in_single;
@@ -71,8 +71,8 @@ token_t fill_token(char *input, int *pos)
     }
     content = ft_substr(input, start, *pos - start);
     if (!content)
-        return ((token_t){NULL, false, false}); 
-    return ((token_t){content, was_double, was_single});
+        return ((t_token){NULL, false, false}); 
+    return ((t_token){content, was_double, was_single});
 }
 
 int count_tokens(char *input)

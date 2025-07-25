@@ -19,11 +19,11 @@ typedef struct s_command	t_command;
 
 /* Generic utility functions */
 // src/utils/generic_utils.c
-void			free_matrix(token_t *matrix);
+void			free_matrix(t_token *matrix);
 void			free_string_matrix(char **matrix);
 // src/utils/main_cleanup_utils.c
 void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
-				char *prompt, token_t *args);
+				char *prompt, t_token *args);
 void			free_minishell(t_minishell *sh);
 
 #endif

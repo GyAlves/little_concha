@@ -44,10 +44,10 @@ int				handle_heredoc_fork_n_wait(int parent_fd, \
 // src/redirects/utils/redir_validation_utils.c
 int				is_redir(char *str);
 // src/redirects/utils/redir_parsing_utils.c
-int				fill_single_redir(t_command *cmd, token_t \
+int				fill_single_redir(t_command *cmd, t_token \
 				*args, int i, int count);
-int				fill_redirs(t_command *cmd, token_t *args);
-int				count_redirs(token_t *args);
+int				fill_redirs(t_command *cmd, t_token *args);
+int				count_redirs(t_token *args);
 // src/redirects/utils/fd_backup_utils.c
 void			save_std_backup(t_std_redir *backup, t_redirect *redir);
 void			restore_std_backup(t_std_redir *backup);

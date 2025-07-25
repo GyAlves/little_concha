@@ -18,7 +18,7 @@
 /* Forward declarations */
 typedef struct s_redirect	t_redirect;
 typedef struct s_pipe_data	t_pipe_data;
-typedef struct s_token		token_t;
+typedef struct s_token		t_token;
 typedef struct s_minishell	t_minishell;
 
 /* COMMAND STRUCTURE  */
@@ -39,17 +39,17 @@ typedef struct s_cmd_init
 
 /* Command functions */
 int		init_command(t_minishell *sh, t_command **cmd, \
-		token_t *args, char *prompt);
+		t_token *args, char *prompt);
 int		init_command_arr(t_command **cmd, int cmd_count);
-int		handle_single_cmd(t_command **cmd, token_t *args);
-int		handle_multi_cmd(t_command **cmd, token_t *args);
-int		count_command_args(token_t *args);
-char	**copy_command_args(token_t *args, char **n_args);
+int		handle_single_cmd(t_command **cmd, t_token *args);
+int		handle_multi_cmd(t_command **cmd, t_token *args);
+int		count_command_args(t_token *args);
+char	**copy_command_args(t_token *args, char **n_args);
 void	cleanup_command(t_command *cmd);
-bool	parse_single_cmd(t_command *cmd, token_t *args, int start);
-int		init_cmd_redirection(t_command *cmd, token_t *args);
+bool	parse_single_cmd(t_command *cmd, t_token *args, int start);
+int		init_cmd_redirection(t_command *cmd, t_token *args);
 void	setup_command(t_command **cmd, t_minishell *shell, \
-		char **prompt, token_t **args);
+		char **prompt, t_token **args);
 int		exec_command(t_minishell *sh, t_command *cmd, char *prompt);
 int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);

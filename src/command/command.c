@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 void	setup_command(t_command **cmd, t_minishell *shell, \
-		char **prompt, token_t **args)
+		char **prompt, t_token **args)
 {
 	int	counter;
 
@@ -32,7 +32,7 @@ void	setup_command(t_command **cmd, t_minishell *shell, \
 	}
 }
 
-int	init_command(t_minishell *sh, t_command **cmd, token_t *args, char *prompt)
+int	init_command(t_minishell *sh, t_command **cmd, t_token *args, char *prompt)
 {
 	int	cmd_pipe_count;
 
@@ -55,7 +55,7 @@ int	init_command(t_minishell *sh, t_command **cmd, token_t *args, char *prompt)
 	return (exec_command(sh, *cmd, prompt));
 }
 
-int	handle_single_cmd(t_command **cmd, token_t *args)
+int	handle_single_cmd(t_command **cmd, t_token *args)
 {
 	(*cmd)->is_piped = 0;
 	if (!parse_single_cmd(*cmd, args, 0))
@@ -66,7 +66,7 @@ int	handle_single_cmd(t_command **cmd, token_t *args)
 	return (1);
 }
 
-int	handle_multi_cmd(t_command **cmd, token_t *args)
+int	handle_multi_cmd(t_command **cmd, t_token *args)
 {
 	(*cmd)->is_piped = 1;
 	if (!fill_cmd(args, *cmd))

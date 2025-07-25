@@ -31,7 +31,7 @@ static int	run_shell_loop(t_minishell *shell)
 {
 	t_command	*cmd;
 	char		*prompt_line;
-	token_t		*args;
+	t_token		*args;
 
 	while (1)
 	{

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	fill_single_redir(t_command *cmd, token_t *args, int i, int count)
+int	fill_single_redir(t_command *cmd, t_token *args, int i, int count)
 {
 	int	j;
 
@@ -35,7 +35,7 @@ int	fill_single_redir(t_command *cmd, token_t *args, int i, int count)
 	return (1);
 }
 
-int	fill_redirs(t_command *cmd, token_t *args)
+int	fill_redirs(t_command *cmd, t_token *args)
 {
 	int			i;
 	int			count;
@@ -58,7 +58,7 @@ int	fill_redirs(t_command *cmd, token_t *args)
 	return (1);
 }
 
-int	count_redirs(token_t *args)
+int	count_redirs(t_token *args)
 {
 	int	i;
 	int	count;

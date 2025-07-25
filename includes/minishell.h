@@ -32,7 +32,7 @@ typedef struct s_token
     char *content;
     bool was_double;
     bool was_single;
-} token_t;
+} 			t_token;
 
 /* Headers */
 # include "command.h"

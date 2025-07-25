@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-static token_t	*convert_strings_to_tokens(char **strings)
+static t_token	*convert_strings_to_tokens(char **strings)
 {
-	token_t	*tokens;
+	t_token	*tokens;
 	int		count;
 	int		i;
 
@@ -25,7 +25,7 @@ static token_t	*convert_strings_to_tokens(char **strings)
 	while (strings[count])
 		count++;
 	
-	tokens = malloc(sizeof(token_t) * (count + 1));
+	tokens = malloc(sizeof(t_token) * (count + 1));
 	if (!tokens)
 		return (NULL);
 	
@@ -51,7 +51,7 @@ static token_t	*convert_strings_to_tokens(char **strings)
 	return (tokens);
 }
 
-bool	setup_prompt(t_minishell *shell, char **prompt, token_t **args)
+bool	setup_prompt(t_minishell *shell, char **prompt, t_token **args)
 {	
 	char **processed_args = read_input(shell, prompt);
 	

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	count_pipes(token_t *args)
+int	count_pipes(t_token *args)
 {
 	int	i;
 	int	count;

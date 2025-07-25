@@ -18,6 +18,6 @@ typedef struct s_minishell	t_minishell;
 
 /* Input functions */
 char **read_input(t_minishell *shell, char **prompt);
-bool	setup_prompt(t_minishell *shell, char **prompt, token_t **args);
+bool	setup_prompt(t_minishell *shell, char **prompt, t_token **args);
 
 #endif

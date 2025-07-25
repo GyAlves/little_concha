@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	fill_cmd(token_t *args, t_command *cmd)
+int	fill_cmd(t_token *args, t_command *cmd)
 {
 	int	i;
 	int	j;

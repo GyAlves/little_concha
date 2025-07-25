@@ -22,7 +22,7 @@ void	bi_cd(t_minishell *sh, t_command *cmd);
 void	bi_echo(t_minishell *sh, t_command *cmd);
 void	bi_env(t_minishell *sh, t_command *cmd);
 void	bi_exit(t_minishell *sh, t_command *cmd, \
-		char *prompt, token_t *args);
+		char *prompt, t_token *args);
 void	bi_export(t_minishell *sh, t_command *cmd);
 void	bi_pwd(t_minishell *sh);
 void	bi_unset(t_minishell *sh, t_command *cmd);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	**tokens_parser(token_t *tokens, t_minishell *shell)
+char	**tokens_parser(t_token *tokens, t_minishell *shell)
 {
 	char	**args;
 	int		counter;
