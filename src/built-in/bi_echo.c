@@ -27,16 +27,10 @@ static int	handle_n_flag(char **args, int *index)
 
 static void	print_echo_args(t_minishell *sh, char **args, int index)
 {
-	char	*expanded;
-
+	(void)sh;
 	while (args[index])
 	{
-		expanded = replace_variables(sh, args[index]);
-		if (expanded)
-		{
-			ft_putstr_fd(expanded, 1);
-			free(expanded);
-		}
+		ft_putstr_fd(args[index], 1);
 		if (args[index + 1])
 			ft_putstr_fd(" ", 1);
 		index++;
