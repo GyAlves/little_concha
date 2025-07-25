@@ -1,0 +1,10 @@
+echo "=== Quick Minishell Test ==="
+echo 'Single quotes work'
+echo "Double quotes with $USER"
+export TEST=value
+echo $TEST
+echo "test" | cat
+echo "output" > temp.txt
+cat temp.txt
+rm temp.txt
+echo "Test completed!"

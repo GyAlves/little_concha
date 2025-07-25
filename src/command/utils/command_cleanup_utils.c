@@ -19,7 +19,7 @@ void	free_cmd_struct(t_command *cmd)
 	if (!cmd)
 		return ;
 	if (cmd->args)
-		free_matrix(cmd->args);
+		free_string_matrix(cmd->args);
 	if (cmd->redirects)
 	{
 		i = 0;

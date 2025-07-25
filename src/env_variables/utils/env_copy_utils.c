@@ -23,7 +23,7 @@ char	**cpy_and_sort_envar(t_minishell *sh)
 		return (NULL);
 	if (!copy_env_variables(copy, sh->envp, count))
 	{
-		free_matrix(copy);
+		free_string_matrix(copy);
 		return (NULL);
 	}
 	sort_envar(copy, count);

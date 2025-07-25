@@ -27,7 +27,7 @@ static void	print_sorted_envar(t_minishell *sh)
 	if (!copy)
 		return ;
 	print_envar(copy);
-	free_matrix(copy);
+	free_string_matrix(copy);
 }
 
 static void	set_envar(t_minishell *sh, char *arg)

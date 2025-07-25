@@ -37,7 +37,7 @@ static char	**append_envar(t_minishell *sh, char *envar_entry, int count)
 	new_envp[count] = ft_strdup(envar_entry);
 	if (!new_envp[count])
 	{
-		free_matrix(new_envp);
+		free_string_matrix(new_envp);
 		return (NULL);
 	}
 	new_envp[count + 1] = NULL;
@@ -92,6 +92,6 @@ void	update_envar(t_minishell *sh, char *key, char *val)
 	free(envar_entry);
 	if (!new_envp)
 		return ;
-	free_matrix(sh->envp);
+	free_string_matrix(sh->envp);
 	sh->envp = new_envp;
 }

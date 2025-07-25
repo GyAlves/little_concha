@@ -83,12 +83,12 @@ static char	*search_in_paths(char *cmd)
 		full_path = build_and_check_path(cmd, path[i]);
 		if (full_path)
 		{
-			free_matrix(path);
+			free_string_matrix(path);
 			return (full_path);
 		}
 		i++;
 	}
-	free_matrix(path);
+	free_string_matrix(path);
 	return (NULL);
 }
 

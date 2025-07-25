@@ -25,6 +25,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+/* Token structure definition (needed by other headers) */
+typedef struct s_token
+{
+    char *content;
+    bool was_double;
+    bool was_single;
+} token_t;
+
 /* Headers */
 # include "command.h"
 # include "built_in.h"

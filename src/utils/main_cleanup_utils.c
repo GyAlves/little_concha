@@ -31,8 +31,24 @@ char *prompt, token_t *args)
 void	free_minishell(t_minishell *sh)
 {
 	if (sh->envp)
-		free_matrix(sh->envp);
+		free_string_matrix(sh->envp);
 	clear_history();
+}
+
+void	free_string_matrix(char **matrix)
+{
+	int	i;
+
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		matrix[i] = NULL;
+		i++;
+	}
+	free(matrix);
 }
 
 void	free_matrix(token_t *matrix)

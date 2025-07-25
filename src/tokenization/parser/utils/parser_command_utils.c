@@ -21,7 +21,7 @@ int	fill_cmd(token_t *args, t_command *cmd)
 	i = 0;
 	j = 0;
 	start = 0;
-	while (args[i])
+	while (args[i].content)
 	{
 		if (is_pipe(args[i].content) || args[i + 1].content == NULL)
 		{

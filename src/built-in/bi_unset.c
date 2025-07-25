@@ -48,7 +48,7 @@ static int	cpy_envar_excluding_key(char **dst, char **src, char *key)
 			dst[j] = ft_strdup(src[i]);
 			if (!dst[j])
 			{
-				free_matrix(dst);
+				free_string_matrix(dst);
 				return (0);
 			}
 			j++;
@@ -67,10 +67,10 @@ static void	remove_envar(t_minishell *sh, char *key)
 		return ;
 	if (!cpy_envar_excluding_key(new_envp, sh->envp, key))
 	{
-		free_matrix(new_envp);
+		free_string_matrix(new_envp);
 		return ;
 	}
-	free_matrix(sh->envp);
+	free_string_matrix(sh->envp);
 	sh->envp = new_envp;
 }
 

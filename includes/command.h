@@ -18,6 +18,7 @@
 /* Forward declarations */
 typedef struct s_redirect	t_redirect;
 typedef struct s_pipe_data	t_pipe_data;
+typedef struct s_token		token_t;
 typedef struct s_minishell	t_minishell;
 
 /* COMMAND STRUCTURE  */

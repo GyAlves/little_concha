@@ -48,6 +48,10 @@ void	bi_echo(t_minishell *sh, t_command *cmd)
 	int	index;
 	int	n_flag;
 
+	printf("DEBUG: bi_echo called with args[0]: %s\n", cmd->args[0] ? cmd->args[0] : "NULL");
+	if (cmd->args[1])
+		printf("DEBUG: args[1]: %s\n", cmd->args[1]);
+	
 	index = 1;
 	n_flag = handle_n_flag(cmd->args, &index);
 	print_echo_args(sh, cmd->args, index);

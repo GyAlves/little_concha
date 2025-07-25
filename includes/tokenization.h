@@ -16,19 +16,12 @@
 /* Forward declarations */
 typedef struct s_command	t_command;
 typedef enum e_redir_type	t_redir_type;
-
-#include "minshell.h"
-
-/* Structs */
-typedef struct s_token
-{
-    char *content;
-    bool was_double;
-    bool was_single;
-} token_t;
+typedef struct s_minishell	t_minishell;
 
 /* LEXER DOMAIN - Token creation and input processing */
 token_t			*lexer(char *input, t_minishell *shell);
+token_t			fill_token(char *input, int *pos);
+int				count_tokens(char *input);
 t_redir_type	get_redir_type(char *str);
 int				is_pipe(char *str);
 
@@ -38,5 +31,12 @@ int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(token_t *args, t_command *cmd);
 int				count_pipes(token_t *args);
 char            **tokens_parser(token_t *tokens, t_minishell *shell);
+
+/* TOKEN PROCESSING FUNCTIONS */
+char			*non_quoted_token(char *content, t_minishell *shell);
+char			*single_quoted_token(char *content);
+char			*double_quoted_token(char *content, t_minishell *shell);
+char			*expanded_variable(char *content, t_minishell *shell);
+bool			is_variable_expansion(char *content);
 
 #endif

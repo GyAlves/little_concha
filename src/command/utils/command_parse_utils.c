@@ -34,12 +34,12 @@ bool	parse_single_cmd(t_command *cmd, token_t *args, int start)
 		return (false);
 	if (!copy_command_args(args + start, cmd_init.cmd_args))
 	{
-		free_matrix(cmd_init.cmd_args);
+		free_string_matrix(cmd_init.cmd_args);
 		return (false);
 	}
 	if (!init_cmd_redirection(cmd, args + start))
 	{
-		free_matrix(cmd_init.cmd_args);
+		free_string_matrix(cmd_init.cmd_args);
 		return (false);
 	}
 	cmd->args = cmd_init.cmd_args;

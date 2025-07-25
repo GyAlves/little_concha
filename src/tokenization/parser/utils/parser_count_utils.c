@@ -19,7 +19,7 @@ int	count_pipes(token_t *args)
 
 	i = 0;
 	count = 1;
-	while (args[i])
+	while (args[i].content)
 	{
 		if (is_pipe(args[i].content))
 			count++;

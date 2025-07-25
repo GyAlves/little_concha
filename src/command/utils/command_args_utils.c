@@ -57,7 +57,7 @@ char	**copy_command_args(token_t *args, char **n_args)
 			n_args[j] = ft_strdup(args[i].content);
 			if (!n_args[j])
 			{
-				free_matrix(n_args);
+				free_string_matrix(n_args);
 				return (NULL);
 			}
 			i++;
