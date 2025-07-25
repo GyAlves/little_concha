@@ -20,7 +20,6 @@ static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, \
 		restore_std_backup(backup);
 		return (sh->exit_status);
 	}
-	printf("DEBUG: About to call dispatch_builtin\n");
 	dispatch_builtin(sh, cmd, prompt);
 	restore_std_backup(backup);
 	return (sh->exit_status);
@@ -31,22 +30,17 @@ int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 	int			status;
 	t_std_redir	backup;
 
-	printf("DEBUG: exec_command started\n");
 	backup.in = -1;
 	backup.out = -1;
-	printf("DEBUG: About to process heredocs\n");
 	if (!process_all_heredocs(sh, cmd))
 		return (1);
-	printf("DEBUG: Heredocs done, checking if piped\n");
 	if (cmd->is_piped)
 	{
-		printf("DEBUG: Command is piped\n");
 		int arg_count = 0;
 		while (cmd->args && cmd->args[arg_count])
 			arg_count++;
 		return (handle_pipes(sh, cmd, arg_count));
 	}
-	printf("DEBUG: Not piped, checking if builtin: %s\n", cmd->args[0] ? cmd->args[0] : "NULL");
 	if (is_builtin(cmd) && is_parent_builtin(cmd))
 		return (handle_parent_bi_exec(sh, cmd, prompt, &backup));
 	else

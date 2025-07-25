@@ -35,15 +35,12 @@ static int	run_shell_loop(t_minishell *shell)
 
 	while (1)
 	{
-		printf("DEBUG: Shell loop iteration\n");
 		if (!setup_prompt(shell, &prompt_line, &args))
 		{
-			printf("DEBUG: setup_prompt returned false\n");
 			if (shell->exit_status == 111)
 				break ;
 			continue ;
 		}
-		printf("DEBUG: setup_prompt succeeded, calling setup_command\n");
 		setup_command(&cmd, shell, &prompt_line, &args);
 		free_matrix(args);
 		args = NULL;

@@ -16,7 +16,6 @@ int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int	return_val;
 
-	printf("DEBUG: dispatch_builtin called\n");
 	return_val = bi_from_cd_until_exit(sh, cmd, prompt);
 	if (return_val <= 0)
 		return (return_val);

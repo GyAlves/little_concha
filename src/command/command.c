@@ -17,9 +17,7 @@ void	setup_command(t_command **cmd, t_minishell *shell, \
 {
 	int	counter;
 
-	printf("DEBUG: setup_command called\n");
 	*cmd = NULL;
-	printf("DEBUG: About to call init_command\n");
 	shell->exit_status = init_command(shell, cmd, *args, *prompt);
 	if (*cmd)
 	{
@@ -38,16 +36,9 @@ int	init_command(t_minishell *sh, t_command **cmd, token_t *args, char *prompt)
 {
 	int	cmd_pipe_count;
 
-	printf("DEBUG: init_command called\n");
 	if (!args || !args[0].content)
-	{
-		printf("DEBUG: No args or empty args[0]\n");
 		return (0);
-	}
-	printf("DEBUG: args[0].content = '%s'\n", args[0].content);
-	printf("DEBUG: About to count pipes\n");
 	cmd_pipe_count = count_pipes(args);
-	printf("DEBUG: count_pipes returned: %d\n", cmd_pipe_count);
 	sh->total_pipeln_cmd = cmd_pipe_count;
 	if (!init_command_arr(cmd, cmd_pipe_count))
 		return (0);

@@ -19,46 +19,24 @@ token_t	*lexer(char *input, t_minishell *shell)
     int     input_counter;
     int     token_index;
     
-    printf("DEBUG: lexer called with input: '%s'\n", input);
     tokens_count = count_tokens(input);
-    printf("DEBUG: count_tokens returned: %d\n", tokens_count);
     shell->tokens_count = tokens_count;
-    
     tokens = malloc(sizeof(token_t) * (tokens_count + 1));
     if (!tokens)
-    {
-        printf("DEBUG: malloc failed in lexer\n");
         return (NULL);
-    }
 
     input_counter = 0;
     token_index = 0;
-    printf("DEBUG: Starting tokenization loop\n");
-    
     while(input[input_counter])
     {
-        printf("DEBUG: Processing char[%d] = '%c'\n", input_counter, input[input_counter]);
-        
         while(input[input_counter] && input[input_counter] == ' ')
             input_counter++;
         if (!input[input_counter])
             break;
-            
-        printf("DEBUG: About to call fill_token at position %d\n", input_counter);
         tokens[token_index] = fill_token(input, &input_counter);
-        printf("DEBUG: fill_token returned: '%s'\n", tokens[token_index].content ? tokens[token_index].content : "NULL");
-        
         token_index++;
-        
-        if (token_index > 10) // Safety check
-        {
-            printf("DEBUG: SAFETY BREAK in lexer - too many tokens!\n");
-            break;
-        }
     }
-    
     tokens[tokens_count] = (token_t){NULL, false, false};
-    printf("DEBUG: lexer completed, returning tokens\n");
     return (tokens);
 }
 
@@ -111,7 +89,7 @@ int count_tokens(char *input)
     
     while (input[counter])
     {
-        while (input[counter] == ' ' && (!is_single && is_double))
+        while (input[counter] == ' ' && (!is_single && !is_double))
             counter++;
 
         if(!input[counter])

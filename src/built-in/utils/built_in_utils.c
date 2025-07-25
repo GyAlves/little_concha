@@ -14,8 +14,6 @@
 
 int	bi_from_cd_until_exit(t_minishell *sh, t_command *cmd, char *prompt)
 {
-	printf("DEBUG: bi_from_cd_until_exit called\n");
-	printf("DEBUG: cmd->args[0] = %s\n", cmd->args[0] ? cmd->args[0] : "NULL");
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 	{
 		bi_cd(sh, cmd);
@@ -23,9 +21,7 @@ int	bi_from_cd_until_exit(t_minishell *sh, t_command *cmd, char *prompt)
 	}
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 	{
-		printf("DEBUG: About to call bi_echo\n");
 		bi_echo(sh, cmd);
-		printf("DEBUG: bi_echo returned\n");
 		return (sh->exit_status);
 	}
 	else if (ft_strcmp(cmd->args[0], "env") == 0)

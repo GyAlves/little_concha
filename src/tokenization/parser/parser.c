@@ -32,44 +32,21 @@ char    **tokens_parser(token_t *tokens, t_minishell *shell)
     char    **args;
     int     counter;
 
-    printf("DEBUG: tokens_parser started, tokens_count = %d\n", shell->tokens_count);
     counter = 0;
     args = malloc(sizeof(char *) * (shell->tokens_count + 1));
     if (!args)
         return (NULL);
-    
     while (tokens[counter].content != NULL)
     {
-        printf("DEBUG: Processing token[%d] = '%s', was_double=%d, was_single=%d\n", 
-               counter, tokens[counter].content, tokens[counter].was_double, tokens[counter].was_single);
-        
         if (tokens[counter].was_double)
-        {
-            printf("DEBUG: Calling double_quoted_token\n");
             args[counter] = double_quoted_token(tokens[counter].content, shell);
-        }
         else if (tokens[counter].was_single)
-        {
-            printf("DEBUG: Calling single_quoted_token\n");
             args[counter] = single_quoted_token(tokens[counter].content);
-        }
         else
-        {
-            printf("DEBUG: Calling non_quoted_token\n");
             args[counter] = non_quoted_token(tokens[counter].content, shell);
-        }
-        
-        printf("DEBUG: Token[%d] processed, result = '%s'\n", counter, args[counter] ? args[counter] : "NULL");
         counter++;
-        
-        if (counter > 10) // Safety check
-        {
-            printf("DEBUG: SAFETY BREAK - too many tokens!\n");
-            break;
-        }
     }
     args[shell->tokens_count] = NULL;
-    printf("DEBUG: tokens_parser completed\n");
     return (args);
 }
 

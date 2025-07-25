@@ -36,13 +36,10 @@ char	**read_input(t_minishell *shell, char **prompt)
 		return (NULL);
 	}
 	add_history(*prompt);
-	printf("DEBUG: About to call lexer\n");
 	tokens = lexer(*prompt, shell);
-	printf("DEBUG: Lexer returned, about to call tokens_parser\n");
 	if (!tokens)
 		return (NULL);
 	char **result = tokens_parser(tokens, shell);
-	printf("DEBUG: tokens_parser returned\n");
 	free_matrix(tokens);
 	return (result);
 }
