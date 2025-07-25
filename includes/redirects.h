@@ -60,7 +60,7 @@ int				setup_pipes(t_pipe_data *data, int cmd_count);
 // src/pipe/utils/pipe_cleanup_utils.c
 void			close_n_free_parent_pipes(t_pipe_data *data);
 void			wait_pipe_child(t_pipe_data *data, t_minishell *sh);
-void			close_fd_in_child_pipes(t_pipe_data *pipe_data);
+void			close_parent_pipe_fds(t_pipe_data *data);
 // src/pipe/utils/pipe_execution_utils.c
 void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 				t_pipe_data *data, int i);
