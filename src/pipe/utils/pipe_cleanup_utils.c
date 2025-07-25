@@ -43,7 +43,7 @@ void	wait_pipe_child(t_pipe_data *data, t_minishell *sh)
 	free(data->pids);
 }
 
-void	close_fd_in_child_pipes(t_pipe_data *pipe_data)
+/*void	close_fd_in_child_pipes(t_pipe_data *pipe_data)
 {
 	int	i;
 
@@ -56,4 +56,28 @@ void	close_fd_in_child_pipes(t_pipe_data *pipe_data)
 		close(pipe_data->pipes[i][1]);
 		i++;
 	}
+}*/
+
+void	close_parent_pipe_fds(t_pipe_data *data)
+{
+	int	i;
+
+	if (!data || !data->pipes)
+		return ;
+	i = 0;
+	while (i < data->cmd_count - 1)
+	{
+		if (data->pipes[i][0] != -1)
+		{
+			close(data->pipes[i][0]);
+			data->pipes[i][0] = -1;
+		}
+		if (data->pipes[i][1] != -1)
+		{
+			close(data->pipes[i][1]);
+			data->pipes[i][1] = -1;
+		}
+		i++;
+	}
 }
+
