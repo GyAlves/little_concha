@@ -6,7 +6,7 @@
 /*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:00:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/24 20:05:42 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/07/25 14:21:12 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char    *expanded_variable(char *content, t_minishell *shell)
 {
     char    *result;
     char    *temp;
-    int     i;
+    int     counter;
     int     start;
     char    *var_name;
     char    *var_value;
@@ -70,23 +70,23 @@ char    *expanded_variable(char *content, t_minishell *shell)
     if (!result)
         return (NULL);
     
-    i = 0;
-    while (content[i])
+    counter = 0;
+    while (content[counter])
     {
-        if (content[i] == '$')
+        if (content[counter] == '$')
         {
-            i++;
-            if (content[i] == '?')
+            counter++;
+            if (content[counter] == '?')
             {
                 var_value = ft_itoa(shell->exit_status);
-                i++;
+                counter++;
             }
-            else if (isalpha(content[i]) || content[i] == '_')
+            else if (isalpha(content[counter]) || content[counter] == '_')
             {
-                start = i;
-                while (content[i] && (isalnum(content[i]) || content[i] == '_'))
-                    i++;
-                var_name = ft_substr(content, start, i - start);
+                start = counter;
+                while (content[counter] && (isalnum(content[counter]) || content[counter] == '_'))
+                    counter++;
+                var_name = ft_substr(content, start, counter - start);
                 var_value = expand_envar(shell, var_name);
                 free(var_name);
             }
@@ -109,7 +109,7 @@ char    *expanded_variable(char *content, t_minishell *shell)
             temp = ft_strjoin(result, single_char);
             free(result);
             result = temp;
-            i++;
+            counter++;
         }
     }
     return (result);
@@ -155,23 +155,19 @@ char    *double_quoted_token(char *content, t_minishell *shell)
     start = 0;
     end = len;
     
-    // Remove surrounding double quotes if present
     if (len >= 2 && content[0] == '"' && content[len - 1] == '"')
     {
         start = 1;
         end = len - 1;
     }
     
-    // Handle empty quotes case
     if (end <= start)
         return (ft_strdup(""));
     
-    // Extract content without quotes
     cleaned_content = ft_substr(content, start, end - start);
     if (!cleaned_content)
         return (NULL);
     
-    // Expand variables in double-quoted content
     if (is_variable_expansion(cleaned_content))
     {
         expanded_content = expanded_variable(cleaned_content, shell);
