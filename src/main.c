@@ -54,7 +54,7 @@ static int	init_minishell(t_minishell *shell, char **envp)
 // Adicione as includes necessárias: <stdio.h> para printf
 // Certifique-se de que as funções de limpeza (free_matrix, free) estão corretas.
 
-static int run_shell_loop(t_minishell *shell)
+/*static int run_shell_loop(t_minishell *shell)
 {
     t_command *cmd;
     char *prompt_line;
@@ -121,6 +121,61 @@ static int run_shell_loop(t_minishell *shell)
         }
 
         if (shell->exit_status == 111) break; // Exemplo de condição de saída
+    }
+    return (shell->exit_status);
+}*/
+
+// Esqueleto da sua função de execução. Vamos preenchê-la nas próximas etapas.
+int execute_pipeline(t_command *cmd, t_minishell *shell)
+{
+    // A ser implementado: lógica com fork, pipe, dup2, execve...
+    (void)cmd;
+    (void)shell;
+    printf("--- (Placeholder) Executing commands... ---\n");
+    return (0); // Retorna o exit status do último comando
+}
+
+// Função para limpar a memória alocada para os comandos após a execução
+void free_commands(t_command *cmd, int cmd_count)
+{
+    int i;
+
+    if (!cmd)
+        return ;
+    i = 0;
+    while (i < cmd_count)
+    {
+        free_string_matrix(cmd[i].args); // Libera o char **
+        // Adicionar free para cmd[i].redirects se alocado
+        i++;
+    }
+    free(cmd);
+}
+
+static int run_shell_loop(t_minishell *shell)
+{
+    t_command   *cmd;
+    char        *prompt_line;
+    t_token     *args;
+    int         parsing_status;
+
+    while (1)
+    {
+        if (!setup_prompt(shell, &prompt_line, &args))
+            break ; // Lógica de Ctrl+D
+        if (!args || !args[0].content)
+        {
+            free(prompt_line);
+            continue ;
+        }
+        parsing_status = setup_command(&cmd, shell, args); // setup_command chama a nova init_command
+        if (parsing_status != 0)
+            shell->exit_status = parsing_status; // Atualiza status com erro de parsing
+        else
+            shell->exit_status = execute_pipeline(cmd, shell); // OU executa e atualiza
+        free_commands(cmd, shell->total_pipeln_cmd);
+        free(prompt_line);
+        // free(args) - implementar free para sua lista de tokens
     }
     return (shell->exit_status);
 }

@@ -12,9 +12,7 @@
 
 #include "minishell.h"
 
-// Adapte a assinatura da sua função setup_command para retornar um bool
-// Isso permite que run_shell_loop saiba se o comando foi parseado com sucesso.
-bool setup_command(t_command **cmd, t_minishell *shell, \
+/*bool setup_command(t_command **cmd, t_minishell *shell, \
                     char **prompt, t_token **args)
 {
     int counter;
@@ -58,12 +56,34 @@ bool setup_command(t_command **cmd, t_minishell *shell, \
         }
         free(*cmd); // NÃO AQUI
         *cmd = NULL; // NÃO AQUI
-        */
     }
-
     printf("--- DEBUG: Exiting setup_command. Success: %d ---\n", success);
     return (success); // Retorna se a configuração do comando foi bem-sucedida
+}*/
+
+bool setup_command(t_command **cmd, t_minishell *shell, \
+                    char **prompt, t_token **args)
+{
+    int parsing_status;
+
+    *cmd = NULL; // Garante que o ponteiro de comando esteja limpo.
+
+    // A função init_command agora retorna 0 para sucesso, ou um código de erro.
+    parsing_status = init_command(shell, cmd, args);
+
+    if (parsing_status != 0)
+    {
+        // Se o parsing falhou, atualizamos o status do shell com o erro específico
+        // e retornamos 'false' para impedir a execução.
+        shell->exit_status = parsing_status;
+        return (false);
+    }
+
+    // Se o parsing foi bem-sucedido, retornamos 'true'.
+    // O shell->exit_status não é modificado aqui.
+    return (true);
 }
+
 /*void	setup_command(t_command **cmd, t_minishell *shell, \
 		char **prompt, t_token **args)
 {
@@ -84,14 +104,14 @@ bool setup_command(t_command **cmd, t_minishell *shell, \
 	}
 }*/
 
-int	init_command(t_minishell *sh, t_command **cmd, t_token *args, char *prompt)
+/*int	init_command(t_minishell *sh, t_command **cmd, t_token *args, char *prompt)
 {
 	int	cmd_pipe_count;
 
 	if (!args || !args[0].content)
 		return (0);
 	cmd_pipe_count = count_pipes(args);
-	sh->total_pipeln_cmd = cmd_pipe_count;
+	sh->total_pipeln_cmd = cmd_pipe_count + 1;
 	if (!init_command_arr(cmd, cmd_pipe_count))
 		return (0);
 	if (cmd_pipe_count == 1)
@@ -105,9 +125,31 @@ int	init_command(t_minishell *sh, t_command **cmd, t_token *args, char *prompt)
 			return (0);
 	}
 	return (exec_command(sh, *cmd, prompt));
+}*/
+int init_command(t_minishell *sh, t_command **cmd, t_token *args)
+{
+    int num_pipes;
+
+    if (!args || !args[0].content)
+        return (0);
+    num_pipes = count_pipes(args);
+    sh->total_pipeln_cmd = num_pipes + 1;
+    if (!init_command_arr(cmd, sh->total_pipeln_cmd))
+        return (1); // Retorna 1 para erro de alocação de memória
+    if (sh->total_pipeln_cmd == 1)
+    {
+        if (!handle_single_cmd(*cmd, args))
+            return (2); // Erro de sintaxe em comando único
+    }
+    else
+    {
+        if (!handle_multi_cmd(*cmd, args))
+            return (2); // Erro de sintaxe em múltiplos comandos
+    }
+    return (0); // Parsing bem-sucedido
 }
 
-int	handle_single_cmd(t_command **cmd, t_token *args)
+/*int	handle_single_cmd(t_command **cmd, t_token *args)
 {
 	(*cmd)->is_piped = 0;
 	if (!parse_single_cmd(*cmd, args, 0))
@@ -127,4 +169,17 @@ int	handle_multi_cmd(t_command **cmd, t_token *args)
 		return (0);
 	}
 	return (1);
+}*/
+// Em init_command, a chamada se torna: handle_single_cmd(sh, *cmd, args)
+int handle_single_cmd(t_minishell *sh, t_command *cmd, t_token *args)
+{
+    cmd[0].is_piped = 0; // Corrigido para acessar o primeiro elemento do array
+    return (parse_single_cmd(sh, &cmd[0], args, 0));
+}
+
+// Em init_command, a chamada se torna: handle_multi_cmd(sh, *cmd, args)
+int handle_multi_cmd(t_minishell *sh, t_command *cmd, t_token *args)
+{
+    // A flag is_piped é melhor definida dentro de fill_cmd para cada comando
+    return (fill_cmd(sh, cmd, args));
 }

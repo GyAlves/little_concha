@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	fill_cmd(t_token *args, t_command *cmd)
+/*int	fill_cmd(t_token *args, t_command *cmd)
 {
 	int	i;
 	int	j;
@@ -37,6 +37,37 @@ int	fill_cmd(t_token *args, t_command *cmd)
 		i++;
 	}
 	return (1);
+}*/
+
+int fill_cmd(t_minishell *sh, t_command *cmd, t_token *args)
+{
+    int i;
+    int j;
+    int start;
+    int status;
+
+    i = 0;
+    j = 0;
+    start = 0;
+    while (args[i].content)
+    {
+        if (is_pipe(args[i].content) || args[i + 1].content == NULL)
+        {
+            // Chamamos a nova parse_single_cmd, passando 'sh'
+            status = parse_single_cmd(sh, &cmd[j], args, start);
+            if (status != 0) // Verificamos se houve erro
+            {
+                // Se houve, fazemos a limpeza dos comandos já parseados
+                while (j-- > 0)
+                    free_cmd_struct(&cmd[j]);
+                return (status); // E propagamos o código de erro
+            }
+            start = i + 1;
+            j++;
+        }
+        i++;
+    }
+    return (0); // Sucesso
 }
 
 int	init_cmd_arr(t_command **cmd, int cmd_count)
