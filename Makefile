@@ -3,7 +3,7 @@ NAME = minishell
 
 # Compiler
 CC = cc
-CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -ILibft -I$(shell brew --prefix readline)/include
+CFLAGS = -g3 -Iincludes -ILibft -I$(shell brew --prefix readline)/include
 
 # Directories
 LIBFT = Libft/libft.a

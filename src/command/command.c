@@ -12,7 +12,59 @@
 
 #include "minishell.h"
 
-void	setup_command(t_command **cmd, t_minishell *shell, \
+// Adapte a assinatura da sua função setup_command para retornar um bool
+// Isso permite que run_shell_loop saiba se o comando foi parseado com sucesso.
+bool setup_command(t_command **cmd, t_minishell *shell, \
+                    char **prompt, t_token **args)
+{
+    int counter;
+    bool success = true; // Assumimos sucesso por padrão
+
+    *cmd = NULL; // Garante que *cmd inicia como NULL
+
+    printf("DEBUG: setup_command: Calling init_command...\n");
+    // init_command agora define shell->exit_status e manipula *cmd
+    // O retorno de init_command deve indicar sucesso (0) ou falha (não 0, ou 2 para erro de sintaxe)
+    shell->exit_status = init_command(shell, cmd, *args, *prompt);
+
+    // Se init_command retornou um status de erro (diferente de 0)
+    if (shell->exit_status != 0) // Assumindo que 0 é sucesso, e 2 é erro de sintaxe
+    {
+        printf("ERROR: setup_command: init_command failed with status %d.\n", shell->exit_status);
+        success = false; // Sinaliza falha
+        // **NÃO TENTE LIBERAR *cmd AQUI SE init_command JÁ FEZ ISSO EM CASO DE ERRO**
+        // A lógica de init_command ou suas sub-funções (como parse_single_cmd)
+        // é quem deve liberar qualquer estrutura parcial de 'cmd' em caso de erro de parsing.
+        // Se init_command define *cmd = NULL em caso de falha, então não há o que liberar aqui.
+    }
+    else // init_command retornou sucesso (shell->exit_status == 0)
+    {
+        printf("DEBUG: setup_command: init_command succeeded. Command(s) parsed.\n");
+        // O comando *cmd foi populado corretamente por init_command.
+        // **A LIBERAÇÃO DE *cmd DEVE ACONTECER DEPOIS DA EXECUÇÃO DO COMANDO**
+        // Se você tiver um loop para múltiplos comandos ou pipes, a liberação deve ser feita
+        // APÓS cada comando ser executado ou no final do ciclo do shell.
+
+        // A lógica de free_cmd_struct aqui está liberando o comando logo após ser parseado,
+        // o que impede a execução. Esta parte deve ser **removida daqui**.
+        // Essa liberação DEVE ir para *depois* da execução do comando no run_shell_loop.
+        // for example:
+        /*
+        counter = 0;
+        while (counter < shell->total_pipeln_cmd)
+        {
+            free_cmd_struct(&(*cmd)[counter]); // NÃO AQUI
+            counter++;
+        }
+        free(*cmd); // NÃO AQUI
+        *cmd = NULL; // NÃO AQUI
+        */
+    }
+
+    printf("--- DEBUG: Exiting setup_command. Success: %d ---\n", success);
+    return (success); // Retorna se a configuração do comando foi bem-sucedida
+}
+/*void	setup_command(t_command **cmd, t_minishell *shell, \
 		char **prompt, t_token **args)
 {
 	int	counter;
@@ -30,7 +82,7 @@ void	setup_command(t_command **cmd, t_minishell *shell, \
 		free(*cmd);
 		*cmd = NULL;
 	}
-}
+}*/
 
 int	init_command(t_minishell *sh, t_command **cmd, t_token *args, char *prompt)
 {
