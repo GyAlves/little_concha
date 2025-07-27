@@ -46,7 +46,9 @@ bool	init_single_command(t_command *cmd, t_token *args, \
 	return (true);
 }*/
 
-/*bool parse_single_cmd(t_command *cmd, t_token *args, int start)
+// Certifique-se de que a assinatura da sua função seja compatível,
+// e que t_command seja a struct correta para armazenar os argumentos.
+bool parse_single_cmd(t_command *cmd, t_token *args, int start) // Adapte os parâmetros conforme sua função
 {
     t_cmd_init cmd_init; // Ou como você inicializa sua estrutura interna para parsing
 
@@ -97,40 +99,6 @@ bool	init_single_command(t_command *cmd, t_token *args, \
     printf("DEBUG: parse_single_cmd: init_cmd_redirection succeeded.\n");
 
     return (true); // Se tudo correr bem
-}
-*/
-
-int parse_single_cmd(t_minishell *sh, t_command *cmd, t_token *args, int start)
-{
-    t_cmd_init cmd_init;
-
-    // Supomos que count_command_args retorna -1 em erro de sintaxe
-    cmd_init.cmd_count = count_command_args(args + start);
-    if (cmd_init.cmd_count == -1)
-    {
-        sh->exit_status = 2; // Erro de sintaxe!
-        return (2);
-    }
-    cmd_init.cmd_args = ft_calloc(cmd_init.cmd_count + 1, sizeof(char *));
-    if (!cmd_init.cmd_args)
-        return (1); // Erro de Malloc
-        
-    // copy_command_args retorna NULL em erro de sintaxe
-    if (copy_command_args(args + start, cmd_init.cmd_args) == NULL)
-    {
-        free_string_matrix(cmd_init.cmd_args);
-        sh->exit_status = 2; // Erro de sintaxe!
-        return (2);
-    }
-    cmd->args = cmd_init.cmd_args;
-    if (!init_cmd_redirection(sh, cmd, args + start)) // init_cmd_redirection também precisa ser ajustada
-    {
-        free_string_matrix(cmd->args);
-        cmd->args = NULL;
-        sh->exit_status = 2; // Erro de sintaxe!
-        return (2);
-    }
-    return (0); // Sucesso
 }
 
 int	init_cmd_redirection(t_command *cmd, t_token *args)

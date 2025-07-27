@@ -46,7 +46,7 @@ int		handle_multi_cmd(t_command **cmd, t_token *args);
 int		count_command_args(t_token *args);
 char	**copy_command_args(t_token *args, char **n_args);
 void	cleanup_command(t_command *cmd);
-int		parse_single_cmd(t_minishell *sh, t_command *cmd, t_token *args, int start);
+bool	parse_single_cmd(t_command *cmd, t_token *args, int start);
 int		init_cmd_redirection(t_command *cmd, t_token *args);
 bool	setup_command(t_command **cmd, t_minishell *shell, \
 		char **prompt, t_token **args);

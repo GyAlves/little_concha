@@ -26,9 +26,8 @@ int	count_command_args(t_token *args)
 	{
 		if (is_redir(args[counter].content))
 		{
-			if (args[counter + 1].content || is_redir(args[counter + 1].content)
-                || is_pipe(args[counter + 1].content))
-				return (-1);
+			if (!args[counter + 1].content)
+				return (cmd_count);
 			counter += 2;
 		}
 		else
@@ -39,7 +38,6 @@ int	count_command_args(t_token *args)
 	}
 	return (cmd_count);
 }
-
 /*
 char	**copy_command_args(t_token *args, char **n_args)
 {
@@ -71,7 +69,7 @@ char	**copy_command_args(t_token *args, char **n_args)
 }
 */
 
-/*char **copy_command_args(t_token *args, char **n_args)
+char **copy_command_args(t_token *args, char **n_args)
 {
     int i;
     int j;
@@ -152,51 +150,5 @@ char	**copy_command_args(t_token *args, char **n_args)
     n_args[j] = NULL; // Termina o array de argumentos com NULL
 
     printf("--- DEBUG: Exiting copy_command_args successfully ---\n");
-    return (n_args);
-}
-*/
-
-// Função auxiliar estática para verificar erros de sintaxe após um redirect
-static int is_invalid_redir_arg(t_token *arg_token)
-{
-    if (arg_token == NULL || arg_token->content == NULL)
-    {
-        fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
-        return (1);
-    }
-    if (is_redir(arg_token->content) || is_pipe(arg_token->content))
-    {
-        fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n",
-            arg_token->content);
-        return (1);
-    }
-    return (0);
-}
-
-// A nova copy_command_args, agora mais enxuta
-char    **copy_command_args(t_token *args, char **n_args)
-{
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    while (args[i].content && !is_pipe(args[i].content))
-    {
-        if (is_redir(args[i].content))
-        {
-            if (is_invalid_redir_arg(&args[i + 1]))
-                return (NULL); // Retorna NULL em erro de sintaxe
-            i += 2;
-        }
-        else
-        {
-            n_args[j] = ft_strdup(args[i].content);
-            if (!n_args[j])
-                return (free_string_matrix(n_args), NULL);
-            i++;
-            j++;
-        }
-    }
     return (n_args);
 }

@@ -28,7 +28,7 @@ int				is_pipe(char *str);
 /* PARSER DOMAIN - Command structure parsing and analysis */
 char			**filter_n_rm_redir(t_token *args, int *n_count);
 int				init_cmd_arr(t_command **cmd, int cmd_count);
-int				fill_cmd(t_minishell *sh, t_command *cmd, t_token *args);
+int				fill_cmd(t_token *args, t_command *cmd);
 int				count_pipes(t_token *args);
 char            **tokens_parser(t_token *tokens, t_minishell *shell);
 
