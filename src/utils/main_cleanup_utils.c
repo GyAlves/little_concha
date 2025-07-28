@@ -21,7 +21,7 @@ char *prompt, t_token *args)
 		free(cmd);
 	}
 	if (args)
-		free_matrix(args);
+		free_tokens(args);
 	if (prompt)
 		free(prompt);
 	free_minishell(sh);
@@ -51,19 +51,19 @@ void	free_string_matrix(char **matrix)
 	free(matrix);
 }
 
-void	free_matrix(t_token *matrix)
+void	free_tokens(t_token *token)
 {
 	int	i;
 
-	if (!matrix)
+	if (!token)
 		return ;
 	i = 0;
-	while (matrix[i].content)
+	while (token[i].content)
 	{
-		free(matrix[i].content);
-		matrix[i].content = NULL;
+		free(token[i].content);
+		token[i].content = NULL;
 		i++;
 	}
-	free(matrix);
-	matrix = NULL;
+	free(token);
+	token = NULL;
 }

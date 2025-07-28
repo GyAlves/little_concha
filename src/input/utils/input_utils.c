@@ -12,34 +12,48 @@
 
 #include "minishell.h"
 
-char	**read_input(t_minishell *shell, char **prompt)
+static void	handle_input_signals(t_minishell *shell)
 {
-	t_token *tokens;
-
-	*prompt = readline(PROMPT);
-	if (!*prompt)
-	{
-		ft_putstr_fd("exit\n", 1);
-		shell->exit_status = 0;
-		exit (0);
-	}
 	if (g_sig_status != 0)
 	{
 		if (g_sig_status == 1)
 			shell->exit_status = 130;
 		g_sig_status = 0;
 	}
+}
+
+static bool	read_and_validate_prompt(char **prompt, t_minishell *shell)
+{
+	*prompt = readline(PROMPT);
+	if (!*prompt)
+	{
+		ft_putstr_fd("exit\n", 1);
+		// Idealmente, chame aqui uma função que libera todos os recursos
+		exit(0);
+	}
 	if (**prompt == '\0')
 	{
 		free(*prompt);
 		*prompt = NULL;
-		return (NULL);
+		return (false);
 	}
+	return (true);
+}
+
+char	**read_input(t_minishell *shell, char **prompt)
+{
+	t_token	*tokens;
+	char	**result;
+
+	handle_input_signals(shell);
+	if (!read_and_validate_prompt(prompt, shell))
+		return (NULL);
 	add_history(*prompt);
 	tokens = lexer(*prompt, shell);
 	if (!tokens)
 		return (NULL);
-	char **result = tokens_parser(tokens, shell);
-	free_matrix(tokens);
+	result = tokens_parser(tokens, shell);
+	free_tokens(tokens); // Observação sobre esta linha abaixo
 	return (result);
 }
+

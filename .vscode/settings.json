@@ -8,6 +8,7 @@
         "command.h": "c",
         "stdbool.h": "c",
         "readline.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "ctype.h": "c"
     }
 }

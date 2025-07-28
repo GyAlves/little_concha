@@ -26,14 +26,6 @@
 # include <readline/history.h>
 # include <ctype.h>
 
-/* Token structure definition (needed by other headers) */
-typedef struct s_token
-{
-    char *content;
-    bool was_double;
-    bool was_single;
-} 			t_token;
-
 /* Headers */
 # include "command.h"
 # include "built_in.h"
@@ -79,7 +71,14 @@ typedef struct s_pipe_io_fd
 {
 	int	*in;
 	int	*out;
-}			t_pipe_io_fd;	
+}			t_pipe_io_fd;
+
+typedef struct s_token
+{
+    char *content;
+    bool was_double;
+    bool was_single;
+} 			t_token;
 
 extern volatile int	g_sig_status;
 
