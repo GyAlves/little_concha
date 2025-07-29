@@ -32,6 +32,11 @@ static char	*handle_exit_status(t_minishell *shell)
 	return (ft_itoa(shell->exit_status));
 }
 
+static char	*handle_process_id(void)
+{
+	return (ft_itoa(getpid()));
+}
+
 static char	*handle_variable(char *content, int *counter, t_minishell *shell)
 {
 	int		start;
@@ -76,6 +81,11 @@ char	*expanded_variable(char *content, t_minishell *shell)
 			if (content[counter] == '?')
 			{
 				var_value = handle_exit_status(shell);
+				counter++;
+			}
+			else if (content[counter] == '$')
+			{
+				var_value = handle_process_id();
 				counter++;
 			}
 			else if (isalpha(content[counter]) || content[counter] == '_')

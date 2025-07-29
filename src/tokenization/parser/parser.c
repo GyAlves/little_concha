@@ -167,6 +167,8 @@ bool	is_variable_expansion(char *content)
 		{
 			if (content[counter + 1] == '?')
 				return (true);
+			else if (content[counter + 1] == '$')
+				return (true);
 			else if (isalpha(content[counter + 1])
 				|| content[counter + 1] == '_')
 				return (true);
