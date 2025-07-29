@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
+/*int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int	return_val;
 
@@ -23,4 +23,25 @@ int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
 	if (return_val == 0)
 		return (0);
 	return (1);
+}*/
+
+void	dispatch_builtin(t_minishell *sh, t_command *cmd)
+{
+	char	*command_name;
+
+	command_name = cmd->args[0];
+	if (ft_strcmp(command_name, "echo") == 0)
+		bi_echo(sh, cmd);
+	else if (ft_strcmp(command_name, "cd") == 0)
+		bi_cd(sh, cmd);
+	else if (ft_strcmp(command_name, "pwd") == 0)
+		bi_pwd(sh);
+	else if (ft_strcmp(command_name, "export") == 0)
+		bi_export(sh, cmd);
+	else if (ft_strcmp(command_name, "unset") == 0)
+		bi_unset(sh, cmd);
+	else if (ft_strcmp(command_name, "env") == 0)
+		bi_env(sh, cmd);
+	else if (ft_strcmp(command_name, "exit") == 0)
+		bi_exit(sh, cmd);
 }

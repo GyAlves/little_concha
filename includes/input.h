@@ -17,7 +17,9 @@
 typedef struct s_minishell	t_minishell;
 
 /* Input functions */
-char **read_input(t_minishell *shell, char **prompt);
-bool	setup_prompt(t_minishell *shell, char **prompt, t_token **args);
+//char **read_input(t_minishell *shell, char **prompt);
+bool	read_and_validate_prompt(char **prompt, t_minishell *shell);
+void	handle_input_signals(t_minishell *shell);
+bool	read_input(t_minishell *shell, char **prompt_line, t_token **tokens);
 
 #endif

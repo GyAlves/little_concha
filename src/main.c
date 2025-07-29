@@ -24,39 +24,42 @@ static int	init_minishell(t_minishell *shell, char **envp)
 	}
 	shell->exit_status = 0;
 	shell->total_pipeln_cmd = 0;
+	shell->commands =NULL;
+	shell->should_exit = false;
 	return (1);
 }
 
 static int	run_shell_loop(t_minishell *shell)
 {
-	t_command	*cmd;
-	char		*prompt_line;
-	t_token		*tokens;
+	char	*prompt_line;
+	t_token	*tokens;
 
-	while (1)
+	while (shell->should_exit == false)
 	{
+		printf("\n[DEBUG] Início do laço. g_sig_status = %d, shell->exit_status = %d\n", g_sig_status, shell->exit_status);
 		prompt_line = NULL;
 		tokens = NULL;
-		if (!setup_prompt(shell, &prompt_line, &tokens))
-			continue ;
-
-		// Se o código chegou aqui, significa que temos uma linha de comando válida.
-		cmd = NULL;
-		if (setup_command(&cmd, shell, &prompt_line, &tokens))
+		if (!read_input(shell, &prompt_line, &tokens))
 		{
-			// execute_commands(cmd, shell);
-			// free_commands(cmd); // Lembre-se de liberar `cmd` após a execução.
+			if (g_sig_status == 130)
+			{
+				printf("[DEBUG] Sinal 130 detectado após o prompt.\n");
+				shell->exit_status = 130;
+				g_sig_status = 0;
+				printf("[DEBUG] shell->exit_status definido para 130. g_sig_status resetado para 0.\n");
+			}
+			continue ;
 		}
-
-		// Limpeza unificada ao final de cada ciclo do laço.
+		expand_tokens(shell, tokens);
+		if (parse_input(shell, tokens))
+			execute_pipeline(shell);
 		free_tokens(tokens);
 		free(prompt_line);
+		free_commands(shell->commands, shell->total_pipeln_cmd);
+		shell->commands = NULL;
 	}
-	// Com a sua lógica atual de `exit(0)` para o Ctrl+D,
-	// esta linha de retorno nunca será alcançada.
 	return (shell->exit_status);
 }
-
 
 int	main(int c, char **v, char **envp)
 {

@@ -12,29 +12,32 @@
 
 #include "minishell.h"
 
-char	**tokens_parser(t_token *tokens, t_minishell *shell)
+void	expand_tokens(t_minishell *shell, t_token *tokens)
 {
-	char	**args;
-	int		counter;
+	int		i;
+	char	*content_original;
 
-	counter = 0;
-	args = malloc(sizeof(char *) * (shell->tokens_count + 1));
-	if (!args)
-		return (NULL);
-	while (tokens[counter].content != NULL)
+	i = 0;
+	if (!tokens)
+		return;
+	while (tokens[i].content)
 	{
-		if (tokens[counter].was_single)
-			args[counter] = single_quoted_token(tokens[counter].content);
-		else if (tokens[counter].was_double)
-			args[counter] = double_quoted_token(tokens[counter].content,
-					shell);
+		content_original = tokens[i].content;
+		if (tokens[i].was_single)
+			tokens[i].content = single_quoted_token(content_original);
+		else if (tokens[i].was_double)
+			tokens[i].content = double_quoted_token(content_original, shell);
 		else
-			args[counter] = non_quoted_token(tokens[counter].content,
-					shell);
-		counter++;
+			tokens[i].content = non_quoted_token(content_original, shell);
+		free(content_original);
+		if (!tokens[i].content)
+		{
+			// Em caso de erro, uma abordagem robusta seria limpar tudo e sair.
+			// Por enquanto, vamos parar o processo de expansão.
+			return ;
+		}
+		i++;
 	}
-	args[shell->tokens_count] = NULL;
-	return (args);
 }
 
 char	*non_quoted_token(char *content, t_minishell *shell)

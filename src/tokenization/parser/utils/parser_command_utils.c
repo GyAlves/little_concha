@@ -27,8 +27,8 @@ int	fill_cmd(t_token *args, t_command *cmd)
 		{
 			if (!parse_single_cmd(&cmd[j], args, start))
 			{
-				while (j-- > 0)
-					free_cmd_struct(&cmd[j]);
+				/*while (j-- > 0)
+					free_cmd_struct(&cmd[j]); comentei por teste, mas não estamos mais usando mesmo*/
 				return (0);
 			}
 			start = i + 1;

@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-static int	process_single_redir(t_redirect *redir, t_std_redir *backup)
-{
-	save_std_backup(backup, redir);
-	if (!apply_redir(redir))
-		return (0);
-	return (1);
-}
-
 int	process_all_heredocs(t_minishell *sh, t_command *cmd)
 {
 	int	i;
@@ -40,21 +32,21 @@ int	process_all_heredocs(t_minishell *sh, t_command *cmd)
 	return (1);
 }
 
-int	handle_redir_in_exc(t_minishell \
-	*sh, t_command *cmd, t_std_redir *backup)
+bool	handle_redir_in_exc(t_minishell *sh, t_command *cmd)
 {
 	int	i;
 
 	i = 0;
 	while (i < cmd->redirections_count)
 	{
-		if (!process_single_redir(&cmd->redirects[i], backup))
+		if (!apply_redir(&cmd->redirects[i]))
 		{
+			ft_putstr_fd("No such file nor dir!\n", 2);
+			perror(cmd->redirects[i].filename);
 			sh->exit_status = 1;
-			restore_std_backup(backup);
-			return (0);
+			return (false);
 		}
 		i++;
 	}
-	return (1);
+	return (true);
 }

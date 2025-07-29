@@ -31,6 +31,7 @@ int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(t_token *args, t_command *cmd);
 int				count_pipes(t_token *args);
 char            **tokens_parser(t_token *tokens, t_minishell *shell);
+void			expand_tokens(t_minishell *shell, t_token *tokens);
 
 /* TOKEN PROCESSING FUNCTIONS */
 char			*non_quoted_token(char *content, t_minishell *shell);

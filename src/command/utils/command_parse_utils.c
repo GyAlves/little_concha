@@ -45,7 +45,27 @@ static bool	init_cmd_args(t_command *cmd, t_token *start_token)
 	return (true);
 }
 
-int	init_cmd_redirection(t_command *cmd, t_token *args)
+bool	init_cmd_redirection(t_command *cmd, t_token *args)
+{
+	cmd->redirections_count = count_redirs(args);
+	if (cmd->redirections_count > 0)
+	{
+		cmd->redirects = ft_calloc(cmd->redirections_count + 1, \
+			sizeof(t_redirect));
+		if (!cmd->redirects)
+			return (false);
+		if (!fill_redirs(cmd, args))
+		{
+			free(cmd->redirects);
+			return (false);
+		}
+	}
+	else
+		cmd->redirects = NULL; // Garante que redirects seja NULL se não houver
+	return (true);
+}
+
+/*int	init_cmd_redirection(t_command *cmd, t_token *args)
 {
 	cmd->redirections_count = count_redirs(args);
 	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect));
@@ -57,7 +77,7 @@ int	init_cmd_redirection(t_command *cmd, t_token *args)
 		return (0);
 	}
 	return (1);
-}
+}*/
 
 bool	parse_single_cmd(t_command *cmd, t_token *args, int start)
 {

@@ -16,7 +16,7 @@ static void	handle_child_bi(t_minishell *sh, t_command *cmd)
 {
 	if (is_builtin(cmd) && !is_parent_builtin(cmd))
 	{
-		dispatch_builtin(sh, cmd, NULL);
+		dispatch_builtin(sh, cmd);
 		exit(sh->exit_status);
 	}
 }
@@ -46,7 +46,7 @@ void	exec_cmd_in_child(t_minishell *sh, t_command *cmd)
 
 	child_redir_backup.in = -1;
 	child_redir_backup.out = -1;
-	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
+	if (!handle_redir_in_exc(sh, cmd))
 		exit (1);
 	handle_child_bi(sh, cmd);
 	full_cmd_path = get_n_val_cmd_path(cmd);

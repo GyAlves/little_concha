@@ -72,11 +72,11 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 	child_redir_backup.out = -1;
 	setup_pipe_fd(fd, sh->original_stdout);
 	close_all_pipe_fds_in_child(pipe_info);
-	if (!handle_redir_in_exc(sh, cmd, &child_redir_backup))
+	if (!handle_redir_in_exc(sh, cmd))
 		_exit(1);
 	if (is_builtin(cmd))
 	{
-		dispatch_builtin(sh, cmd, NULL);
+		dispatch_builtin(sh, cmd);
 		_exit(sh->exit_status);
 	}
 	else
@@ -122,5 +122,6 @@ t_pipe_data *data, int i)
 		fd = get_pipe_io_fd(data, i);
 		exec_pipe_child(sh, cmd, &fd, data);
 	}
-	data->pids[i] = pid;
+	else
+		data->pids[i] = pid;
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_token	*convert_strings_to_tokens(char **strings)
+/*static t_token	*convert_strings_to_tokens(char **strings)
 {
 	t_token	*tokens;
 	int		count;
@@ -51,7 +51,7 @@ static t_token	*convert_strings_to_tokens(char **strings)
 	return (tokens);
 }
 
-bool	setup_prompt(t_minishell *shell, char **prompt, t_token **args)
+bool	pt(t_minishell *shell, char **prompt, t_token **args)
 {	
 	char **processed_args = read_input(shell, prompt);
 	
@@ -78,5 +78,30 @@ bool	setup_prompt(t_minishell *shell, char **prompt, t_token **args)
 		return (false);
 	}
 	
+	return (true);
+}*/
+
+bool	read_input(t_minishell *shell, char **prompt_line, t_token **tokens)
+{
+	// 1. Lida com sinais pendentes (ex: Ctrl+C)
+	handle_input_signals(shell);
+
+	// 2. Lê e valida o input (lida com Ctrl+D e linha vazia)
+	if (!read_and_validate_prompt(prompt_line, shell))
+		return (false);
+	
+	// 3. Adiciona ao histórico se for válido
+	add_history(*prompt_line);
+
+	// 4. Converte a string de input diretamente em tokens
+	*tokens = lexer(*prompt_line, shell);
+	if (!*tokens)
+	{
+		free(*prompt_line);
+		*prompt_line = NULL;
+		return (false);
+	}
+
+	// 5. Retorna sucesso, com prompt_line e tokens prontos para o resto do programa
 	return (true);
 }

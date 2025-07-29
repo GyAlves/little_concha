@@ -32,6 +32,8 @@ void	free_minishell(t_minishell *sh)
 {
 	if (sh->envp)
 		free_string_matrix(sh->envp);
+	if (sh->commands)
+        free_commands(sh->commands, sh->total_pipeln_cmd);
 	clear_history();
 }
 
@@ -65,5 +67,19 @@ void	free_tokens(t_token *token)
 		i++;
 	}
 	free(token);
-	token = NULL;
+}
+
+void	free_commands(t_command *commands, int cmd_count)
+{
+	int	i;
+
+	if (!commands)
+		return;
+	i = 0;
+	while (i < cmd_count)
+	{
+		free_cmd_struct(&commands[i]);
+		i++;
+	}
+	free(commands);
 }

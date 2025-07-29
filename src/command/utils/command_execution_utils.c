@@ -12,20 +12,44 @@
 
 #include "minishell.h"
 
-static int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, \
-			char *prompt, t_std_redir *backup)
+int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd)
 {
-	if (!handle_redir_in_exc(sh, cmd, backup))
+	t_std_redir	backup;
+	int			bi_exit_status;
+
+	backup.in = dup(STDIN_FILENO);
+	backup.out = dup(STDOUT_FILENO);
+
+	if (!handle_redir_in_exc(sh, cmd))
 	{
-		restore_std_backup(backup);
+		restore_std_backup(&backup);
 		return (sh->exit_status);
 	}
-	dispatch_builtin(sh, cmd, prompt);
-	restore_std_backup(backup);
-	return (sh->exit_status);
+	
+	dispatch_builtin(sh, cmd);
+	bi_exit_status = sh->exit_status;
+	restore_std_backup(&backup);
+	return (bi_exit_status);
 }
 
-int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
+/*int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, char *prompt)
+{
+	t_std_redir	backup;
+
+	(void)prompt;
+	backup.in = dup(STDIN_FILENO);
+	backup.out = dup(STDOUT_FILENO);
+	if (!handle_redir_in_exc(sh, cmd))
+	{
+		restore_std_backup(&backup);
+		return (sh->exit_status);
+	}
+	dispatch_builtin(sh, cmd, NULL);
+	restore_std_backup(&backup);
+	return (sh->exit_status);
+}*/
+
+/*int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 {
 	int			status;
 	t_std_redir	backup;
@@ -49,7 +73,7 @@ int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
 		status = sh->exit_status;
 	}
 	return (status);
-}
+}*/
 
 static void	wait_for_child_process(t_minishell *sh, pid_t pid)
 {
@@ -57,23 +81,30 @@ static void	wait_for_child_process(t_minishell *sh, pid_t pid)
 	int	term_sig;
 
 	g_sig_status = 2;
+	printf("[DEBUG] Pai esperando pelo filho PID %d...\n", pid);
 	waitpid(pid, &status, 0);
+	printf("[DEBUG] Filho %d terminou. Status raw do waitpid: %d\n", pid, status);
 	if (WIFEXITED(status))
 	{
 		sh->exit_status = WEXITSTATUS(status);
-		g_sig_status = 0;
+		//g_sig_status = 0;
+		printf("[DEBUG] Filho terminou normalmente. Exit status = %d\n", sh->exit_status);
 	}
 	else if (WIFSIGNALED(status))
 	{
 		term_sig = WTERMSIG(status);
+		printf("[DEBUG] Filho foi morto pelo sinal: %d\n", term_sig);
+		if (term_sig == SIGINT)
+			ft_putstr_fd("\n", STDERR_FILENO);
+		else if (term_sig == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		sh->exit_status = 128 + term_sig;
-		if (term_sig == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		g_sig_status = 0;
+		//g_sig_status = 0;
+		printf("[DEBUG] shell->exit_status definido para %d\n", sh->exit_status);
+
 	}
-	else
-		g_sig_status = 0;
+	g_sig_status = 0;
+	printf("[DEBUG] Fim do wait. g_sig_status resetado para 0.\n");
 }
 
 int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)

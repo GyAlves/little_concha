@@ -21,13 +21,13 @@ typedef struct s_command	t_command;
 void	bi_cd(t_minishell *sh, t_command *cmd);
 void	bi_echo(t_minishell *sh, t_command *cmd);
 void	bi_env(t_minishell *sh, t_command *cmd);
-void	bi_exit(t_minishell *sh, t_command *cmd, \
-		char *prompt, t_token *args);
+/*void	bi_exit(t_minishell *sh, t_command *cmd, \
+		char *prompt, t_token *args);*/
+void	bi_exit(t_minishell *shell, t_command *cmd);
 void	bi_export(t_minishell *sh, t_command *cmd);
 void	bi_pwd(t_minishell *sh);
 void	bi_unset(t_minishell *sh, t_command *cmd);
-int		dispatch_builtin(t_minishell *sh, t_command *cmd, \
-		char *prompt);
+void	dispatch_builtin(t_minishell *sh, t_command *cmd);
 int		bi_from_cd_until_exit(t_minishell *sh, t_command *cmd, \
 		char *prompt);
 int		bi_from_export_until_unset(t_minishell *sh, t_command *cmd);

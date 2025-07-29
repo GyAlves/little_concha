@@ -12,17 +12,23 @@
 
 #include "minishell.h"
 
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+	printf("[DEBUG] SIGQUIT (Ctrl+\\) recebido!\n");
+}
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	if (g_sig_status != 2)
-	{
-		g_sig_status = 1;
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	printf("[DEBUG] SIGINT (Ctrl+C) recebido! g_sig_status atual = %d\n", g_sig_status);
+	if (g_sig_status == 2)
+		return ;
+	g_sig_status = 130;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	setup_shell_signals(void)
@@ -35,7 +41,7 @@ void	setup_shell_signals(void)
 	sa_int.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &sa_int, NULL) == -1)
 		perror("sigaction SIGINT");
-	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_handler = &handle_sigquit;//SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = 0;
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)

@@ -52,8 +52,7 @@ int				count_redirs(t_token *args);
 void			save_std_backup(t_std_redir *backup, t_redirect *redir);
 void			restore_std_backup(t_std_redir *backup);
 // src/redirects/utils/redir_execution_utils.c
-int				handle_redir_in_exc(t_minishell \
-				*sh, t_command *cmd, t_std_redir *backup);
+bool			handle_redir_in_exc(t_minishell *sh, t_command *cmd);
 int				process_all_heredocs(t_minishell *sh, t_command *cmd);
 // src/pipe/utils/pipe_setup_utils.c
 int				setup_pipes(t_pipe_data *data, int cmd_count);

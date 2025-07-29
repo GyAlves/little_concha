@@ -19,7 +19,7 @@ int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
 
 	data.cmd_count = cmd_count;
 	if (!setup_pipes(&data, cmd_count))
-		return (0);
+		return (1);
 	i = 0;
 	while (i < cmd_count)
 	{
@@ -28,6 +28,7 @@ int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
 	}
 	close_parent_pipe_fds(&data);
 	wait_pipe_child(&data, sh);
-	close_n_free_parent_pipes(&data);
-	return (1);
+	//close_n_free_parent_pipes(&data);
+	free(data.pipes);
+	return (sh->exit_status);
 }

@@ -30,7 +30,7 @@ int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 			free(line);
 			return (1);
 		}
-		expanded = replace_variables(sh, line);
+		expanded = expanded_variable(line, sh);
 		free(line);
 		if (!expanded)
 			return (0);
