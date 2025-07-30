@@ -18,6 +18,14 @@ typedef struct s_command	t_command;
 typedef enum e_redir_type	t_redir_type;
 typedef struct s_minishell	t_minishell;
 
+/* STRUCTS */
+typedef struct s_token
+{
+    char *content;
+    bool was_double;
+    bool was_single;
+} 			t_token;
+
 /* LEXER DOMAIN - Token creation and input processing */
 t_token			*lexer(char *input, t_minishell *shell);
 t_token			fill_token(char *input, int *pos);
@@ -26,11 +34,9 @@ t_redir_type	get_redir_type(char *str);
 int				is_pipe(char *str);
 
 /* PARSER DOMAIN - Command structure parsing and analysis */
-char			**filter_n_rm_redir(t_token *args, int *n_count);
 int				init_cmd_arr(t_command **cmd, int cmd_count);
 int				fill_cmd(t_token *args, t_command *cmd);
 int				count_pipes(t_token *args);
-char            **tokens_parser(t_token *tokens, t_minishell *shell);
 void			expand_tokens(t_minishell *shell, t_token *tokens);
 
 /* TOKEN PROCESSING FUNCTIONS */

@@ -74,6 +74,8 @@ char	*process_mixed_quotes(char *content, t_minishell *shell)
 	char	*temp;
 	int		i;
 	int		start;
+	char	*expanded;
+	char	*new_result;
 
 	result = ft_strdup("");
 	i = 0;
@@ -90,7 +92,7 @@ char	*process_mixed_quotes(char *content, t_minishell *shell)
 			temp = ft_substr(content, start + 1, i - start - 2);
 			if (is_variable_expansion(temp))
 			{
-				char *expanded = expanded_variable(temp, shell);
+				expanded = expanded_variable(temp, shell);
 				free(temp);
 				temp = expanded;
 			}
@@ -102,12 +104,12 @@ char	*process_mixed_quotes(char *content, t_minishell *shell)
 			temp = ft_substr(content, start, i - start);
 			if (is_variable_expansion(temp))
 			{
-				char *expanded = expanded_variable(temp, shell);
+				expanded = expanded_variable(temp, shell);
 				free(temp);
 				temp = expanded;
 			}
 		}
-		char *new_result = ft_strjoin(result, temp);
+		new_result = ft_strjoin(result, temp);
 		free(result);
 		free(temp);
 		result = new_result;

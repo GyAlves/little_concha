@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-/*int	dispatch_builtin(t_minishell *sh, t_command *cmd, char *prompt)
-{
-	int	return_val;
-
-	return_val = bi_from_cd_until_exit(sh, cmd, prompt);
-	if (return_val <= 0)
-		return (return_val);
-	return_val = bi_from_export_until_unset(sh, cmd);
-	if (return_val == 0)
-		return (0);
-	return (1);
-}*/
-
 void	dispatch_builtin(t_minishell *sh, t_command *cmd)
 {
 	char	*command_name;

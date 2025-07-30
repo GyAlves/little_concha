@@ -60,7 +60,7 @@ static int	run_shell_loop(t_minishell *shell)
 
 int	main(int c, char **v, char **envp)
 {
-	int			status;
+	int	status;
 
 	(void)c;
 	(void)v;

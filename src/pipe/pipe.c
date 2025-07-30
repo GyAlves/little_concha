@@ -28,7 +28,6 @@ int	handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count)
 	}
 	close_parent_pipe_fds(&data);
 	wait_pipe_child(&data, sh);
-	//close_n_free_parent_pipes(&data);
 	free(data.pipes);
 	return (sh->exit_status);
 }

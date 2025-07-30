@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-/*void	handle_input_signals(t_minishell *shell)
-{
-	if (g_sig_status != 0)
-	{
-		if (g_sig_status == 1)
-			shell->exit_status = 130;
-		g_sig_status = 0;
-	}
-}*/
-
 bool	read_and_validate_prompt(char **prompt, t_minishell *shell)
 {
 	*prompt = readline(PROMPT);

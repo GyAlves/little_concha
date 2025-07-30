@@ -57,7 +57,6 @@ int				process_all_heredocs(t_minishell *sh, t_command *cmd);
 // src/pipe/utils/pipe_setup_utils.c
 int				setup_pipes(t_pipe_data *data, int cmd_count);
 // src/pipe/utils/pipe_cleanup_utils.c
-void			close_n_free_parent_pipes(t_pipe_data *data);
 void			wait_pipe_child(t_pipe_data *data, t_minishell *sh);
 void			close_parent_pipe_fds(t_pipe_data *data);
 // src/pipe/utils/pipe_execution_utils.c
@@ -65,7 +64,5 @@ void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 				t_pipe_data *data, int i);
 // src/pipe/pipe.c
 int				handle_pipes(t_minishell *sh, t_command *cmd, int cmd_count);
-// src/commands.c
-int				apply_heredoc_redir(t_minishell *sh, t_command *cmd);
 
 #endif

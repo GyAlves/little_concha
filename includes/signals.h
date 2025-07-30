@@ -19,7 +19,7 @@
 /* Headers */
 # include "minishell.h"
 
-/* Structs */
+/* Forward declarations */
 typedef struct s_minishell	t_minishell;
 
 // src/signal/signal.c

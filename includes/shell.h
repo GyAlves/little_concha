@@ -15,7 +15,7 @@
 
 # define PROMPT "shell>> "
 
-/* Structs */
+/* STRUCTS */
 typedef struct s_minishell
 {
 	char		**envp;
@@ -30,4 +30,5 @@ typedef struct s_minishell
 
 /* Core shell functions */
 t_minishell *shell_cmd(void);
+
 #endif

@@ -32,49 +32,6 @@ int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd)
 	return (bi_exit_status);
 }
 
-/*int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd, char *prompt)
-{
-	t_std_redir	backup;
-
-	(void)prompt;
-	backup.in = dup(STDIN_FILENO);
-	backup.out = dup(STDOUT_FILENO);
-	if (!handle_redir_in_exc(sh, cmd))
-	{
-		restore_std_backup(&backup);
-		return (sh->exit_status);
-	}
-	dispatch_builtin(sh, cmd, NULL);
-	restore_std_backup(&backup);
-	return (sh->exit_status);
-}*/
-
-/*int	exec_command(t_minishell *sh, t_command *cmd, char *prompt)
-{
-	int			status;
-	t_std_redir	backup;
-
-	backup.in = -1;
-	backup.out = -1;
-	if (!process_all_heredocs(sh, cmd))
-		return (1);
-	if (cmd->is_piped)
-	{
-		int arg_count = 0;
-		while (cmd->args && cmd->args[arg_count])
-			arg_count++;
-		return (handle_pipes(sh, cmd, arg_count));
-	}
-	if (is_builtin(cmd) && is_parent_builtin(cmd))
-		return (handle_parent_bi_exec(sh, cmd, prompt, &backup));
-	else
-	{
-		exec_external_cmd(sh, cmd, prompt);
-		status = sh->exit_status;
-	}
-	return (status);
-}*/
-
 static void	wait_for_child_process(t_minishell *sh, pid_t pid)
 {
 	int	status;

@@ -26,11 +26,7 @@ int	fill_cmd(t_token *args, t_command *cmd)
 		if (is_pipe(args[i].content) || args[i + 1].content == NULL)
 		{
 			if (!parse_single_cmd(&cmd[j], args, start))
-			{
-				/*while (j-- > 0)
-					free_cmd_struct(&cmd[j]); comentei por teste, mas não estamos mais usando mesmo*/
 				return (0);
-			}
 			start = i + 1;
 			j++;
 		}

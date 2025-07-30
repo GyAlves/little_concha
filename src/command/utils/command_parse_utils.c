@@ -11,21 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*  temporariamente descartada
-bool	init_single_command(t_command *cmd, t_token *args, \
-		int start, t_cmd_init *cmd_init)
-{
-	if (!cmd || !args || !cmd_init)
-		return (false);
-	cmd->is_piped = 0;
-	cmd->redirections_count = 0;
-	cmd_init->cmd_count = count_command_args(args + start);
-	cmd_init->cmd_args = ft_calloc(cmd_init->cmd_count + 1, sizeof(char *));
-	if (!cmd_init->cmd_args)
-		return (false);
-	return (true);
-}*/
-/*  PARSE   */
+
 static bool	init_cmd_args(t_command *cmd, t_token *start_token)
 {
 	int	arg_count;
@@ -61,23 +47,9 @@ bool	init_cmd_redirection(t_command *cmd, t_token *args)
 		}
 	}
 	else
-		cmd->redirects = NULL; // Garante que redirects seja NULL se não houver
+		cmd->redirects = NULL;
 	return (true);
 }
-
-/*int	init_cmd_redirection(t_command *cmd, t_token *args)
-{
-	cmd->redirections_count = count_redirs(args);
-	cmd->redirects = ft_calloc(cmd->redirections_count + 1, sizeof(t_redirect));
-	if (!cmd->redirects)
-		return (0);
-	if (!fill_redirs(cmd, args))
-	{
-		free(cmd->redirects);
-		return (0);
-	}
-	return (1);
-}*/
 
 bool	parse_single_cmd(t_command *cmd, t_token *args, int start)
 {

@@ -22,8 +22,7 @@ typedef struct s_token		t_token;
 typedef struct s_minishell	t_minishell;
 typedef struct s_std_redir	t_std_redir;
 
-
-/* COMMAND STRUCTURE  */
+/* STRUCTS */
 typedef struct s_command
 {
 	char		**args;
@@ -40,23 +39,19 @@ typedef struct s_cmd_init
 }			t_cmd_init;
 
 /* Command functions */
-/*		init_command(t_minishell *sh, t_command **cmd, \
-		t_token *args, char *prompt);*/
+// src/command/command.c
+void	execute_pipeline(t_minishell *shell);
 bool	parse_input(t_minishell *shell, t_token *tokens);
-int		init_command_arr(t_command **cmd, int cmd_count);
 int		handle_single_cmd(t_command **cmd, t_token *args);
 int		handle_multi_cmd(t_command **cmd, t_token *args);
+
+int		init_command_arr(t_command **cmd, int cmd_count);
 int		count_command_args(t_token *args);
 char	**copy_command_args(t_token *args, char **n_args);
 void	cleanup_command(t_command *cmd);
 bool	parse_single_cmd(t_command *cmd, t_token *args, int start);
 int		handle_parent_bi_exec(t_minishell *sh, t_command *cmd);
-//int		init_cmd_redirection(t_command *cmd, t_token *args);
 bool	init_cmd_redirection(t_command *cmd, t_token *args);
-bool	setup_command(t_command **cmd, t_minishell *shell, \
-		char **prompt, t_token **args);
-/*int		exec_command(t_minishell *sh, t_command *cmd, char *prompt);*/
-void	execute_pipeline(t_minishell *shell);
 int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);
 void	free_cmd_struct(t_command *cmd);

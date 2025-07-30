@@ -27,17 +27,18 @@
 # include <ctype.h>
 
 /* Headers */
-# include "command.h"
 # include "built_in.h"
-# include "signals.h"
+# include "command.h"
 # include "environment_variables.h"
 # include "input.h"
+# include "libft.h"
 # include "redirects.h"
 # include "shell.h"
+# include "signals.h"
 # include "tokenization.h"
 # include "utils.h"
-# include "libft.h"
 
+/* STRUCTS */
 typedef enum e_redir_type
 {
 	INVALID,
@@ -73,13 +74,7 @@ typedef struct s_pipe_io_fd
 	int	*out;
 }			t_pipe_io_fd;
 
-typedef struct s_token
-{
-    char *content;
-    bool was_double;
-    bool was_single;
-} 			t_token;
-
+/* GLOBAL VAR */
 extern volatile int	g_sig_status;
 
 #endif
