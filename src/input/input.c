@@ -14,8 +14,6 @@
 
 bool	read_input(t_minishell *shell, char **prompt_line, t_token **tokens)
 {
-	handle_input_signals(shell);
-
 	if (!read_and_validate_prompt(prompt_line, shell))
 		return (false);
 	add_history(*prompt_line);

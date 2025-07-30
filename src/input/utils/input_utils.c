@@ -27,6 +27,8 @@ bool	read_and_validate_prompt(char **prompt, t_minishell *shell)
 	*prompt = readline(PROMPT);
 	if (!*prompt)
 	{
+		if (g_sig_status == 1)
+			return (false);
 		ft_putstr_fd("exit\n", 1);
 		shell->should_exit = true;
 		return (false);

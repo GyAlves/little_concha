@@ -8,10 +8,10 @@
 			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/nfs/homes/fleite-j/test/minishell/littleconcha/minishell",
+			"program": "/mnt/c/Users/fabio/Documents/commoncore/little_concha/minishell",
 			"args": [],
-			"stopAtEntry": false,
-			"cwd": "${fileDirname}",
+			"stopAtEntry": true,
+			"cwd": "/mnt/c/Users/fabio/Documents/commoncore/little_concha/",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
@@ -24,6 +24,11 @@
 				{
 					"description": "Set Disassembly Flavor to Intel",
 					"text": "-gdb-set disassembly-flavor intel",
+					"ignoreFailures": true
+				},
+				{
+					"description": "Interupt SIGINT",
+					"text": "-exec handle SIGINT nostop noprint pass",
 					"ignoreFailures": true
 				}
 			]

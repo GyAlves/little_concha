@@ -14,16 +14,17 @@
 
 void	handle_sigint(int sig)
 {
-	printf("handle_sigint g_status: [%d], exit: []\n", g_sig_status);
+	//printf("handle_sigint g_status: [%d], exit: [%d]\n", g_sig_status, shell_cmd()->exit_status);
 	(void)sig;
 	if (g_sig_status == 2)
 		return ;
 	g_sig_status = 1;
-	(shell_cmd())->exit_status = 130;
-	printf("%d\n", shell_cmd()->exit_status);
+	//(shell_cmd())->exit_status = 130;
+	//printf("exit: [%d]\n", shell_cmd()->exit_status);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	//printf("fim da handle_sigint, exti: [%d]\n", shell_cmd()->exit_status);
 	rl_redisplay();
 }
 

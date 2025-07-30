@@ -14,64 +14,65 @@
 
 volatile int	g_sig_status = 0;
 
-t_minishell	*shell_cmd(void)
+/*t_minishell	*shell_cmd(void)
 {
 	static t_minishell	sig;
 	return (&sig);
-}
+}*/
 
-static int	init_minishell(t_minishell shell, char **envp)
+static int	init_minishell(t_minishell *shell, char **envp)
 {
-	setup_env_variables(count_init_envar(envp), &shell, envp);
-	if (!shell.envp[0])
+	setup_env_variables(count_init_envar(envp), shell, envp);
+	if (!shell->envp[0])
 	{
-		free(shell.envp);
+		free(shell->envp);
 		return (0);
 	}
-	shell.exit_status = 0;
-	shell.total_pipeln_cmd = 0;
-	shell.commands = NULL;
-	shell.should_exit = false;
+	shell->exit_status = 0;
+	shell->total_pipeln_cmd = 0;
+	shell->commands = NULL;
+	shell->should_exit = false;
 	return (1);
 }
 
-static int	run_shell_loop(t_minishell shell)
+static int	run_shell_loop(t_minishell *shell)
 {
 	char	*prompt_line;
 	t_token	*tokens;
 
-	while (shell.should_exit == false)
+	while (shell->should_exit == false)
 	{
 		prompt_line = NULL;
 		tokens = NULL;
 		if (g_sig_status == 1)
-			handle_input_signals(&shell);
-		if (!read_input(&shell, &prompt_line, &tokens))
+			handle_input_signals(shell);
+		if (!read_input(shell, &prompt_line, &tokens))
 			continue ;
-		expand_tokens(&shell, tokens);
-		if (parse_input(&shell, tokens))
-			execute_pipeline(&shell);
+		expand_tokens(shell, tokens);
+		if (parse_input(shell, tokens))
+			execute_pipeline(shell);
 		free_tokens(tokens);
 		free(prompt_line);
-		if (shell.commands)
-			free_commands(shell.commands, shell.total_pipeln_cmd);
-		shell.commands = NULL;
+		if (shell->commands)
+			free_commands(shell->commands, shell->total_pipeln_cmd);
+		shell->commands = NULL;
 	}
-	return (shell.exit_status);
+	return (shell->exit_status);
 }
 
 int	main(int c, char **v, char **envp)
 {
+	t_minishell	shell;
 	int			status;
 
 	(void)c;
 	(void)v;
-	if (!init_minishell(*shell_cmd(), envp))
+	if (!init_minishell(/*shell_cmd()*/&shell, envp))
 		return (1);
-	(shell_cmd())->original_stdin = dup(STDIN_FILENO);
-	(shell_cmd())->original_stdout = dup(STDOUT_FILENO);
+	/*(shell_cmd())*/shell.original_stdin = dup(STDIN_FILENO);
+	/*(shell_cmd())*/shell.original_stdout = dup(STDOUT_FILENO);
 	setup_shell_signals();
-	status = run_shell_loop(*shell_cmd());
-	free_minishell(shell_cmd());
+	status = run_shell_loop(/*shell_cmd()*/&shell);
+	free_minishell(/*shell_cmd()*/&shell);
 	return (status);
 }
