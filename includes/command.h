@@ -38,23 +38,27 @@ typedef struct s_cmd_init
 	char	**cmd_args;
 }			t_cmd_init;
 
-/* Command functions */
+// src/utils/command_args_utils.c
+int		count_command_args(t_token *args);
+char	**copy_command_args(t_token *args, char **n_args);
+// src/utils/command_child_process_utils.c
+void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);
+// src/utils/command_execution_utils.c
+int		handle_parent_bi_exec(t_minishell *sh, t_command *cmd);
+int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
+// src/utils/command_logging_utils.c
+void	print_cmd_err(char *cmd_name, char	*error_msg);
+// src/utils/command_memory_utils.c
+int		init_command_arr(t_command **cmd, int cmd_count);
+void	cleanup_command(t_command *cmd);
+void	free_cmd_struct(t_command *cmd);
+// src/utils/command_parse_utils.C
+bool	init_cmd_redirection(t_command *cmd, t_token *args);
+bool	parse_single_cmd(t_command *cmd, t_token *args, int start);
+int		handle_single_cmd(t_command **cmd, t_token *args);
+int		handle_multi_cmd(t_command **cmd, t_token *args);
 // src/command/command.c
 void	execute_pipeline(t_minishell *shell);
 bool	parse_input(t_minishell *shell, t_token *tokens);
-int		handle_single_cmd(t_command **cmd, t_token *args);
-int		handle_multi_cmd(t_command **cmd, t_token *args);
-
-int		init_command_arr(t_command **cmd, int cmd_count);
-int		count_command_args(t_token *args);
-char	**copy_command_args(t_token *args, char **n_args);
-void	cleanup_command(t_command *cmd);
-bool	parse_single_cmd(t_command *cmd, t_token *args, int start);
-int		handle_parent_bi_exec(t_minishell *sh, t_command *cmd);
-bool	init_cmd_redirection(t_command *cmd, t_token *args);
-int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
-void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);
-void	free_cmd_struct(t_command *cmd);
-void	print_cmd_err(char *cmd_name, char	*error_msg);
 
 #endif

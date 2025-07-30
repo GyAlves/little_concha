@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	close_all_pipe_fds_in_child(t_pipe_data *data)
+static void	close_all_pipe_fds_in_child(t_pipe_data *data)
 {
 	int	i;
 

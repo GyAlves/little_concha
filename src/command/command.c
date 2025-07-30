@@ -58,21 +58,3 @@ bool	parse_input(t_minishell *shell, t_token *tokens)
 	}
 	return (true);
 }
-
-int	handle_single_cmd(t_command **cmd, t_token *args)
-{
-	(*cmd)->is_piped = 0;
-	if (!parse_single_cmd(*cmd, args, 0))
-	{
-		return (0);
-	}
-	return (1);
-}
-
-int	handle_multi_cmd(t_command **cmd, t_token *args)
-{
-	(*cmd)->is_piped = 1;
-	if (!fill_cmd(args, *cmd))
-		return (0);
-	return (1);
-}

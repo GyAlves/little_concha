@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output_redir_utils.c                               :+:      :+:    :+:   */
+/*   input_redir_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,6 +11,30 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	input_redir(t_redirect *redir)
+{
+	int	fd;
+
+	fd = open(redir->filename, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (1);
+}
+
+int	heredoc_redir(t_redirect *redir)
+{
+	int	fd;
+
+	fd = open(redir->filename, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (1);
+}
 
 int	output_redir(t_redirect *redir)
 {

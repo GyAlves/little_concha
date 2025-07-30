@@ -16,8 +16,9 @@
 /* Forward declarations */
 typedef struct s_minishell	t_minishell;
 
-/* Input functions */
+// src/input/utils/input_utils.c
 bool	read_and_validate_prompt(char **prompt, t_minishell *shell);
+// src/input/input.c
 bool	read_input(t_minishell *shell, char **prompt_line, t_token **tokens);
 
 #endif

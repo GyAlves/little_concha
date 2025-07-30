@@ -26,7 +26,7 @@ typedef struct s_token
     bool was_single;
 } 			t_token;
 
-/* LEXER DOMAIN - Token creation and input processing */
+// lexer/utils/lexer_validation_utils.c
 t_token			*lexer(char *input, t_minishell *shell);
 t_token			fill_token(char *input, int *pos);
 int				count_tokens(char *input);
