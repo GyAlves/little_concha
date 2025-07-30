@@ -14,11 +14,11 @@
 
 volatile int	g_sig_status = 0;
 
-/*t_minishell	*shell_cmd(void)
+t_minishell	*shell_cmd(void)
 {
-	static t_minishell	sig;
-	return (&sig);
-}*/
+	static t_minishell	shell_instance;
+	return (&shell_instance);
+}
 
 static int	init_minishell(t_minishell *shell, char **envp)
 {
@@ -44,8 +44,6 @@ static int	run_shell_loop(t_minishell *shell)
 	{
 		prompt_line = NULL;
 		tokens = NULL;
-		if (g_sig_status == 1)
-			handle_input_signals(shell);
 		if (!read_input(shell, &prompt_line, &tokens))
 			continue ;
 		expand_tokens(shell, tokens);
@@ -62,17 +60,16 @@ static int	run_shell_loop(t_minishell *shell)
 
 int	main(int c, char **v, char **envp)
 {
-	t_minishell	shell;
 	int			status;
 
 	(void)c;
 	(void)v;
-	if (!init_minishell(/*shell_cmd()*/&shell, envp))
+	if (!init_minishell(shell_cmd(), envp))
 		return (1);
-	/*(shell_cmd())*/shell.original_stdin = dup(STDIN_FILENO);
-	/*(shell_cmd())*/shell.original_stdout = dup(STDOUT_FILENO);
+	(shell_cmd())->original_stdin = dup(STDIN_FILENO);
+	(shell_cmd())->original_stdout = dup(STDOUT_FILENO);
 	setup_shell_signals();
-	status = run_shell_loop(/*shell_cmd()*/&shell);
-	free_minishell(/*shell_cmd()*/&shell);
+	status = run_shell_loop(shell_cmd());
+	free_minishell(shell_cmd());
 	return (status);
 }
