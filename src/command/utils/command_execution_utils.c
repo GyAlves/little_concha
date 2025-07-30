@@ -81,30 +81,20 @@ static void	wait_for_child_process(t_minishell *sh, pid_t pid)
 	int	term_sig;
 
 	g_sig_status = 2;
-	printf("[DEBUG] Pai esperando pelo filho PID %d...\n", pid);
 	waitpid(pid, &status, 0);
-	printf("[DEBUG] Filho %d terminou. Status raw do waitpid: %d\n", pid, status);
 	if (WIFEXITED(status))
-	{
 		sh->exit_status = WEXITSTATUS(status);
-		//g_sig_status = 0;
-		printf("[DEBUG] Filho terminou normalmente. Exit status = %d\n", sh->exit_status);
-	}
 	else if (WIFSIGNALED(status))
 	{
 		term_sig = WTERMSIG(status);
-		printf("[DEBUG] Filho foi morto pelo sinal: %d\n", term_sig);
 		if (term_sig == SIGINT)
 			ft_putstr_fd("\n", STDERR_FILENO);
 		else if (term_sig == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		sh->exit_status = 128 + term_sig;
-		//g_sig_status = 0;
-		printf("[DEBUG] shell->exit_status definido para %d\n", sh->exit_status);
 
 	}
 	g_sig_status = 0;
-	printf("[DEBUG] Fim do wait. g_sig_status resetado para 0.\n");
 }
 
 int	exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt)

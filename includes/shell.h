@@ -29,5 +29,5 @@ typedef struct s_minishell
 }			t_minishell;
 
 /* Core shell functions */
-
+t_minishell *shell_cmd(void);
 #endif
