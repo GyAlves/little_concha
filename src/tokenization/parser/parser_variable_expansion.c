@@ -13,20 +13,6 @@
 #include "minishell.h"
 #include <ctype.h>
 
-static char	*expand_envar(t_minishell *shell, char *key)
-{
-	char	*envar_entry;
-	char	*val;
-
-	envar_entry = find_envar(shell->envp, key);
-	if (!envar_entry)
-		return (ft_strdup(""));
-	val = ft_strchr(envar_entry, '=');
-	if (!val || *(val + 1) == '\0')
-		return (ft_strdup(""));
-	return (ft_strdup(val + 1));
-}
-
 static char	*handle_exit_status(t_minishell *shell)
 {
 	return (ft_itoa(shell->exit_status));
@@ -48,20 +34,36 @@ static char	*handle_variable(char *content, int *counter, t_minishell *shell)
 	return (var_value);
 }
 
-static char	*join_and_free(char *result, char *to_add)
+static char	*handle_dollar_sign(char *content, int *ctr, t_minishell *sh, \
+								char *res)
 {
-	char	*temp;
+	char	*var_value;
 
-	temp = ft_strjoin(result, to_add);
-	free(result);
-	free(to_add);
-	return (temp);
+	(*ctr)++;
+	if (content[*ctr] == '?')
+	{
+		var_value = handle_exit_status(sh);
+		(*ctr)++;
+	}
+	else if (ft_isalpha(content[*ctr]) || content[*ctr] == '_')
+		var_value = handle_variable(content, ctr, sh);
+	else
+		return (join_and_free(res, ft_strdup("$")));
+	return (join_and_free(res, var_value));
+}
+
+static char	*append_char(char *res, char c)
+{
+	char	single_char[2];
+
+	single_char[0] = c;
+	single_char[1] = '\0';
+	return (join_and_free(res, ft_strdup(single_char)));
 }
 
 char	*expanded_variable(char *content, t_minishell *shell)
 {
 	char	*result;
-	char	*var_value;
 	int		counter;
 
 	result = ft_strdup("");
@@ -71,29 +73,10 @@ char	*expanded_variable(char *content, t_minishell *shell)
 	while (content[counter])
 	{
 		if (content[counter] == '$')
-		{
-			counter++;
-			if (content[counter] == '?')
-			{
-				var_value = handle_exit_status(shell);
-				counter++;
-			}
-			else if (isalpha(content[counter]) || content[counter] == '_')
-				var_value = handle_variable(content, &counter, shell);
-			else
-			{
-				result = join_and_free(result, ft_strdup("$"));
-				continue ;
-			}
-			result = join_and_free(result, var_value);
-		}
+			result = handle_dollar_sign(content, &counter, shell, result);
 		else
 		{
-			char	single_char[2];
-
-			single_char[0] = content[counter];
-			single_char[1] = '\0';
-			result = join_and_free(result, ft_strdup(single_char));
+			result = append_char(result, content[counter]);
 			counter++;
 		}
 	}

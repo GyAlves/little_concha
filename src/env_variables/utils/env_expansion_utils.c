@@ -17,7 +17,7 @@ static char	*expand_status_exit(t_minishell *sh)
 	return (ft_itoa(sh->exit_status));
 }
 
-static char	*expand_envar(t_minishell *sh, char *key)
+char	*expand_envar(t_minishell *sh, char *key)
 {
 	char	*envar_entry;
 	char	*val;

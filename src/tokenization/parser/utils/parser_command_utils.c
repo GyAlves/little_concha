@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+int	init_cmd_arr(t_command **cmd, int cmd_count)
+{
+	*cmd = ft_calloc(cmd_count, sizeof(t_command));
+	if (!*cmd)
+		return (0);
+	return (1);
+}
+
 int	fill_cmd(t_token *args, t_command *cmd)
 {
 	int	i;
@@ -32,13 +40,5 @@ int	fill_cmd(t_token *args, t_command *cmd)
 		}
 		i++;
 	}
-	return (1);
-}
-
-int	init_cmd_arr(t_command **cmd, int cmd_count)
-{
-	*cmd = ft_calloc(cmd_count, sizeof(t_command));
-	if (!*cmd)
-		return (0);
 	return (1);
 }

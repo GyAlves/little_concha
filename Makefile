@@ -21,7 +21,7 @@ LIBS = -lreadline -L$(shell brew --prefix readline)/lib
 all: $(NAME)
 
 v: all
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=suppfile.sup ./$(NAME)
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --suppressions=suppfile.sup ./$(NAME)
 
 $(LIBFT):
 	make -C ./Libft
