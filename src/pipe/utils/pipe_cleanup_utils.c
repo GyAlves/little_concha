@@ -64,7 +64,7 @@ void	free_pipe_data(t_pipe_data *data)
 
 	i = 0;
 	if (!data->pipes)
-		return;
+		return ;
 	while (i < data->cmd_count - 1)
 	{
 		free(data->pipes[i]);

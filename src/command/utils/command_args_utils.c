@@ -38,25 +38,6 @@ int	count_command_args(t_token *args)
 	return (cmd_count);
 }
 
-/*static int	handle_redirection(t_token *args, int i)
-{
-	char	*next_token_content;
-
-	next_token_content = args[i + 1].content;
-	if (next_token_content == NULL || is_pipe(next_token_content)
-		|| is_redir(next_token_content))
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		if (next_token_content == NULL)
-			ft_putstr_fd("newline", 2);
-		else
-			ft_putstr_fd(next_token_content, 2);
-		ft_putstr_fd("`\n", 2);
-		return (-1);
-	}
-	return (2);
-}*/
-
 bool	validate_tokens(t_minishell *shell, t_token *tokens)
 {
 	if (!validate_first_token(shell, tokens))
@@ -79,19 +60,13 @@ static bool	iterate_and_copy_args(t_token *args, char **n_args)
 {
 	int	i;
 	int	j;
-	//int	skip_count;
 
 	i = 0;
 	j = 0;
 	while (args[i].content && !is_pipe(args[i].content))
 	{
 		if (is_redir(args[i].content))
-		{
-			//skip_count = handle_redirection(args, i);
-			//if (skip_count == -1)
-			//	return (false);
-			i += 2;//skip_count;
-		}
+			i += 2;
 		else
 		{
 			if (!copy_argument(n_args, j, args[i].content))

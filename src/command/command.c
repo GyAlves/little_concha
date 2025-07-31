@@ -30,12 +30,11 @@ void	execute_pipeline(t_minishell *shell)
 		shell->exit_status = handle_pipes(shell, cmd, shell->total_pipeln_cmd);
 		return ;
 	}
-	if (is_builtin(cmd) && is_parent_builtin(cmd))
+	if (is_builtin(cmd) || is_parent_builtin(cmd))
 		shell->exit_status = handle_parent_bi_exec(shell, cmd);
 	else
 		exec_external_cmd(shell, cmd, NULL);
 }
-
 
 bool	parse_input(t_minishell *shell, t_token *tokens)
 {

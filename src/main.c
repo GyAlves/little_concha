@@ -49,6 +49,7 @@ static int	run_shell_loop(t_minishell *shell)
 			continue ;
 		if (expand_tokens(shell, tokens))
 		{
+			printf("entrão\n");
 			if (parse_input(shell, tokens))
 				execute_pipeline(shell);
 		}
@@ -73,6 +74,7 @@ int	main(int c, char **v, char **envp)
 	(shell_cmd())->original_stdout = dup(STDOUT_FILENO);
 	setup_shell_signals();
 	status = run_shell_loop(shell_cmd());
+	clear_history();
 	free_minishell(shell_cmd());
 	return (status);
 }
