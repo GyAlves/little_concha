@@ -45,6 +45,7 @@ t_token			fill_token(char *input, int *pos);
 t_redir_type	get_redir_type(char *str);
 int				is_pipe(char *str);
 int				is_operator(char c);
+int				is_str_operator(char *str);
 // src/tokenization/lexer/lexer.c
 t_token			*lexer(char *input, t_minishell *shell);
 // src/tokenization/parser/utils/parser_command_utils.c

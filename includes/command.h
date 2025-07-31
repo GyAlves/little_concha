@@ -38,8 +38,12 @@ typedef struct s_cmd_init
 	char	**cmd_args;
 }			t_cmd_init;
 
+// src/utils/commanda_token_validation.c
+bool	validate_first_token(t_minishell *shell, t_token *tokens);
+bool	validate_token_sequence(t_minishell *shell, t_token *tokens);
 // src/utils/command_args_utils.c
 int		count_command_args(t_token *args);
+bool	validate_tokens(t_minishell *shell, t_token *tokens);
 char	**copy_command_args(t_token *args, char **n_args);
 // src/utils/command_child_process_utils.c
 void	exec_cmd_in_child(t_minishell *sh, t_command *cmd);
@@ -48,6 +52,7 @@ int		handle_parent_bi_exec(t_minishell *sh, t_command *cmd);
 int		exec_external_cmd(t_minishell *sh, t_command *cmd, char *prompt);
 // src/utils/command_logging_utils.c
 void	print_cmd_err(char *cmd_name, char	*error_msg);
+void	print_syntax_err(const char *token);
 // src/utils/command_memory_utils.c
 int		init_command_arr(t_command **cmd, int cmd_count);
 void	cleanup_command(t_command *cmd);

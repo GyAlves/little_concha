@@ -42,3 +42,12 @@ int	is_operator(char c)
 		return (1);
 	return (0);
 }
+
+int	is_str_operator(char *str)
+{
+	if (!str)
+		return (0);
+	if (get_redir_type(str) != INVALID || is_pipe(str))
+		return (1);
+	return (0);
+}

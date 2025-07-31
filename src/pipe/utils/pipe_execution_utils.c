@@ -35,31 +35,17 @@ static void	close_all_pipe_fds_in_child(t_pipe_data *data)
 	}
 }
 
-static void	setup_pipe_fd(t_pipe_io_fd *fd, int original_stdout)
+static void	setup_pipe_fd(t_pipe_io_fd *fd)
 {
 	if (fd->in && *(fd->in) != -1)
 	{
 		if (dup2(*(fd->in), STDIN_FILENO) == -1)
-		{
-			perror("minishell: dup2 STDIN_FILENO for pipe in failed");
 			_exit(1);
-		}
 	}
 	if (fd->out && *(fd->out) != -1)
 	{
 		if (dup2(*(fd->out), STDOUT_FILENO) == -1)
-		{
-			perror("minishell: dup2 STDOUT_FILENO for pipe out failed");
 			_exit(1);
-		}
-	}
-	else
-	{
-		if (dup2(original_stdout, STDOUT_FILENO) == -1)
-		{
-			perror("minishell: dup2 original_stdout failed");
-			_exit(1);
-		}
 	}
 }
 
@@ -70,7 +56,7 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 
 	child_redir_backup.in = -1;
 	child_redir_backup.out = -1;
-	setup_pipe_fd(fd, sh->original_stdout);
+	setup_pipe_fd(fd);
 	close_all_pipe_fds_in_child(pipe_info);
 	if (!handle_redir_in_exc(sh, cmd))
 		_exit(1);

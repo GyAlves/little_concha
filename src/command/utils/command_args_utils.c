@@ -38,7 +38,7 @@ int	count_command_args(t_token *args)
 	return (cmd_count);
 }
 
-static int	handle_redirection(t_token *args, int i)
+/*static int	handle_redirection(t_token *args, int i)
 {
 	char	*next_token_content;
 
@@ -55,6 +55,13 @@ static int	handle_redirection(t_token *args, int i)
 		return (-1);
 	}
 	return (2);
+}*/
+
+bool	validate_tokens(t_minishell *shell, t_token *tokens)
+{
+	if (!validate_first_token(shell, tokens))
+		return (false);
+	return (validate_token_sequence(shell, tokens));
 }
 
 static int	copy_argument(char **n_args, int j, const char *content)
@@ -72,7 +79,7 @@ static bool	iterate_and_copy_args(t_token *args, char **n_args)
 {
 	int	i;
 	int	j;
-	int	skip_count;
+	//int	skip_count;
 
 	i = 0;
 	j = 0;
@@ -80,10 +87,10 @@ static bool	iterate_and_copy_args(t_token *args, char **n_args)
 	{
 		if (is_redir(args[i].content))
 		{
-			skip_count = handle_redirection(args, i);
-			if (skip_count == -1)
-				return (false);
-			i += skip_count;
+			//skip_count = handle_redirection(args, i);
+			//if (skip_count == -1)
+			//	return (false);
+			i += 2;//skip_count;
 		}
 		else
 		{

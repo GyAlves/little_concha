@@ -34,6 +34,10 @@ void	free_minishell(t_minishell *sh)
 		free_string_matrix(sh->envp);
 	if (sh->commands)
 		free_commands(sh->commands, sh->total_pipeln_cmd);
+	if (sh->original_stdin >= 0)
+		close(sh->original_stdin);
+	if (sh->original_stdout >= 0)
+		close(sh->original_stdout);
 	clear_history();
 }
 

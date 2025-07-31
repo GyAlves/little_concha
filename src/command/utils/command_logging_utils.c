@@ -23,3 +23,13 @@ void	print_cmd_err(char *cmd_name, char	*error_msg)
 	ft_putstr_fd(error_msg, 2);
 	ft_putstr_fd("\n", 2);
 }
+
+void	print_syntax_err(const char *token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	if (!token)
+		ft_putstr_fd("newline", 2);
+	else
+		ft_putstr_fd(token, 2);
+	ft_putstr_fd("'\n", 2);
+}

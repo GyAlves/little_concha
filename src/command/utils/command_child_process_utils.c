@@ -25,7 +25,7 @@ static char	*get_n_val_cmd_path(t_command *cmd)
 {
 	char	*full_cmd_path;
 
-	if (!cmd->args[0])
+	if (!cmd || !cmd->args || !cmd->args[0])
 	{
 		print_cmd_err(NULL, "commmand not found");
 		exit(127);

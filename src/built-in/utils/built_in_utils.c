@@ -14,7 +14,7 @@
 
 int	is_builtin(t_command *cmd)
 {
-	if (!cmd->args[0])
+	if (!cmd || !cmd->args || !cmd->args[0])
 		return (0);
 	if (ft_strcmp(cmd->args[0], "env") == 0)
 		return (1);
@@ -35,7 +35,7 @@ int	is_builtin(t_command *cmd)
 
 int	is_parent_builtin(t_command *cmd)
 {
-	if (!cmd->args || !cmd->args[0])
+	if (!cmd || !cmd->args || !cmd->args[0])
 		return (0);
 	if (ft_strcmp(cmd->args[0], "cd") == 0
 		|| ft_strcmp(cmd->args[0], "exit") == 0

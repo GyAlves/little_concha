@@ -51,6 +51,7 @@ int				append_redir(t_redirect *redir);
 // src/pipe/utils/pipe_cleanup_utils.c
 void			wait_pipe_child(t_pipe_data *data, t_minishell *sh);
 void			close_parent_pipe_fds(t_pipe_data *data);
+void			free_pipe_data(t_pipe_data *data);
 // src/pipe/utils/pipe_execution_utils.c
 void			fork_n_redirect_pipe(t_minishell *sh, t_command *cmd, \
 				t_pipe_data *data, int i);

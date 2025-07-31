@@ -31,7 +31,7 @@ char			*ft_itoa(int n);
 int				ft_atoi(const char *nptr);
 void			*ft_calloc(size_t nmemb, size_t size);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
-void			ft_putstr_fd(char *s, int fd);
+void			ft_putstr_fd(const char *s, int fd);
 size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 char			*ft_strdup(const char *s);
 char			*ft_strndup(const char *s, size_t n);

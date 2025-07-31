@@ -36,12 +36,15 @@ void	execute_pipeline(t_minishell *shell)
 		exec_external_cmd(shell, cmd, NULL);
 }
 
+
 bool	parse_input(t_minishell *shell, t_token *tokens)
 {
 	int	cmd_pipe_count;
 
 	if (!tokens || !tokens[0].content)
 		return (true);
+	if (!validate_tokens(shell, tokens))
+		return (false);
 	cmd_pipe_count = count_pipes(tokens);
 	shell->total_pipeln_cmd = cmd_pipe_count;
 	if (!init_command_arr(&shell->commands, cmd_pipe_count))

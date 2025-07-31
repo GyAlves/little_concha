@@ -57,3 +57,18 @@ void	close_parent_pipe_fds(t_pipe_data *data)
 		i++;
 	}
 }
+
+void	free_pipe_data(t_pipe_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (!data->pipes)
+		return;
+	while (i < data->cmd_count - 1)
+	{
+		free(data->pipes[i]);
+		i++;
+	}
+	free(data->pipes);
+}
