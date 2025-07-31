@@ -81,4 +81,3 @@ int	handle_multi_cmd(t_command **cmd, t_token *args)
 		return (0);
 	return (1);
 }
-

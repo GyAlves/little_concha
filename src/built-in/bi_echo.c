@@ -42,7 +42,6 @@ void	bi_echo(t_minishell *sh, t_command *cmd)
 	int	index;
 	int	n_flag;
 
-	
 	index = 1;
 	n_flag = handle_n_flag(cmd->args, &index);
 	print_echo_args(sh, cmd->args, index);

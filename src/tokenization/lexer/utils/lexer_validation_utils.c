@@ -32,4 +32,13 @@ int	is_pipe(char *str)
 	return (str && ft_strcmp(str, "|") == 0);
 }
 
-// cat|cat|ls
+int	is_operator(char c)
+{
+	if (c == '|')
+		return (1);
+	if (c == '>')
+		return (1);
+	if (c == '<')
+		return (1);
+	return (0);
+}

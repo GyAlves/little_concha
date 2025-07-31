@@ -16,7 +16,6 @@
 /* Forward declarations */
 typedef struct s_minishell	t_minishell;
 
-
 // src/env_variables/utils/env_copy_utils.c
 char	**cpy_and_sort_envar(t_minishell *sh);
 // src/env_variables/utils/env_creation_utils.c

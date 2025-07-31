@@ -17,6 +17,7 @@ volatile int	g_sig_status = 0;
 t_minishell	*shell_cmd(void)
 {
 	static t_minishell	shell_instance;
+
 	return (&shell_instance);
 }
 
@@ -46,9 +47,11 @@ static int	run_shell_loop(t_minishell *shell)
 		tokens = NULL;
 		if (!read_input(shell, &prompt_line, &tokens))
 			continue ;
-		expand_tokens(shell, tokens);
-		if (parse_input(shell, tokens))
-			execute_pipeline(shell);
+		if (expand_tokens(shell, tokens))
+		{
+			if (parse_input(shell, tokens))
+				execute_pipeline(shell);
+		}
 		free_tokens(tokens);
 		free(prompt_line);
 		if (shell->commands)

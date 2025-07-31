@@ -19,13 +19,11 @@ int	handle_parent_bi_exec(t_minishell *sh, t_command *cmd)
 
 	backup.in = dup(STDIN_FILENO);
 	backup.out = dup(STDOUT_FILENO);
-
 	if (!handle_redir_in_exc(sh, cmd))
 	{
 		restore_std_backup(&backup);
 		return (sh->exit_status);
 	}
-	
 	dispatch_builtin(sh, cmd);
 	bi_exit_status = sh->exit_status;
 	restore_std_backup(&backup);
@@ -49,7 +47,6 @@ static void	wait_for_child_process(t_minishell *sh, pid_t pid)
 		else if (term_sig == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		sh->exit_status = 128 + term_sig;
-
 	}
 	g_sig_status = 0;
 }
