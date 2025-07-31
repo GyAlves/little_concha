@@ -51,60 +51,55 @@ static void	skip_past_token(const char *input, int *i)
 	}
 }
 
-/*static bool	is_operator(const char *input)
+static bool	is_operator(const char *input)
 {
-	if (input[*i] == "|"))
+	if (input == "|")
 		return (true);
-	if (input[*i] == ">"))
+	if (input == ">")
 		return (true);
-	if (input[*i] == "<"))
-		return (true);
-	if (input[*i] == ">>"))
-		return (true);
-	if (input[*i] == "<<"))
+	if (input == "<")
 		return (true);
 	return (false);
-}*/
+}
 
-
-/*static void check_operator(const char *input, int *i, int *tokens_count)
+int count_tokens(char *input)
 {
-	if ((is_operator(input[*i]) && is_operator(input[*i + 1])) \
-		|| is_operator(input[*i]))
-	{
-		while (input[*i])['|']
+    int tokens_count;
+    int counter;
+    bool is_single;
+    bool is_double;
+
+    tokens_count = 0;
+    counter = 0;
+    is_single = false;
+    is_double = false;
+    
+    while (input[counter])
+    {
+        while (input[counter] == ' ' && (!is_single && !is_double))
+            counter++;
+
+        if(!input[counter])
+            break;
+		
+		if (is_operator(&input[counter]))
 		{
-			count++;
-			
-			// if ()
-			// 	count++
-			// else if unput[i] == operator
-			// 	count++;
-			// enquanto nao encontrou operador no input
-			// {
-			// 	i++;
-			// }
-			
+			if (input[counter] == '>' && input[counter + 1] == '>')
+				counter++;
+			else if (input[counter] == '<' && input[counter + 1] == '<')
+				counter++;
+			tokens_count ++;
 		}
-	}
-}*/
-
-int	count_tokens(char *input)
-{
-	int	tokens_count;
-	int	i;
-
-	tokens_count = 0;
-	i = 0;
-	while (input[i])
-	{
-		while (input[i] == ' ')
-			i++;
-		if (!input[i])
-			break ;
-		tokens_count++;
-		skip_past_token(input, &i);
-	}
-	printf("count: [%d]\n", tokens_count);
-	return (tokens_count);
+        tokens_count++;
+        while(input[counter] && (is_single || is_double || input[counter] != ' ') && !is_operator(&input[counter]))
+        {
+            if (input[counter] == '\'' && !is_double)
+                is_single = !is_single;
+            else if (input[counter] == '"' && !is_single)
+                is_double = !is_double;
+            counter++;
+        }
+    }
+	printf("TOKENS_COUNTER: %d\n", tokens_count);
+    return (tokens_count);
 }
