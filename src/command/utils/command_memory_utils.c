@@ -45,6 +45,8 @@ void	free_cmd_struct(t_command *cmd)
 					unlink(cmd->redirects[i].filename);
 				free(cmd->redirects[i].filename);
 			}
+			if (cmd->redirects[i].heredoc_delimiter)
+				free(cmd->redirects[i].heredoc_delimiter);
 			i++;
 		}
 		free(cmd->redirects);
