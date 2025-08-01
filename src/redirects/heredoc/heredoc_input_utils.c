@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/08/01 20:45:40 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ void	handle_child_routine(const char *delimiter, \
 	{
 		perror("minishell: dup2 original_stdin failed in heredoc child");
 		close(write_fd);
-		exit(1);
+		cleanup_child_before_exit(sh, 1);
 	}
 	if (!write_till_delimiter(write_fd, (char *)delimiter, sh))
 	{
 		close(write_fd);
-		exit(1);
+		free((void *)delimiter);
+		cleanup_child_before_exit(sh, 1);
 	}
 	close(write_fd);
-	exit(0);
+	cleanup_child_before_exit(sh, 0);
 }

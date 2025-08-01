@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:47:02 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/22 19:51:39 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/08/01 19:49:12 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
 				char *prompt, t_token *args);
 void			free_minishell(t_minishell *sh);
 void			free_commands(t_command *commands, int cmd_count);
+void 			cleanup_child_before_exit(t_minishell *sh, int exit_code);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cleanup_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/22 19:51:26 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/08/01 20:37:17 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ char *prompt, t_token *args)
 void	free_minishell(t_minishell *sh)
 {
 	if (sh->envp)
+	{
 		free_string_matrix(sh->envp);
+	}
 	if (sh->commands)
 		free_commands(sh->commands, sh->total_pipeln_cmd);
 	if (sh->original_stdin >= 0)
@@ -41,20 +43,22 @@ void	free_minishell(t_minishell *sh)
 	clear_history();
 }
 
-void	free_string_matrix(char **matrix)
+void free_string_matrix(char **matrix)
 {
-	int	i;
+    int i;
 
-	if (!matrix)
-		return ;
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i++;
-	}
-	free(matrix);
+    if (!matrix)
+    {
+        return ;
+    }
+    i = 0;
+    while (matrix[i])
+    {
+        free(matrix[i]);
+        matrix[i] = NULL;
+        i++;
+    }
+    free(matrix);
 }
 
 void	free_tokens(t_token *token)
@@ -86,4 +90,18 @@ void	free_commands(t_command *commands, int cmd_count)
 		i++;
 	}
 	free(commands);
+}
+
+void cleanup_child_before_exit(t_minishell *sh, int exit_code)
+{
+    if (sh->envp)
+        free_string_matrix(sh->envp);
+    if (sh->commands)
+        free_commands(sh->commands, sh->total_pipeln_cmd);
+    if (sh->original_stdin >= 0)
+        close(sh->original_stdin);
+    if (sh->original_stdout >= 0)
+        close(sh->original_stdout);
+    clear_history();
+    exit(exit_code);
 }

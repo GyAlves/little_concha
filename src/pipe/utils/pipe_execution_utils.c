@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/08/01 20:02:19 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ static void	close_all_pipe_fds_in_child(t_pipe_data *data)
 	}
 }
 
-static void	setup_pipe_fd(t_pipe_io_fd *fd)
+static void	setup_pipe_fd(t_minishell *sh, t_pipe_io_fd *fd)
 {
 	if (fd->in && *(fd->in) != -1)
 	{
 		if (dup2(*(fd->in), STDIN_FILENO) == -1)
-			_exit(1);
+			cleanup_child_before_exit(sh, 1); 
 	}
 	if (fd->out && *(fd->out) != -1)
 	{
 		if (dup2(*(fd->out), STDOUT_FILENO) == -1)
-			_exit(1);
+			cleanup_child_before_exit(sh, 1); 
 	}
 }
 
@@ -56,19 +56,19 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 
 	child_redir_backup.in = -1;
 	child_redir_backup.out = -1;
-	setup_pipe_fd(fd);
+	setup_pipe_fd(sh, fd);
 	close_all_pipe_fds_in_child(pipe_info);
 	if (!handle_redir_in_exc(sh, cmd))
-		_exit(1);
+		cleanup_child_before_exit(sh, 1); 
 	if (is_builtin(cmd))
 	{
 		dispatch_builtin(sh, cmd);
-		_exit(sh->exit_status);
+		cleanup_child_before_exit(sh, sh->exit_status);
 	}
 	else
 	{
-		exec_cmd_in_child(sh, cmd);
-		_exit(127);
+	   exec_cmd_in_child(sh, cmd);
+		cleanup_child_before_exit(sh, 127);
 	}
 }
 

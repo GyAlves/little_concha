@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:52 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/08/01 17:43:25 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/08/01 20:43:00 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ t_minishell	*shell_cmd(void)
 
 static int	init_minishell(t_minishell *shell, char **envp)
 {
-	setup_env_variables(count_init_envar(envp), shell, envp);
+	int env_count;
+	
+	env_count = count_init_envar(envp);
+	shell->envp = NULL; 
+	setup_env_variables(env_count, shell, envp);
 	if (!shell->envp[0])
 	{
 		free(shell->envp);
@@ -58,6 +62,8 @@ static int	run_shell_loop(t_minishell *shell)
 			free_commands(shell->commands, shell->total_pipeln_cmd);
 		shell->commands = NULL;
 	}
+	free_tokens(tokens);
+    free(prompt_line);
 	return (shell->exit_status);
 }
 
@@ -73,7 +79,7 @@ int	main(int c, char **v, char **envp)
 	(shell_cmd())->original_stdout = dup(STDOUT_FILENO);
 	setup_shell_signals();
 	status = run_shell_loop(shell_cmd());
-	//clear_history();
+	clear_history();
 	free_minishell(shell_cmd());
 	return (status);
 }
