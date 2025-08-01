@@ -3,7 +3,7 @@ NAME = minishell
 
 # Compiler
 CC = cc
-CFLAGS = -g3 -Iincludes -ILibft -I$(shell brew --prefix readline)/include
+CFLAGS = -g3 -Iincludes -ILibft -Is
 
 # Directories
 LIBFT = Libft/libft.a
@@ -16,7 +16,7 @@ SRCS = $(shell find $(SRC_DIR) -type f -name "*.c")
 OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
 
 # Libraries
-LIBS = -lreadline -L$(shell brew --prefix readline)/lib
+LIBS = -lreadline
 
 all: $(NAME)
 
