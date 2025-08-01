@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 17:37:52 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/22 19:51:49 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/08/01 17:43:25 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	run_shell_loop(t_minishell *shell)
 			continue ;
 		if (expand_tokens(shell, tokens))
 		{
-			printf("entrão\n");
 			if (parse_input(shell, tokens))
 				execute_pipeline(shell);
 		}
