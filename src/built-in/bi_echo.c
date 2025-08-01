@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:45:00 by galves-a          #+#    #+#             */
-/*   Updated: 2025/07/16 12:45:00 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/08/01 18:50:25 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 static int	handle_n_flag(char **args, int *index)
 {
 	int	n_flag;
+	int	counter;
 
+	counter = 0;
 	n_flag = 0;
-	while (args[*index] && ft_strncmp(args[*index], "-n", 3) == 0)
+	while (args[*index] && args[*index][0] == '-' && args[*index][1] == 'n')
 	{
+		counter = 2;
+		while (args[*index][counter] == 'n')
+			counter++;
+		if (args[*index][counter] != '\0')
+			break ;
 		n_flag = 1;
 		(*index)++;
 	}
