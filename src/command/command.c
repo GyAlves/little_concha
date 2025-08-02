@@ -15,11 +15,8 @@
 void	execute_pipeline(t_minishell *shell)
 {
 	t_command	*cmd;
-	t_std_redir	backup;
 
 	cmd = shell->commands;
-	backup.in = -1;
-	backup.out = -1;
 	if (!process_all_heredocs(shell, cmd))
 	{
 		shell->exit_status = 1;

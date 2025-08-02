@@ -52,10 +52,6 @@ static void	setup_pipe_fd(t_minishell *sh, t_pipe_io_fd *fd)
 static void	exec_pipe_child(t_minishell *sh, t_command *cmd, \
 t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 {
-	t_std_redir	child_redir_backup;
-
-	child_redir_backup.in = -1;
-	child_redir_backup.out = -1;
 	setup_pipe_fd(sh, fd);
 	close_all_pipe_fds_in_child(pipe_info);
 	if (!handle_redir_in_exc(sh, cmd))

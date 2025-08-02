@@ -38,7 +38,7 @@ static t_token	fill_operator_token(char *input, int *pos)
 	else
 		(*pos)++;
 	content = ft_substr(input, start, *pos - start);
-	return ((t_token){content, false, false});
+	return ((t_token){content, false, false, true});
 }
 
 static t_token	fill_word_token(char *input, int *pos)
@@ -59,9 +59,9 @@ static t_token	fill_word_token(char *input, int *pos)
 	token.content_temp = ft_substr(input, token.start_temp, *pos
 			- token.start_temp);
 	if (!token.content_temp)
-		return ((t_token){NULL, false, false});
+		return ((t_token){NULL, false, false, false});
 	return ((t_token){token.content_temp, token.was_double_temp,
-		token.was_single_temp});
+		token.was_single_temp, false});
 }
 
 t_token	fill_token(char *input, int *pos)

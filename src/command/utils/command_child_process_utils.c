@@ -42,10 +42,7 @@ static char	*get_n_val_cmd_path(t_minishell *sh, t_command *cmd)
 void	exec_cmd_in_child(t_minishell *sh, t_command *cmd)
 {
 	char		*full_cmd_path;
-	t_std_redir	child_redir_backup;
 
-	child_redir_backup.in = -1;
-	child_redir_backup.out = -1;
 	if (!handle_redir_in_exc(sh, cmd))
 		cleanup_child_before_exit(sh, 1);
 	handle_child_bi(sh, cmd);

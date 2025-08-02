@@ -18,7 +18,6 @@ int	copy_env_variables(char **new_envp, char **old_envp, int count)
 	char	*tmp;
 
 	counter = 0;
-	printf("[DEBUG] copy_env_variables: Copying %d variables\n", count);
 	while (counter < count)
 	{
 		tmp = ft_strdup(old_envp[counter]);
@@ -30,9 +29,7 @@ int	copy_env_variables(char **new_envp, char **old_envp, int count)
 			return (0);
 		}
 		new_envp[counter] = tmp;
-		printf("[DEBUG] Copied env[%d]: %s\n", counter, tmp);
 		counter++;
 	}
-	printf("[DEBUG] copy_env_variables: Actually copied %d variables\n", counter);
 	return (1);
 }

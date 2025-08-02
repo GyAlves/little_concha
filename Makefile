@@ -3,7 +3,7 @@ NAME = minishell
 
 # Compiler
 CC = cc
-CFLAGS = -g3 -Iincludes -ILibft -Is
+CFLAGS = -Wall -Wextra -Werror -g3 -Iincludes -ILibft -Is
 
 # Directories
 LIBFT = Libft/libft.a

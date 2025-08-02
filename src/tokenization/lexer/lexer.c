@@ -41,6 +41,6 @@ t_token	*lexer(char *input, t_minishell *shell)
 	if (!tokens)
 		return (NULL);
 	populate_tokens(tokens, input);
-	tokens[tokens_count] = (t_token){NULL, false, false};
+	tokens[tokens_count] = (t_token){NULL, false, false, false};
 	return (tokens);
 }
