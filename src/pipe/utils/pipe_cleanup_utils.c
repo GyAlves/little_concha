@@ -32,7 +32,6 @@ void	wait_pipe_child(t_pipe_data *data, t_minishell *sh)
 			waitpid(data->pids[i], NULL, 0);
 		i++;
 	}
-	free(data->pids);
 }
 
 void	close_parent_pipe_fds(t_pipe_data *data)
@@ -63,12 +62,15 @@ void	free_pipe_data(t_pipe_data *data)
 	int	i;
 
 	i = 0;
-	if (!data->pipes)
-		return ;
-	while (i < data->cmd_count - 1)
+	if (data->pipes)
 	{
-		free(data->pipes[i]);
-		i++;
+		while (i < data->cmd_count - 1)
+		{
+			free(data->pipes[i]);
+			i++;
+		}
+		free(data->pipes);
 	}
-	free(data->pipes);
+	if (data->pids)
+		free(data->pids);
 }

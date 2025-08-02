@@ -59,15 +59,20 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 	setup_pipe_fd(sh, fd);
 	close_all_pipe_fds_in_child(pipe_info);
 	if (!handle_redir_in_exc(sh, cmd))
+	{
+		free_pipe_data(pipe_info);
 		cleanup_child_before_exit(sh, 1); 
+	}
 	if (is_builtin(cmd))
 	{
 		dispatch_builtin(sh, cmd);
+		free_pipe_data(pipe_info);
 		cleanup_child_before_exit(sh, sh->exit_status);
 	}
 	else
 	{
 	   exec_cmd_in_child(sh, cmd);
+		free_pipe_data(pipe_info);
 		cleanup_child_before_exit(sh, 127);
 	}
 }
