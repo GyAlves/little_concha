@@ -108,7 +108,6 @@ int	heredoc_init_file(t_redirect *redir)
 	}
 	free (redir->filename);
 	redir->filename = temp_file_path_generated;
-	redir->filename = temp_file_path_generated;
 	fd = open(redir->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 	{

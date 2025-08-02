@@ -58,6 +58,11 @@ void	handle_child_routine(const char *delimiter, \
 		free((void *)delimiter);
 		exit(1);
 	}
+	//pode dar merda
+	if (sh->envp)
+		free_string_matrix(sh->envp);
+	clear_history();
+	// pode dar merda, deixa ai por hora
 	close(write_fd);
 	free((void *)delimiter);
 	exit(0);

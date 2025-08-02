@@ -73,7 +73,6 @@ int	main(int c, char **v, char **envp)
 	(shell_cmd())->original_stdout = dup(STDOUT_FILENO);
 	setup_shell_signals();
 	status = run_shell_loop(shell_cmd());
-	//clear_history();
 	free_minishell(shell_cmd());
 	return (status);
 }
