@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+static bool	validate_space(const char *prompt)
+{
+    if (!prompt)
+        return (false);
+    while (*prompt)
+    {
+        if (*prompt != ' ' && *prompt != '\t')
+            return (true);
+        prompt++;
+    }
+    return (false);
+}
+
 bool	read_and_validate_prompt(char **prompt, t_minishell *shell)
 {
 	*prompt = readline(PROMPT);
@@ -25,6 +38,12 @@ bool	read_and_validate_prompt(char **prompt, t_minishell *shell)
 		return (false);
 	}
 	if (**prompt == '\0')
+	{
+		free(*prompt);
+		*prompt = NULL;
+		return (false);
+	}
+	if (!validate_space(*prompt))
 	{
 		free(*prompt);
 		*prompt = NULL;
