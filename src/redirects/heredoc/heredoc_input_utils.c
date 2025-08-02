@@ -55,8 +55,10 @@ void	handle_child_routine(const char *delimiter, \
 	if (!write_till_delimiter(write_fd, (char *)delimiter, sh))
 	{
 		close(write_fd);
+		free((void *)delimiter);
 		exit(1);
 	}
 	close(write_fd);
+	free((void *)delimiter);
 	exit(0);
 }

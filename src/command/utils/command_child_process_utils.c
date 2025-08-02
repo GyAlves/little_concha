@@ -50,6 +50,7 @@ void	exec_cmd_in_child(t_minishell *sh, t_command *cmd)
 		exit (1);
 	handle_child_bi(sh, cmd);
 	full_cmd_path = get_n_val_cmd_path(cmd);
+	printf("O ERRO POSSIVELMENTE ESTA AQUI\n");
 	execve(full_cmd_path, cmd->args, sh->envp);
 	perror("minishell");
 	if (full_cmd_path != cmd->args[0])
