@@ -57,6 +57,7 @@ void	print_syntax_err(const char *token);
 int		init_command_arr(t_command **cmd, int cmd_count);
 void	cleanup_command(t_command *cmd);
 void	free_cmd_struct(t_command *cmd);
+void	cleanup_heredoc_files(t_command *cmd);
 // src/utils/command_parse_utils.c
 bool	init_cmd_redirection(t_command *cmd, t_token *args);
 bool	parse_single_cmd(t_command *cmd, t_token *args, int start);

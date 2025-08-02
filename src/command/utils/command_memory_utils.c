@@ -26,6 +26,23 @@ void	cleanup_command(t_command *cmd)
 	free(cmd);
 }
 
+void	cleanup_heredoc_files(t_command *cmd)
+{
+	int	i;
+
+	if (!cmd || !cmd->redirects)
+		return ;
+	i = 0;
+	while (i < cmd->redirections_count)
+	{
+		if (cmd->redirects[i].filename && cmd->redirects[i].type == HEREDOC)
+		{
+			unlink(cmd->redirects[i].filename);
+		}
+		i++;
+	}
+}
+
 void	free_cmd_struct(t_command *cmd)
 {
 	int	i;
@@ -41,8 +58,6 @@ void	free_cmd_struct(t_command *cmd)
 		{
 			if (cmd->redirects[i].filename)
 			{
-				if (cmd->redirects[i].type == HEREDOC)
-					unlink(cmd->redirects[i].filename);
 				free(cmd->redirects[i].filename);
 			}
 			if (cmd->redirects[i].heredoc_delimiter)

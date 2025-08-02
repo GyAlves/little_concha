@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+static char	*read_line_from_stdin(void)
+{
+	char	buffer[1024];
+	char	*line;
+	int		len;
+
+	if (!fgets(buffer, sizeof(buffer), stdin))
+		return (NULL);
+	len = ft_strlen(buffer);
+	if (len > 0 && buffer[len - 1] == '\n')
+		buffer[len - 1] = '\0';
+	line = ft_strdup(buffer);
+	return (line);
+}
+
 int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 {
 	char	*line;
@@ -19,11 +34,14 @@ int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 
 	while (6)
 	{
-		line = readline("> ");
+		if (isatty(STDIN_FILENO))
+			line = readline("> ");
+		else
+			line = read_line_from_stdin();
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2);
-			return (0);
+			return (1);
 		}
 		if (ft_strcmp(line, delimiter) == 0)
 		{
@@ -45,13 +63,6 @@ void	handle_child_routine(const char *delimiter, \
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
-	close(STDIN_FILENO);
-	if (dup2(sh->original_stdin, STDIN_FILENO) == -1)
-	{
-		perror("minishell: dup2 original_stdin failed in heredoc child");
-		close(write_fd);
-		cleanup_child_before_exit(sh, 1);
-	}
 	if (!write_till_delimiter(write_fd, (char *)delimiter, sh))
 	{
 		close(write_fd);

@@ -53,17 +53,20 @@ static int	run_shell_loop(t_minishell *shell)
 			continue ;
 		if (expand_tokens(shell, tokens))
 		{
+			set_child_tokens(tokens);
 			if (parse_input(shell, tokens))
 				execute_pipeline(shell);
+			set_child_tokens(NULL);
 		}
 		free_tokens(tokens);
 		free(prompt_line);
 		if (shell->commands)
+		{
+			cleanup_heredoc_files(shell->commands);
 			free_commands(shell->commands, shell->total_pipeln_cmd);
+		}
 		shell->commands = NULL;
 	}
-	free_tokens(tokens);
-    free(prompt_line);
 	return (shell->exit_status);
 }
 
