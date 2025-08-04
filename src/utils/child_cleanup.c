@@ -44,38 +44,3 @@ void	cleanup_child_before_exit(t_minishell *sh, int exit_code)
 	clear_history();
 	exit(exit_code);
 }
-
-/*t_token	*g_child_tokens = NULL;
-
-void	set_child_tokens(t_token *tokens)
-{
-    g_child_tokens = tokens;
-}
-
-t_token	*get_child_tokens(void)
-{
-    return g_child_tokens;
-}
-
-void	cleanup_child_before_exit(t_minishell *sh, int exit_code)
-{
-    if (g_child_tokens)
-        free_tokens(g_child_tokens);
-    if (sh->envp)
-        free_string_matrix(sh->envp);
-    if (sh->commands)
-        free_commands(sh->commands, sh->total_pipeln_cmd);
-    if (sh->original_stdin >= 0)
-        close(sh->original_stdin);
-    if (sh->original_stdout >= 0)
-        close(sh->original_stdout);
-    clear_history();
-    exit(exit_code);
-}
-
-void	cleanup_child_with_tokens(t_minishell *sh, t_token *tokens, int exit_code)
-{
-    if (tokens)
-        free_tokens(tokens);
-    cleanup_child_before_exit(sh, exit_code);
-}*/
