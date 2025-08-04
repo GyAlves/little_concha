@@ -26,6 +26,16 @@ fd: all
 v: all
 	valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=suppfile.sup ./$(NAME)
 
+val: all
+	@/bin/valgrind -q --suppressions=suppfile.sup \
+				--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--track-fds=yes \
+				--trace-children=yes \
+				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+				./${NAME}
+
 $(LIBFT):
 	make -C ./Libft
 
