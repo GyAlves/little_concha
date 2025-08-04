@@ -40,7 +40,7 @@ void	update_envar(t_minishell *sh, char *key, char *val);
 char	**setup_env_variables(int var_count, t_minishell *shell, char **envp);
 int		copy_env_variables(char **new_envp, char **old_envp, int count);
 // src/command/command_path.c
-char	**get_envar_path(void);
-char	*set_path(char *cmd);
+char	**get_envar_path(char **envp);
+char	*set_path(char *cmd, char **envp);
 
 #endif

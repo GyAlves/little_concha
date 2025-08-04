@@ -36,12 +36,21 @@ static char	**default_path(void)
 	return (path);
 }
 
-char	**get_envar_path(void)
+char	**get_envar_path(char **envp)
 {
 	char	*path;
 	char	**envar_path;
 
-	path = getenv("PATH");
+	path = NULL;
+	while (*envp)
+	{
+		if (ft_strncmp(*envp, "PATH=", 5) == 0)
+		{
+			path = *envp;
+			break ;
+		}
+		envp++;
+	}
 	if (path == NULL)
 		return (default_path());
 	envar_path = ft_split(path, ':');
@@ -68,13 +77,13 @@ static char	*build_and_check_path(char *cmd, char *path_dir)
 	return (NULL);
 }
 
-static char	*search_in_paths(char *cmd)
+static char	*search_in_paths(char *cmd, char **envp)
 {
 	int		i;
 	char	*full_path;
 	char	**path;
 
-	path = get_envar_path();
+	path = get_envar_path(envp);
 	if (!path)
 		return (NULL);
 	i = 0;
@@ -92,7 +101,7 @@ static char	*search_in_paths(char *cmd)
 	return (NULL);
 }
 
-char	*set_path(char *cmd)
+char	*set_path(char *cmd, char **envp)
 {
 	if (ft_strchr(cmd, '/'))
 	{
@@ -100,5 +109,5 @@ char	*set_path(char *cmd)
 			return (cmd);
 		return (NULL);
 	}
-	return (search_in_paths(cmd));
+	return (search_in_paths(cmd, envp));
 }
