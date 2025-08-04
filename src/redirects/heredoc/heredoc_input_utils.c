@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-static char	*read_line_from_stdin(void)
-{
-	char	*line;
-
-	line = get_next_line(STDIN_FILENO);
-	return (line);
-}
-
 static char	*read_heredoc_line(void)
 {
 	char	*line;
@@ -27,7 +19,7 @@ static char	*read_heredoc_line(void)
 	if (isatty(STDIN_FILENO))
 		line = readline("> ");
 	else
-		line = read_line_from_stdin();
+		line = get_next_line(STDIN_FILENO);
 	return (line);
 }
 
@@ -71,10 +63,16 @@ int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 	}
 }
 
+void	sigint_handler(int sig)
+{
+	(void)sig;
+	cleanup_child_before_exit(shell_cmd(), 130);
+}
+
 void	handle_child_routine(const char *delimiter, \
 			int write_fd, t_minishell *sh)
 {
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	if (!write_till_delimiter(write_fd, (char *)delimiter, sh))
 	{
