@@ -19,7 +19,6 @@ void	execute_pipeline(t_minishell *shell)
 	cmd = shell->commands;
 	if (!process_all_heredocs(shell, cmd))
 	{
-		shell->exit_status = 1;
 		return ;
 	}
 	if (cmd->is_piped)

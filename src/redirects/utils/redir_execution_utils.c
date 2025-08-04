@@ -23,7 +23,7 @@ int	process_all_heredocs(t_minishell *sh, t_command *cmd)
 		{
 			if (!handle_heredoc(&cmd->redirects[i], sh))
 			{
-				sh->exit_status = 1;
+				sh->exit_status = 130;
 				return (0);
 			}
 		}

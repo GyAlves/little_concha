@@ -30,6 +30,7 @@ typedef struct s_minishell
 
 /* Core shell functions */
 t_minishell	*shell_cmd(void);
+t_token		**get_child_tokens_ptr(void);
 int			init_minishell(t_minishell *shell, char **envp);
 int			run_shell_loop(t_minishell *shell);
 
