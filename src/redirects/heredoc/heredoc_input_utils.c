@@ -14,47 +14,60 @@
 
 static char	*read_line_from_stdin(void)
 {
-	char	buffer[1024];
 	char	*line;
-	int		len;
 
-	if (!fgets(buffer, sizeof(buffer), stdin))
-		return (NULL);
-	len = ft_strlen(buffer);
-	if (len > 0 && buffer[len - 1] == '\n')
-		buffer[len - 1] = '\0';
-	line = ft_strdup(buffer);
+	line = get_next_line(STDIN_FILENO);
 	return (line);
+}
+
+static char	*read_heredoc_line(void)
+{
+	char	*line;
+
+	if (isatty(STDIN_FILENO))
+		line = readline("> ");
+	else
+		line = read_line_from_stdin();
+	return (line);
+}
+
+static int	process_heredoc_line(char *line, char *del, int fd, t_minishell *sh)
+{
+	char	*expanded;
+
+	if (ft_strcmp(line, del) == 0)
+	{
+		free(line);
+		return (1);
+	}
+	expanded = expanded_variable(line, sh);
+	free(line);
+	if (!expanded)
+		return (0);
+	write(fd, expanded, ft_strlen(expanded));
+	write(fd, "\n", 1);
+	free(expanded);
+	return (2);
 }
 
 int	write_till_delimiter(int fd, char *delimiter, t_minishell *sh)
 {
 	char	*line;
-	char	*expanded;
+	int		status;
 
-	while (6)
+	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			line = readline("> ");
-		else
-			line = read_line_from_stdin();
+		line = read_heredoc_line();
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2);
 			return (1);
 		}
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
+		status = process_heredoc_line(line, delimiter, fd, sh);
+		if (status == 1)
 			return (1);
-		}
-		expanded = expanded_variable(line, sh);
-		free(line);
-		if (!expanded)
+		if (status == 0)
 			return (0);
-		write(fd, expanded, ft_strlen(expanded));
-		write(fd, "\n", 1);
-		free(expanded);
 	}
 }
 

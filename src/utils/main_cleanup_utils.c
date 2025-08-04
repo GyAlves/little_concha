@@ -43,22 +43,22 @@ void	free_minishell(t_minishell *sh)
 	clear_history();
 }
 
-void free_string_matrix(char **matrix)
+void	free_string_matrix(char **matrix)
 {
-    int i;
+	int	i;
 
-    if (!matrix)
-    {
-        return ;
-    }
-    i = 0;
-    while (matrix[i])
-    {
-        free(matrix[i]);
-        matrix[i] = NULL;
-        i++;
-    }
-    free(matrix);
+	if (!matrix)
+	{
+		return ;
+	}
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		matrix[i] = NULL;
+		i++;
+	}
+	free(matrix);
 }
 
 void	free_tokens(t_token *token)
@@ -90,34 +90,4 @@ void	free_commands(t_command *commands, int cmd_count)
 		i++;
 	}
 	free(commands);
-}
-
-static t_token *g_child_tokens = NULL;
-
-void set_child_tokens(t_token *tokens)
-{
-    g_child_tokens = tokens;
-}
-
-void cleanup_child_before_exit(t_minishell *sh, int exit_code)
-{
-    if (g_child_tokens)
-        free_tokens(g_child_tokens);
-    if (sh->envp)
-        free_string_matrix(sh->envp);
-    if (sh->commands)
-        free_commands(sh->commands, sh->total_pipeln_cmd);
-    if (sh->original_stdin >= 0)
-        close(sh->original_stdin);
-    if (sh->original_stdout >= 0)
-        close(sh->original_stdout);
-    clear_history();
-    exit(exit_code);
-}
-
-void cleanup_child_with_tokens(t_minishell *sh, t_token *tokens, int exit_code)
-{
-    if (tokens)
-        free_tokens(tokens);
-    cleanup_child_before_exit(sh, exit_code);
 }

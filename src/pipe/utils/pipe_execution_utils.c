@@ -40,12 +40,12 @@ static void	setup_pipe_fd(t_minishell *sh, t_pipe_io_fd *fd)
 	if (fd->in && *(fd->in) != -1)
 	{
 		if (dup2(*(fd->in), STDIN_FILENO) == -1)
-			cleanup_child_before_exit(sh, 1); 
+			cleanup_child_before_exit(sh, 1);
 	}
 	if (fd->out && *(fd->out) != -1)
 	{
 		if (dup2(*(fd->out), STDOUT_FILENO) == -1)
-			cleanup_child_before_exit(sh, 1); 
+			cleanup_child_before_exit(sh, 1);
 	}
 }
 
@@ -57,7 +57,7 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 	if (!handle_redir_in_exc(sh, cmd))
 	{
 		free_pipe_data(pipe_info);
-		cleanup_child_before_exit(sh, 1); 
+		cleanup_child_before_exit(sh, 1);
 	}
 	if (is_builtin(cmd))
 	{
@@ -67,7 +67,7 @@ t_pipe_io_fd *fd, t_pipe_data *pipe_info)
 	}
 	else
 	{
-	   exec_cmd_in_child(sh, cmd);
+		exec_cmd_in_child(sh, cmd);
 		free_pipe_data(pipe_info);
 		cleanup_child_before_exit(sh, 127);
 	}

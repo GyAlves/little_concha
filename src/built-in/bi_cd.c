@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-static void	print_cd_no_file_nor_dir(char *path)
-{
-	ft_putstr_fd("minishell: cd: ", 2);
-	if (path)
-		ft_putstr_fd(path, 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
-}
-
 static char	*cd_envar_home(t_minishell *sh)
 {
 	char	*target;
@@ -87,6 +79,35 @@ static char	*cd_envar_oldpwd(t_minishell *sh)
 	return (target);
 }
 
+static void	handle_cd_oldpwd(t_minishell *sh)
+{
+	char	*target;
+	char	*path_to_print;
+
+	target = cd_envar_oldpwd(sh);
+	if (!target)
+	{
+		sh->exit_status = 1;
+		return ;
+	}
+	path_to_print = ft_strdup(target);
+	if (!path_to_print)
+	{
+		sh->exit_status = 1;
+		return ;
+	}
+	if (!change_curr_dir(sh, target))
+	{
+		free(path_to_print);
+		sh->exit_status = 1;
+		return ;
+	}
+	ft_putstr_fd(path_to_print, 1);
+	write(1, "\n", 1);
+	free(path_to_print);
+	sh->exit_status = 0;
+}
+
 void	bi_cd(t_minishell *sh, t_command *cmd)
 {
 	char	*target;
@@ -102,30 +123,7 @@ void	bi_cd(t_minishell *sh, t_command *cmd)
 	}
 	else if (ft_strcmp(cmd->args[1], "-") == 0)
 	{
-		char	*oldpwd_target;
-		
-		target = cd_envar_oldpwd(sh);
-		if (!target)
-		{
-			sh->exit_status = 1;
-			return ;
-		}
-		oldpwd_target = ft_strdup(target);
-		if (!oldpwd_target)
-		{
-			sh->exit_status = 1;
-			return ;
-		}
-		if (!change_curr_dir(sh, target))
-		{
-			free(oldpwd_target);
-			sh->exit_status = 1;
-			return ;
-		}
-		write(1, oldpwd_target, ft_strlen(oldpwd_target));
-		write(1, "\n", 1);
-		free(oldpwd_target);
-		sh->exit_status = 0;
+		handle_cd_oldpwd(sh);
 		return ;
 	}
 	else

@@ -14,15 +14,15 @@
 
 static bool	validate_space(const char *prompt)
 {
-    if (!prompt)
-        return (false);
-    while (*prompt)
-    {
-        if (*prompt != ' ' && *prompt != '\t')
-            return (true);
-        prompt++;
-    }
-    return (false);
+	if (!prompt)
+		return (false);
+	while (*prompt)
+	{
+		if (*prompt != ' ' && *prompt != '\t')
+			return (true);
+		prompt++;
+	}
+	return (false);
 }
 
 bool	read_and_validate_prompt(char **prompt, t_minishell *shell)

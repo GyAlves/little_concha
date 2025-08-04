@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-static char	**default_path(void)
-{
-	char	**path;
-
-	path = ft_calloc(3, sizeof(char *));
-	if (!path)
-		return (NULL);
-	path[0] = ft_strdup("/bin");
-	if (!path[0])
-	{
-		free(path);
-		return (NULL);
-	}
-	path[1] = ft_strdup("/usr/bin");
-	if (!path[1])
-	{
-		free(path[0]);
-		free(path);
-		return (NULL);
-	}
-	path[2] = NULL;
-	return (path);
-}
-
 char	**get_envar_path(char **envp)
 {
 	char	*path;
@@ -52,7 +28,7 @@ char	**get_envar_path(char **envp)
 		envp++;
 	}
 	if (path == NULL)
-		return (default_path());
+		return (NULL);
 	envar_path = ft_split(path, ':');
 	if (!envar_path)
 		return (NULL);

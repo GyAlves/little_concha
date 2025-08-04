@@ -26,8 +26,9 @@ void			cleanup_n_exit(t_minishell *sh, t_command *cmd, \
 				char *prompt, t_token *args);
 void			free_minishell(t_minishell *sh);
 void			free_commands(t_command *commands, int cmd_count);
-void 			cleanup_child_before_exit(t_minishell *sh, int exit_code);
-void			cleanup_child_with_tokens(t_minishell *sh, t_token *tokens, int exit_code);
+void			cleanup_child_before_exit(t_minishell *sh, int exit_code);
+void			cleanup_child_with_tokens(t_minishell *sh, t_token *tokens, \
+				int exit_code);
 void			set_child_tokens(t_token *tokens);
 
 #endif

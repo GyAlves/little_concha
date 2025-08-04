@@ -20,6 +20,7 @@ typedef struct s_command	t_command;
 // src/builtin/utils/built_int_utils.c
 int		is_builtin(t_command *cmd);
 int		is_parent_builtin(t_command *cmd);
+void	print_cd_no_file_nor_dir(char *path);
 // src/builtin/*.c
 void	bi_cd(t_minishell *sh, t_command *cmd);
 void	bi_echo(t_minishell *sh, t_command *cmd);

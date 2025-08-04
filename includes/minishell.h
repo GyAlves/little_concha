@@ -37,6 +37,7 @@
 # include "signals.h"
 # include "tokenization.h"
 # include "utils.h"
+# include "get_next_line.h"
 
 /* STRUCTS */
 typedef enum e_redir_type
