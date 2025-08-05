@@ -41,7 +41,6 @@ bool	handle_redir_in_exc(t_minishell *sh, t_command *cmd)
 	{
 		if (!apply_redir(&cmd->redirects[i]))
 		{
-			ft_putstr_fd("No such file nor dir!\n", 2);
 			perror(cmd->redirects[i].filename);
 			sh->exit_status = 1;
 			return (false);
