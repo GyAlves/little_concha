@@ -21,6 +21,7 @@
 # include <stddef.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <limits.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>

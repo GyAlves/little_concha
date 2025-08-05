@@ -30,6 +30,7 @@ size_t			ft_strlen(const char *s);
 size_t			ft_arrlen(char **arr);
 char			*ft_itoa(int n);
 int				ft_atoi(const char *nptr);
+bool			ft_stoll(const char *str, long long *n);
 void			*ft_calloc(size_t nmemb, size_t size);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_putstr_fd(const char *s, int fd);

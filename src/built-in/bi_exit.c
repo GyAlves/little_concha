@@ -19,30 +19,6 @@ static void	print_num_arg_required(t_command *cmd)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-/*void	bi_exit(t_minishell *shell, t_command *cmd)
-{
-	ft_putstr_fd("exit\n", 1);
-	if (ft_isdigit(cmd->args[1]) && cmd->args[2])
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		shell->exit_status = 127;
-		return ;
-	}
-	if (cmd->args[1])
-	{
-		if (!check_args(cmd->args[1]))
-		{
-			print_num_arg_required(cmd);
-			shell->exit_status = 2;
-		}
-		else
-			shell->exit_status = ft_atoi(cmd->args[1]);
-	}
-	else
-		shell->exit_status = 0;
-	shell->should_exit = true;
-}*/
-
 int	ft_isstr_numeric(const char *str)
 {
 	int	i;
@@ -65,11 +41,12 @@ int	ft_isstr_numeric(const char *str)
 
 void	bi_exit(t_minishell *shell, t_command *cmd)
 {
-	ft_putstr_fd("exit\n", 1);
+	long long	exit_code;
 
+	ft_putstr_fd("exit\n", 1);
 	if (cmd->args[1])
 	{
-		if (!ft_isstr_numeric(cmd->args[1]))
+		if (!ft_stoll(cmd->args[1], &exit_code))
 		{
 			print_num_arg_required(cmd);
 			shell->exit_status = 2;
@@ -82,7 +59,7 @@ void	bi_exit(t_minishell *shell, t_command *cmd)
 			shell->exit_status = 1;
 			return ;
 		}
-		shell->exit_status = ft_atoi(cmd->args[1]);
+		shell->exit_status = (unsigned char)exit_code;
 	}
 	shell->should_exit = true;
 }
