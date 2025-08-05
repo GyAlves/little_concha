@@ -3,17 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   parser_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleite-j <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:47:49 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/07/31 20:47:51 by fleite-j         ###   ########.fr       */
+/*   Updated: 2025/08/05 15:38:56 by gyasminalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*process_mixed_content(char *content, t_minishell *shell)
+{
+	char	*result;
+	char	*temp;
+	int		i;
+	int		start;
+
+	result = ft_strdup("");
+	i = 0;
+	while (content[i])
+	{
+		start = i;
+		if (content[i] == '\'')
+		{
+			i++;
+			while (content[i] && content[i] != '\'')
+				i++;
+			if (content[i] == '\'')
+				i++;
+			temp = ft_substr(content, start + 1, i - start - 2);
+		}
+		else
+		{
+			while (content[i] && content[i] != '\'')
+				i++;
+			temp = ft_substr(content, start, i - start);
+			if (is_variable_expansion(temp))
+			{
+				char *expanded = expanded_variable(temp, shell);
+				free(temp);
+				temp = expanded;
+			}
+		}
+		result = join_and_free(result, temp);
+	}
+	return (result);
+}
+
 char	*non_quoted_token(char *content, t_minishell *shell)
 {
+	if (ft_strchr(content, '\''))
+		return (process_mixed_content(content, shell));
 	if (is_variable_expansion(content))
 		return (expanded_variable(content, shell));
 	return (ft_strdup(content));
