@@ -24,6 +24,7 @@
 // Libft/libft.c
 int				ft_isalpha(int c);
 int				ft_isalnum(int c);
+int				ft_isdigit(int c);
 bool			check_args(char *arg);
 size_t			ft_strlen(const char *s);
 size_t			ft_arrlen(char **arr);
