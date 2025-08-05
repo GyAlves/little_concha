@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 15:36:09 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/08/05 18:17:42 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:22:10 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,40 +23,55 @@ char	*join_and_free(char *result, char *to_add)
 	return (temp);
 }
 
+static char	*handle_single_quoted(const char *content, int *counter)
+{
+	int		start;
+	char	*ret;
+
+	start = *counter;
+	(*counter)++;
+	while (content[*counter] && content[*counter] != '\'')
+		(*counter)++;
+	if (content[*counter] == '\'')
+		(*counter)++;
+	ret = ft_substr(content, start + 1, *counter - start - 2);
+	return (ret);
+}
+
+static char	*handle_non_quoted(const char *content, \
+			int *counter, t_minishell *shell)
+{
+	int		start;
+	char	*temp;
+	char	*expanded;
+
+	start = *counter;
+	while (content[*counter] && content[*counter] != '\'')
+		(*counter)++;
+	temp = ft_substr(content, start, *counter - start);
+	if (is_variable_expansion(temp))
+	{
+		expanded = expanded_variable(temp, shell);
+		free(temp);
+		temp = expanded;
+	}
+	return (temp);
+}
+
 char	*process_mixed_content(char *content, t_minishell *shell)
 {
 	char	*result;
 	char	*temp;
 	int		counter;
-	int		start;
-	char	*expanded;
 
 	result = ft_strdup("");
 	counter = 0;
 	while (content[counter])
 	{
-		start = counter;
 		if (content[counter] == '\'')
-		{
-			counter++;
-			while (content[counter] && content[counter] != '\'')
-				counter++;
-			if (content[counter] == '\'')
-				counter++;
-			temp = ft_substr(content, start + 1, counter - start - 2);
-		}
+			temp = handle_single_quoted(content, &counter);
 		else
-		{
-			while (content[counter] && content[counter] != '\'')
-				counter++;
-			temp = ft_substr(content, start, counter - start);
-			if (is_variable_expansion(temp))
-			{
-				expanded = expanded_variable(temp, shell);
-				free(temp);
-				temp = expanded;
-			}
-		}
+			temp = handle_non_quoted(content, &counter, shell);
 		result = join_and_free(result, temp);
 	}
 	return (result);
