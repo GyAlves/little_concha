@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyasminalves <gyasminalves@student.42.f    +#+  +:+       +#+        */
+/*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 19:32:07 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/08/05 18:58:00 by gyasminalve      ###   ########.fr       */
+/*   Updated: 2025/08/05 19:14:43 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_sigint(int sig)
 	(shell_cmd())->exit_status = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 

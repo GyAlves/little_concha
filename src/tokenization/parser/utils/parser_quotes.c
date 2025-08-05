@@ -6,7 +6,7 @@
 /*   By: galves-a <galves-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:47:49 by fleite-j          #+#    #+#             */
-/*   Updated: 2025/08/05 18:16:15 by galves-a         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:54:20 by galves-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*non_quoted_token(char *content, t_minishell *shell)
 {
-	if (ft_strchr(content, '\''))
+	if (ft_strchr(content, '\'') || ft_strchr(content, '"'))
 		return (process_mixed_content(content, shell));
 	if (is_variable_expansion(content))
 		return (expanded_variable(content, shell));
