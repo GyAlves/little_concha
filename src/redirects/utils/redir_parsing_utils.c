@@ -65,7 +65,7 @@ int	count_redirs(t_token *args)
 
 	i = 0;
 	count = 0;
-	while (args[i].content)
+	while (args[i].content && !is_pipe(args[i].content))
 	{
 		if (is_redir(args[i].content))
 		{
