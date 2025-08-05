@@ -21,7 +21,7 @@ static void	populate_tokens(t_token *tokens, char *input)
 	token_index = 0;
 	while (input[input_counter])
 	{
-		while (input[input_counter] && input[input_counter] == ' ')
+		while (input[input_counter] && ft_isspace(input[input_counter]))
 			input_counter++;
 		if (!input[input_counter])
 			break ;

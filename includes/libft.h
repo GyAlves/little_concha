@@ -22,6 +22,7 @@
 # include "tokenization.h"
 
 // Libft/libft.c
+bool			ft_isspace(int c);
 int				ft_isalpha(int c);
 int				ft_isalnum(int c);
 int				ft_isdigit(int c);

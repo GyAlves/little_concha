@@ -9,7 +9,7 @@ LIBFT = libft/ft_strncmp.c libft/ft_strlen.c libft/ft_calloc.c libft/ft_substr.c
 		libft/ft_strdup.c libft/ft_strlcpy.c libft/ft_atoi.c libft/ft_putstr_fd.c \
 		libft/ft_arrlen.c libft/ft_check_args.c libft/ft_isalpha.c libft/ft_isalnum.c \
 		libft/ft_strndup.c libft/ft_strcmp.c libft/ft_itoa.c libft/ft_isdigit.c \
-		libft/ft_stoll.c gnl/get_next_line.c
+		libft/ft_stoll.c libft/ft_isspace.c gnl/get_next_line.c
 
 SRC = $(LIBFT)
 OBJ = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
