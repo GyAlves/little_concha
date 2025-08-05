@@ -69,6 +69,8 @@ char	*strip_outer_quotes(char *content, int len, t_minishell *shell)
 		}
 		return (cleaned_content);
 	}
+	if (ft_strchr(content, '"'))
+		return (process_mixed_quotes(content, shell));
 	return (ft_strdup(content));
 }
 
