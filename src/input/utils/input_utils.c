@@ -18,7 +18,7 @@ static bool	validate_space(const char *prompt)
 		return (false);
 	while (*prompt)
 	{
-		if (*prompt != ' ' && *prompt != '\t')
+		if (!ft_isspace(*prompt))
 			return (true);
 		prompt++;
 	}
