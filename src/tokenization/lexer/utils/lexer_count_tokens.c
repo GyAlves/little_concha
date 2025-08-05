@@ -49,7 +49,7 @@ int	count_tokens(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while (input[i] == ' ')
+		while (ft_isspace(input[i]))
 			i++;
 		if (!input[i])
 			break ;
