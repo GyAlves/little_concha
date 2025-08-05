@@ -42,8 +42,7 @@ static int	cpy_envar_excluding_key(char **dst, char **src, char *key)
 	j = 0;
 	while (src[i])
 	{
-		if (ft_strncmp(src[i], key, ft_strlen(key)) \
-			|| !(src[i][ft_strlen(key)] == '='))
+		if (!is_key_match(src[i], key))
 		{
 			dst[j] = ft_strdup(src[i]);
 			if (!dst[j])

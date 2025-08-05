@@ -52,3 +52,16 @@ void	print_cd_no_file_nor_dir(char *path)
 		ft_putstr_fd(path, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
+
+bool	is_key_match(const char *s, const char *key)
+{
+	int	key_len;
+
+	key_len = ft_strlen(key);
+	if (ft_strncmp(s, key, key_len) == 0)
+	{
+		if (s[key_len] == '=' || s[key_len] == '\0')
+			return (true);
+	}
+	return (false);
+}
