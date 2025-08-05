@@ -30,7 +30,7 @@ static char	*get_n_val_cmd_path(t_minishell *sh, t_command *cmd)
 		print_cmd_err(NULL, "commmand not found");
 		cleanup_child_before_exit(sh, 127);
 	}
-	full_cmd_path = set_path(cmd->args[0], sh->envp);
+	full_cmd_path = set_path(cmd->args[0], sh);
 	if (!full_cmd_path)
 	{
 		print_cmd_err(cmd->args[0], "command not found");

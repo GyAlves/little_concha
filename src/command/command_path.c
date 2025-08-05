@@ -12,22 +12,24 @@
 
 #include "minishell.h"
 
-char	**get_envar_path(char **envp)
+static char	**get_envar_path(char **envp)
 {
 	char	*path;
 	char	**envar_path;
+	int		i;
 
 	path = NULL;
-	while (*envp)
+	i = 0;
+	while (envp[i])
 	{
-		if (ft_strncmp(*envp, "PATH=", 5) == 0)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
-			path = *envp;
+			path = envp[i] + 5;
 			break ;
 		}
-		envp++;
+		i++;
 	}
-	if (path == NULL)
+	if (!path)
 		return (NULL);
 	envar_path = ft_split(path, ':');
 	if (!envar_path)
@@ -35,55 +37,54 @@ char	**get_envar_path(char **envp)
 	return (envar_path);
 }
 
-static char	*build_and_check_path(char *cmd, char *path_dir)
+static char	*search_cmd_in_path(char *cmd, char **paths)
 {
-	char	*dir_path;
 	char	*full_path;
-
-	dir_path = ft_strjoin(path_dir, "/");
-	if (!dir_path)
-		return (NULL);
-	full_path = ft_strjoin(dir_path, cmd);
-	free(dir_path);
-	if (!full_path)
-		return (NULL);
-	if (access(full_path, X_OK) == 0)
-		return (full_path);
-	free(full_path);
-	return (NULL);
-}
-
-static char	*search_in_paths(char *cmd, char **envp)
-{
+	char	*temp;
 	int		i;
-	char	*full_path;
-	char	**path;
 
-	path = get_envar_path(envp);
-	if (!path)
-		return (NULL);
 	i = 0;
-	while (path[i])
+	while (paths[i])
 	{
-		full_path = build_and_check_path(cmd, path[i]);
-		if (full_path)
-		{
-			free_string_matrix(path);
+		temp = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(temp, cmd);
+		free(temp);
+		if (access(full_path, X_OK) == 0)
 			return (full_path);
-		}
+		free(full_path);
 		i++;
 	}
-	free_string_matrix(path);
 	return (NULL);
 }
 
-char	*set_path(char *cmd, char **envp)
+static void	free_paths(char **paths)
 {
+	int	i;
+
+	i = 0;
+	while (paths[i])
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
+}
+
+char	*set_path(char *cmd, t_minishell *shell)
+{
+	char	**paths;
+	char	*full_path;
+
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
-			return (cmd);
+			return (ft_strdup(cmd));
 		return (NULL);
 	}
-	return (search_in_paths(cmd, envp));
+	paths = get_envar_path(shell->envp);
+	if (!paths)
+		return (NULL);
+	full_path = search_cmd_in_path(cmd, paths);
+	free_paths(paths);
+	return (full_path);
 }
